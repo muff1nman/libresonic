@@ -19,54 +19,22 @@
  */
 package org.libresonic.player.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-
 import org.libresonic.player.Logger;
 import org.libresonic.player.dao.AvatarDao;
 import org.libresonic.player.dao.InternetRadioDao;
 import org.libresonic.player.dao.MusicFolderDao;
 import org.libresonic.player.dao.UserDao;
-import org.libresonic.player.domain.AlbumListType;
-import org.libresonic.player.domain.Avatar;
-import org.libresonic.player.domain.InternetRadio;
-import org.libresonic.player.domain.LicenseInfo;
-import org.libresonic.player.domain.MediaLibraryStatistics;
-import org.libresonic.player.domain.MusicFolder;
-import org.libresonic.player.domain.Theme;
-import org.libresonic.player.domain.UrlRedirectType;
-import org.libresonic.player.domain.UserSettings;
+import org.libresonic.player.domain.*;
 import org.libresonic.player.util.FileUtil;
 import org.libresonic.player.util.StringUtil;
 import org.libresonic.player.util.Util;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Provides persistent storage of application settings and preferences.
@@ -237,13 +205,13 @@ public class SettingsService {
 
     private static final Logger LOG = Logger.getLogger(SettingsService.class);
 
-    private Properties properties = new Properties();
     private List<Theme> themes;
     private List<Locale> locales;
     private InternetRadioDao internetRadioDao;
     private MusicFolderDao musicFolderDao;
     private UserDao userDao;
     private AvatarDao avatarDao;
+    private ApacheCommonsConfigurationService configurationService;
     private VersionService versionService;
 
     private String[] cachedCoverArtFileTypesArray;
@@ -263,37 +231,31 @@ public class SettingsService {
     private static final long LOCAL_IP_LOOKUP_DELAY_SECONDS = 60;
     private String localIpAddress;
 
-    public SettingsService() {
-        File propertyFile = getPropertyFile();
+    private void removeObseleteProperties() {
 
-        if (propertyFile.exists()) {
-            FileInputStream in = null;
-            try {
-                in = new FileInputStream(propertyFile);
-                properties.load(in);
-            } catch (Exception x) {
-                LOG.error("Unable to read from property file.", x);
-            } finally {
-                IOUtils.closeQuietly(in);
+        OBSOLETE_KEYS.forEach( oKey -> {
+            if(configurationService.containsKey(oKey)) {
+                LOG.info("Removing obsolete property [" + oKey + ']');
+                configurationService.clearProperty(oKey);
             }
+        });
 
-            // Remove obsolete properties.
-            for (Iterator<Object> iterator = properties.keySet().iterator(); iterator.hasNext();) {
-                String key = (String) iterator.next();
-                if (OBSOLETE_KEYS.contains(key)) {
-                    LOG.info("Removing obsolete property [" + key + ']');
-                    iterator.remove();
-                }
-            }
+    }
+
+    public static synchronized File getLibresonicHome() {
+
+        File home;
+
+        String overrideHome = System.getProperty("libresonic.home");
+        if (overrideHome != null) {
+            home = new File(overrideHome);
+        } else {
+            boolean isWindows = System.getProperty("os.name", "Windows").toLowerCase().startsWith("windows");
+            home = isWindows ? LIBRESONIC_HOME_WINDOWS : LIBRESONIC_HOME_OTHER;
         }
+        ensureDirectoryPresent(home);
 
-        // Start trial.
-        if (getTrialExpires() == null) {
-            Date expiryDate = new Date(System.currentTimeMillis() + TRIAL_DAYS * 24L * 3600L * 1000L);
-            setTrialExpires(expiryDate);
-        }
-
-        save(false);
+        return home;
     }
 
     /**
@@ -316,92 +278,58 @@ public class SettingsService {
         save(true);
     }
 
-    public void save(boolean updateChangedDate) {
-        if (updateChangedDate) {
-            setProperty(KEY_SETTINGS_CHANGED, String.valueOf(System.currentTimeMillis()));
+    public void save(boolean updateSettingsChanged) {
+        if(updateSettingsChanged) {
+            removeObseleteProperties();
+            this.setLong(KEY_SETTINGS_CHANGED, System.currentTimeMillis());
         }
-
-        OutputStream out = null;
-        try {
-            out = new FileOutputStream(getPropertyFile());
-            properties.store(out, "Libresonic preferences.  NOTE: This file is automatically generated.");
-        } catch (Exception x) {
-            LOG.error("Unable to write to property file.", x);
-        } finally {
-            IOUtils.closeQuietly(out);
-        }
+        configurationService.save();
     }
 
-    private File getPropertyFile() {
-        return new File(getLibresonicHome(), "libresonic.properties");
-    }
-
-    /**
-     * Returns the Libresonic home directory.
-     *
-     * @return The Libresonic home directory, if it exists.
-     * @throws RuntimeException If directory doesn't exist.
-     */
-    public static synchronized File getLibresonicHome() {
-
-        if (libresonicHome != null) {
-            return libresonicHome;
-        }
-
-        File home;
-
-        String overrideHome = System.getProperty("libresonic.home");
-        if (overrideHome != null) {
-            home = new File(overrideHome);
-        } else {
-            boolean isWindows = System.getProperty("os.name", "Windows").toLowerCase().startsWith("windows");
-            home = isWindows ? LIBRESONIC_HOME_WINDOWS : LIBRESONIC_HOME_OTHER;
-        }
-
+    private static void ensureDirectoryPresent(File home) {
         // Attempt to create home directory if it doesn't exist.
         if (!home.exists() || !home.isDirectory()) {
             boolean success = home.mkdirs();
-            if (success) {
-                libresonicHome = home;
-            } else {
+            if (!success) {
                 String message = "The directory " + home + " does not exist. Please create it and make it writable. " +
                         "(You can override the directory location by specifying -Dlibresonic.home=... when " +
                         "starting the servlet container.)";
-                System.err.println("ERROR: " + message);
+                throw new RuntimeException(message);
             }
-        } else {
-            libresonicHome = home;
         }
+    }
 
-        return home;
+    public static File getPropertyFile() {
+        File propertyFile = getLibresonicHome();
+        return new File(propertyFile, "libresonic.properties");
     }
 
     private int getInt(String key, int defaultValue) {
-        return Integer.valueOf(properties.getProperty(key, String.valueOf(defaultValue)));
+        return configurationService.getInteger(key, defaultValue);
     }
 
-    private void setInt(String key, int value) {
-        setProperty(key, String.valueOf(value));
+    private void setInt(String key, Integer value) {
+        setProperty(key, value);
     }
 
     private long getLong(String key, long defaultValue) {
-        return Long.valueOf(properties.getProperty(key, String.valueOf(defaultValue)));
+        return configurationService.getLong(key, defaultValue);
     }
 
-    private void setLong(String key, long value) {
-        setProperty(key, String.valueOf(value));
+    private void setLong(String key, Long value) {
+        setProperty(key, value);
     }
 
     private boolean getBoolean(String key, boolean defaultValue) {
-        return Boolean.valueOf(properties.getProperty(key, String.valueOf(defaultValue)));
+        return configurationService.getBoolean(key, defaultValue);
     }
 
-    private void setBoolean(String key, boolean value) {
-        setProperty(key, String.valueOf(value));
+    private void setBoolean(String key, Boolean value) {
+        setProperty(key, value);
     }
 
     private String getString(String key, String defaultValue) {
-        return properties.getProperty(key, defaultValue);
+        return getProperty(key, defaultValue);
     }
 
     private void setString(String key, String value) {
@@ -409,7 +337,11 @@ public class SettingsService {
     }
 
     public String getIndexString() {
-        return properties.getProperty(KEY_INDEX_STRING, DEFAULT_INDEX_STRING);
+        return getProperty(KEY_INDEX_STRING, DEFAULT_INDEX_STRING);
+    }
+
+    private String getProperty(String key, String defaultValue) {
+        return configurationService.getString(key, defaultValue);
     }
 
     public void setIndexString(String indexString) {
@@ -417,7 +349,7 @@ public class SettingsService {
     }
 
     public String getIgnoredArticles() {
-        return properties.getProperty(KEY_IGNORED_ARTICLES, DEFAULT_IGNORED_ARTICLES);
+        return getProperty(KEY_IGNORED_ARTICLES, DEFAULT_IGNORED_ARTICLES);
     }
 
     public String[] getIgnoredArticlesAsArray() {
@@ -429,7 +361,7 @@ public class SettingsService {
     }
 
     public String getShortcuts() {
-        return properties.getProperty(KEY_SHORTCUTS, DEFAULT_SHORTCUTS);
+        return getProperty(KEY_SHORTCUTS, DEFAULT_SHORTCUTS);
     }
 
     public String[] getShortcutsAsArray() {
@@ -441,7 +373,7 @@ public class SettingsService {
     }
 
     public String getPlaylistFolder() {
-        return properties.getProperty(KEY_PLAYLIST_FOLDER, DEFAULT_PLAYLIST_FOLDER);
+        return getProperty(KEY_PLAYLIST_FOLDER, DEFAULT_PLAYLIST_FOLDER);
     }
 
     public void setPlaylistFolder(String playlistFolder) {
@@ -449,7 +381,7 @@ public class SettingsService {
     }
 
     public String getMusicFileTypes() {
-        return properties.getProperty(KEY_MUSIC_FILE_TYPES, DEFAULT_MUSIC_FILE_TYPES);
+        return getProperty(KEY_MUSIC_FILE_TYPES, DEFAULT_MUSIC_FILE_TYPES);
     }
 
     public synchronized void setMusicFileTypes(String fileTypes) {
@@ -465,7 +397,7 @@ public class SettingsService {
     }
 
     public String getVideoFileTypes() {
-        return properties.getProperty(KEY_VIDEO_FILE_TYPES, DEFAULT_VIDEO_FILE_TYPES);
+        return getProperty(KEY_VIDEO_FILE_TYPES, DEFAULT_VIDEO_FILE_TYPES);
     }
 
     public synchronized void setVideoFileTypes(String fileTypes) {
@@ -481,7 +413,7 @@ public class SettingsService {
     }
 
     public String getCoverArtFileTypes() {
-        return properties.getProperty(KEY_COVER_ART_FILE_TYPES, DEFAULT_COVER_ART_FILE_TYPES);
+        return getProperty(KEY_COVER_ART_FILE_TYPES, DEFAULT_COVER_ART_FILE_TYPES);
     }
 
     public synchronized void setCoverArtFileTypes(String fileTypes) {
@@ -501,7 +433,7 @@ public class SettingsService {
     }
 
     public String getWelcomeTitle() {
-        return StringUtils.trimToNull(properties.getProperty(KEY_WELCOME_TITLE, DEFAULT_WELCOME_TITLE));
+        return StringUtils.trimToNull(getProperty(KEY_WELCOME_TITLE, DEFAULT_WELCOME_TITLE));
     }
 
     public void setWelcomeTitle(String title) {
@@ -509,7 +441,7 @@ public class SettingsService {
     }
 
     public String getWelcomeSubtitle() {
-        return StringUtils.trimToNull(properties.getProperty(KEY_WELCOME_SUBTITLE, DEFAULT_WELCOME_SUBTITLE));
+        return StringUtils.trimToNull(getProperty(KEY_WELCOME_SUBTITLE, DEFAULT_WELCOME_SUBTITLE));
     }
 
     public void setWelcomeSubtitle(String subtitle) {
@@ -517,7 +449,7 @@ public class SettingsService {
     }
 
     public String getWelcomeMessage() {
-        return StringUtils.trimToNull(properties.getProperty(KEY_WELCOME_MESSAGE, DEFAULT_WELCOME_MESSAGE));
+        return StringUtils.trimToNull(getProperty(KEY_WELCOME_MESSAGE, DEFAULT_WELCOME_MESSAGE));
     }
 
     public void setWelcomeMessage(String message) {
@@ -525,7 +457,7 @@ public class SettingsService {
     }
 
     public String getLoginMessage() {
-        return StringUtils.trimToNull(properties.getProperty(KEY_LOGIN_MESSAGE, DEFAULT_LOGIN_MESSAGE));
+        return StringUtils.trimToNull(getProperty(KEY_LOGIN_MESSAGE, DEFAULT_LOGIN_MESSAGE));
     }
 
     public void setLoginMessage(String message) {
@@ -618,7 +550,7 @@ public class SettingsService {
      * Returns the Podcast download folder.
      */
     public String getPodcastFolder() {
-        return properties.getProperty(KEY_PODCAST_FOLDER, DEFAULT_PODCAST_FOLDER);
+        return getProperty(KEY_PODCAST_FOLDER, DEFAULT_PODCAST_FOLDER);
     }
 
     /**
@@ -632,7 +564,7 @@ public class SettingsService {
      * @return The download bitrate limit in Kbit/s. Zero if unlimited.
      */
     public long getDownloadBitrateLimit() {
-        return Long.parseLong(properties.getProperty(KEY_DOWNLOAD_BITRATE_LIMIT, "" + DEFAULT_DOWNLOAD_BITRATE_LIMIT));
+        return Long.parseLong(getProperty(KEY_DOWNLOAD_BITRATE_LIMIT, "" + DEFAULT_DOWNLOAD_BITRATE_LIMIT));
     }
 
     /**
@@ -657,7 +589,7 @@ public class SettingsService {
     }
 
     public String getLicenseEmail() {
-        return properties.getProperty(KEY_LICENSE_EMAIL, DEFAULT_LICENSE_EMAIL);
+        return getProperty(KEY_LICENSE_EMAIL, DEFAULT_LICENSE_EMAIL);
     }
 
     public void setLicenseEmail(String email) {
@@ -665,7 +597,7 @@ public class SettingsService {
     }
 
     public String getLicenseCode() {
-        return properties.getProperty(KEY_LICENSE_CODE, DEFAULT_LICENSE_CODE);
+        return getProperty(KEY_LICENSE_CODE, DEFAULT_LICENSE_CODE);
     }
 
     public void setLicenseCode(String code) {
@@ -673,7 +605,7 @@ public class SettingsService {
     }
 
     public Date getLicenseDate() {
-        String value = properties.getProperty(KEY_LICENSE_DATE, DEFAULT_LICENSE_DATE);
+        String value = getProperty(KEY_LICENSE_DATE, DEFAULT_LICENSE_DATE);
         return value == null ? null : new Date(Long.parseLong(value));
     }
 
@@ -700,7 +632,7 @@ public class SettingsService {
     }
 
     public String getDownsamplingCommand() {
-        return properties.getProperty(KEY_DOWNSAMPLING_COMMAND, DEFAULT_DOWNSAMPLING_COMMAND);
+        return getProperty(KEY_DOWNSAMPLING_COMMAND, DEFAULT_DOWNSAMPLING_COMMAND);
     }
 
     public void setDownsamplingCommand(String command) {
@@ -708,7 +640,7 @@ public class SettingsService {
     }
 
     public String getHlsCommand() {
-        return properties.getProperty(KEY_HLS_COMMAND, DEFAULT_HLS_COMMAND);
+        return getProperty(KEY_HLS_COMMAND, DEFAULT_HLS_COMMAND);
     }
 
     public void setHlsCommand(String command) {
@@ -716,10 +648,10 @@ public class SettingsService {
     }
 
     public String getJukeboxCommand() {
-        return properties.getProperty(KEY_JUKEBOX_COMMAND, DEFAULT_JUKEBOX_COMMAND);
+        return getProperty(KEY_JUKEBOX_COMMAND, DEFAULT_JUKEBOX_COMMAND);
     }
     public String getVideoImageCommand() {
-        return properties.getProperty(KEY_VIDEO_IMAGE_COMMAND, DEFAULT_VIDEO_IMAGE_COMMAND);
+        return getProperty(KEY_VIDEO_IMAGE_COMMAND, DEFAULT_VIDEO_IMAGE_COMMAND);
     }
 
     public boolean isRewriteUrlEnabled() {
@@ -739,31 +671,31 @@ public class SettingsService {
     }
 
     public String getLdapUrl() {
-        return properties.getProperty(KEY_LDAP_URL, DEFAULT_LDAP_URL);
+        return getProperty(KEY_LDAP_URL, DEFAULT_LDAP_URL);
     }
 
     public void setLdapUrl(String ldapUrl) {
-        properties.setProperty(KEY_LDAP_URL, ldapUrl);
+        setProperty(ldapUrl, KEY_LDAP_URL);
     }
 
     public String getLdapSearchFilter() {
-        return properties.getProperty(KEY_LDAP_SEARCH_FILTER, DEFAULT_LDAP_SEARCH_FILTER);
+        return getProperty(KEY_LDAP_SEARCH_FILTER, DEFAULT_LDAP_SEARCH_FILTER);
     }
 
     public void setLdapSearchFilter(String ldapSearchFilter) {
-        properties.setProperty(KEY_LDAP_SEARCH_FILTER, ldapSearchFilter);
+        setProperty(ldapSearchFilter, KEY_LDAP_SEARCH_FILTER);
     }
 
     public String getLdapManagerDn() {
-        return properties.getProperty(KEY_LDAP_MANAGER_DN, DEFAULT_LDAP_MANAGER_DN);
+        return getProperty(KEY_LDAP_MANAGER_DN, DEFAULT_LDAP_MANAGER_DN);
     }
 
     public void setLdapManagerDn(String ldapManagerDn) {
-        properties.setProperty(KEY_LDAP_MANAGER_DN, ldapManagerDn);
+        setProperty(ldapManagerDn, KEY_LDAP_MANAGER_DN);
     }
 
     public String getLdapManagerPassword() {
-        String s = properties.getProperty(KEY_LDAP_MANAGER_PASSWORD, DEFAULT_LDAP_MANAGER_PASSWORD);
+        String s = getProperty(KEY_LDAP_MANAGER_PASSWORD, DEFAULT_LDAP_MANAGER_PASSWORD);
         try {
             return StringUtil.utf8HexDecode(s);
         } catch (Exception x) {
@@ -778,7 +710,7 @@ public class SettingsService {
         } catch (Exception x) {
             LOG.warn("Failed to encode LDAP manager password.", x);
         }
-        properties.setProperty(KEY_LDAP_MANAGER_PASSWORD, ldapManagerPassword);
+        setProperty(ldapManagerPassword, KEY_LDAP_MANAGER_PASSWORD);
     }
 
     public boolean isLdapAutoShadowing() {
@@ -837,23 +769,23 @@ public class SettingsService {
     }
 
     public String getUrlRedirectFrom() {
-        return properties.getProperty(KEY_URL_REDIRECT_FROM, DEFAULT_URL_REDIRECT_FROM);
+        return getProperty(KEY_URL_REDIRECT_FROM, DEFAULT_URL_REDIRECT_FROM);
     }
 
     public void setUrlRedirectFrom(String urlRedirectFrom) {
-        properties.setProperty(KEY_URL_REDIRECT_FROM, urlRedirectFrom);
+        setProperty(urlRedirectFrom, KEY_URL_REDIRECT_FROM);
     }
 
     public UrlRedirectType getUrlRedirectType() {
-        return UrlRedirectType.valueOf(properties.getProperty(KEY_URL_REDIRECT_TYPE, DEFAULT_URL_REDIRECT_TYPE.name()));
+        return UrlRedirectType.valueOf(getProperty(KEY_URL_REDIRECT_TYPE, DEFAULT_URL_REDIRECT_TYPE.name()));
     }
 
     public void setUrlRedirectType(UrlRedirectType urlRedirectType) {
-        properties.setProperty(KEY_URL_REDIRECT_TYPE, urlRedirectType.name());
+        setProperty(urlRedirectType.name(), KEY_URL_REDIRECT_TYPE);
     }
 
     public Date getTrialExpires() {
-        String value = properties.getProperty(KEY_TRIAL_EXPIRES, DEFAULT_TRIAL_EXPIRES);
+        String value = getProperty(KEY_TRIAL_EXPIRES, DEFAULT_TRIAL_EXPIRES);
         return value == null ? null : new Date(Long.parseLong(value));
     }
 
@@ -863,27 +795,27 @@ public class SettingsService {
     }
 
     public String getUrlRedirectContextPath() {
-        return properties.getProperty(KEY_URL_REDIRECT_CONTEXT_PATH, DEFAULT_URL_REDIRECT_CONTEXT_PATH);
+        return getProperty(KEY_URL_REDIRECT_CONTEXT_PATH, DEFAULT_URL_REDIRECT_CONTEXT_PATH);
     }
 
     public void setUrlRedirectContextPath(String contextPath) {
-        properties.setProperty(KEY_URL_REDIRECT_CONTEXT_PATH, contextPath);
+        setProperty(contextPath, KEY_URL_REDIRECT_CONTEXT_PATH);
     }
 
     public String getUrlRedirectCustomUrl() {
-        return StringUtils.trimToNull(properties.getProperty(KEY_URL_REDIRECT_CUSTOM_URL, DEFAULT_URL_REDIRECT_CUSTOM_URL));
+        return StringUtils.trimToNull(getProperty(KEY_URL_REDIRECT_CUSTOM_URL, DEFAULT_URL_REDIRECT_CUSTOM_URL));
     }
 
     public void setUrlRedirectCustomUrl(String customUrl) {
-        properties.setProperty(KEY_URL_REDIRECT_CUSTOM_URL, customUrl);
+        setProperty(customUrl, KEY_URL_REDIRECT_CUSTOM_URL);
     }
 
     public String getServerId() {
-        return properties.getProperty(KEY_SERVER_ID, DEFAULT_SERVER_ID);
+        return getProperty(KEY_SERVER_ID, DEFAULT_SERVER_ID);
     }
 
     public void setServerId(String serverId) {
-        properties.setProperty(KEY_SERVER_ID, serverId);
+        setProperty(serverId, KEY_SERVER_ID);
     }
 
     public long getSettingsChanged() {
@@ -891,13 +823,13 @@ public class SettingsService {
     }
 
     public Date getLastScanned() {
-        String lastScanned = properties.getProperty(KEY_LAST_SCANNED);
+        String lastScanned = getProperty(KEY_LAST_SCANNED, null);
         return lastScanned == null ? null : new Date(Long.parseLong(lastScanned));
     }
 
     public void setLastScanned(Date date) {
         if (date == null) {
-            properties.remove(KEY_LAST_SCANNED);
+            setProperty(KEY_LAST_SCANNED, null);
         } else {
             setLong(KEY_LAST_SCANNED, date.getTime());
         }
@@ -933,9 +865,9 @@ public class SettingsService {
      * @return The locale.
      */
     public Locale getLocale() {
-        String language = properties.getProperty(KEY_LOCALE_LANGUAGE, DEFAULT_LOCALE_LANGUAGE);
-        String country = properties.getProperty(KEY_LOCALE_COUNTRY, DEFAULT_LOCALE_COUNTRY);
-        String variant = properties.getProperty(KEY_LOCALE_VARIANT, DEFAULT_LOCALE_VARIANT);
+        String language = getProperty(KEY_LOCALE_LANGUAGE, DEFAULT_LOCALE_LANGUAGE);
+        String country = getProperty(KEY_LOCALE_COUNTRY, DEFAULT_LOCALE_COUNTRY);
+        String variant = getProperty(KEY_LOCALE_VARIANT, DEFAULT_LOCALE_VARIANT);
 
         return new Locale(language, country, variant);
     }
@@ -957,7 +889,7 @@ public class SettingsService {
      * @return The theme ID.
      */
     public String getThemeId() {
-        return properties.getProperty(KEY_THEME_ID, DEFAULT_THEME_ID);
+        return getProperty(KEY_THEME_ID, DEFAULT_THEME_ID);
     }
 
     /**
@@ -1394,11 +1326,11 @@ public class SettingsService {
                                            getPort());
     }
 
-    private void setProperty(String key, String value) {
+    private void setProperty(String key, Object value) {
         if (value == null) {
-            properties.remove(key);
+            configurationService.clearProperty(key);
         } else {
-            properties.setProperty(key, value);
+            configurationService.setProperty(key, value);
         }
     }
 
@@ -1464,7 +1396,7 @@ public class SettingsService {
     }
 
     public String getSmtpServer() {
-        return properties.getProperty(KEY_SMTP_SERVER, DEFAULT_SMTP_SERVER);
+        return getProperty(KEY_SMTP_SERVER, DEFAULT_SMTP_SERVER);
     }
 
     public void setSmtpServer(String smtpServer) {
@@ -1480,7 +1412,7 @@ public class SettingsService {
     }
 
     public String getSmtpEncryption() {
-        return properties.getProperty(KEY_SMTP_ENCRYPTION, DEFAULT_SMTP_ENCRYPTION);
+        return getProperty(KEY_SMTP_ENCRYPTION, DEFAULT_SMTP_ENCRYPTION);
     }
 
     public void setSmtpEncryption(String encryptionMethod) {
@@ -1488,7 +1420,7 @@ public class SettingsService {
     }
 
     public String getSmtpUser() {
-        return properties.getProperty(KEY_SMTP_USER, DEFAULT_SMTP_USER);
+        return getProperty(KEY_SMTP_USER, DEFAULT_SMTP_USER);
     }
 
     public void setSmtpUser(String smtpUser) {
@@ -1496,7 +1428,7 @@ public class SettingsService {
     }
 
     public String getSmtpPassword() {
-        String s = properties.getProperty(KEY_SMTP_PASSWORD, DEFAULT_SMTP_PASSWORD);
+        String s = getProperty(KEY_SMTP_PASSWORD, DEFAULT_SMTP_PASSWORD);
         try {
             return StringUtil.utf8HexDecode(s);
         } catch (Exception x) {
@@ -1510,14 +1442,18 @@ public class SettingsService {
         } catch (Exception x) {
             LOG.warn("Failed to encode Smtp password.", x);
         }
-        properties.setProperty(KEY_SMTP_PASSWORD, smtpPassword);
+        setProperty(smtpPassword, KEY_SMTP_PASSWORD);
     }
 
     public String getSmtpFrom() {
-        return properties.getProperty(KEY_SMTP_FROM, DEFAULT_SMTP_FROM);
+        return getProperty(KEY_SMTP_FROM, DEFAULT_SMTP_FROM);
     }
 
     public void setSmtpFrom(String smtpFrom) {
         setString(KEY_SMTP_FROM, smtpFrom);
+    }
+
+    public void setConfigurationService(ApacheCommonsConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }
