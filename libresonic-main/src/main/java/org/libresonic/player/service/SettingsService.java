@@ -675,7 +675,7 @@ public class SettingsService {
     }
 
     public void setLdapUrl(String ldapUrl) {
-        setProperty(ldapUrl, KEY_LDAP_URL);
+        setProperty(KEY_LDAP_URL, ldapUrl);
     }
 
     public String getLdapSearchFilter() {
@@ -683,7 +683,7 @@ public class SettingsService {
     }
 
     public void setLdapSearchFilter(String ldapSearchFilter) {
-        setProperty(ldapSearchFilter, KEY_LDAP_SEARCH_FILTER);
+        setProperty(KEY_LDAP_SEARCH_FILTER, ldapSearchFilter);
     }
 
     public String getLdapManagerDn() {
@@ -691,7 +691,7 @@ public class SettingsService {
     }
 
     public void setLdapManagerDn(String ldapManagerDn) {
-        setProperty(ldapManagerDn, KEY_LDAP_MANAGER_DN);
+        setProperty(KEY_LDAP_MANAGER_DN, ldapManagerDn);
     }
 
     public String getLdapManagerPassword() {
@@ -710,7 +710,7 @@ public class SettingsService {
         } catch (Exception x) {
             LOG.warn("Failed to encode LDAP manager password.", x);
         }
-        setProperty(ldapManagerPassword, KEY_LDAP_MANAGER_PASSWORD);
+        setProperty(KEY_LDAP_MANAGER_PASSWORD, ldapManagerPassword);
     }
 
     public boolean isLdapAutoShadowing() {
@@ -773,7 +773,7 @@ public class SettingsService {
     }
 
     public void setUrlRedirectFrom(String urlRedirectFrom) {
-        setProperty(urlRedirectFrom, KEY_URL_REDIRECT_FROM);
+        setProperty(KEY_URL_REDIRECT_FROM, urlRedirectFrom);
     }
 
     public UrlRedirectType getUrlRedirectType() {
@@ -781,7 +781,7 @@ public class SettingsService {
     }
 
     public void setUrlRedirectType(UrlRedirectType urlRedirectType) {
-        setProperty(urlRedirectType.name(), KEY_URL_REDIRECT_TYPE);
+        setProperty(KEY_URL_REDIRECT_TYPE, urlRedirectType.name());
     }
 
     public Date getTrialExpires() {
@@ -799,7 +799,7 @@ public class SettingsService {
     }
 
     public void setUrlRedirectContextPath(String contextPath) {
-        setProperty(contextPath, KEY_URL_REDIRECT_CONTEXT_PATH);
+        setProperty(KEY_URL_REDIRECT_CONTEXT_PATH, contextPath);
     }
 
     public String getUrlRedirectCustomUrl() {
@@ -807,7 +807,7 @@ public class SettingsService {
     }
 
     public void setUrlRedirectCustomUrl(String customUrl) {
-        setProperty(customUrl, KEY_URL_REDIRECT_CUSTOM_URL);
+        setProperty(KEY_URL_REDIRECT_CUSTOM_URL, customUrl);
     }
 
     public String getServerId() {
@@ -815,7 +815,7 @@ public class SettingsService {
     }
 
     public void setServerId(String serverId) {
-        setProperty(serverId, KEY_SERVER_ID);
+        setProperty(KEY_SERVER_ID, serverId);
     }
 
     public long getSettingsChanged() {
@@ -1442,7 +1442,7 @@ public class SettingsService {
         } catch (Exception x) {
             LOG.warn("Failed to encode Smtp password.", x);
         }
-        setProperty(smtpPassword, KEY_SMTP_PASSWORD);
+        setProperty(KEY_SMTP_PASSWORD, smtpPassword);
     }
 
     public String getSmtpFrom() {
