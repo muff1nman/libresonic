@@ -263,11 +263,20 @@ public class SettingsService {
      * This method is invoked automatically by Spring.
      */
     public void init() {
+        startTrial();
         logServerInfo();
         ServiceLocator.setSettingsService(this);
         scheduleLocalIpAddressLookup();
         scheduleLicenseValidation();
     }
+
+    private void startTrial() {
+        if (getTrialExpires() == null) {
+            Date expiryDate = new Date(System.currentTimeMillis() + TRIAL_DAYS * 24L * 3600L * 1000L);
+            setTrialExpires(expiryDate);
+        }
+    }
+
 
     private void logServerInfo() {
         LOG.info("Java: " + System.getProperty("java.version") +
