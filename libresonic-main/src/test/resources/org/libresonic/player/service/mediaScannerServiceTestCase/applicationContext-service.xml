@@ -67,7 +67,7 @@
         <property name="daoHelper" ref="daoHelper"/>
     </bean>
 
-    <bean id="daoHelper" class="org.libresonic.player.dao.DaoHelperFactory" factory-method="create"/>
+    <bean id="daoHelper" class="org.libresonic.player.dao.HsqlDaoHelper"/>
 
 
     <!-- Services -->

@@ -1,0 +1,117 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet id="schema25_001" author="muff1nman" dbms="hsqldb">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="version" />
+            </not>
+        </preConditions>
+        <sql>set property &quot;hsqldb.cache_file_scale&quot; 8</sql>
+        <rollback/>
+    </changeSet>
+    <changeSet id="schema25_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="version" />
+            </not>
+        </preConditions>
+        <createTable tableName="version">
+            <column name="version" type="int"/>
+        </createTable>
+        <addNotNullConstraint tableName="version" columnName="version" />
+        <insert tableName="version" >
+            <column name="version" valueNumeric="1" />
+        </insert>
+        <rollback>
+            <dropTable tableName="version" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema25_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role" />
+            </not>
+        </preConditions>
+        <createTable tableName="role">
+            <column name="id" type="int"/>
+            <column name="name" type="varchar" />
+        </createTable>
+        <addPrimaryKey tableName="role" columnNames="ie" />
+        <addNotNullConstraint tableName="role" columnName="id" />
+        <addNotNullConstraint tableName="role" columnName="name" />
+        <insert tableName="role">
+            <column name="id" valueNumeric="1" />
+            <column name="name" value="admin"/>
+        </insert>
+        <insert tableName="role">
+            <column name="id" valueNumeric="2" />
+            <column name="name" value="download"/>
+        </insert>
+        <insert tableName="role">
+            <column name="id" valueNumeric="3" />
+            <column name="name" value="upload"/>
+        </insert>
+        <insert tableName="role">
+            <column name="id" valueNumeric="4" />
+            <column name="name" value="playlist"/>
+        </insert>
+        <insert tableName="role">
+            <column name="id" valueNumeric="5" />
+            <column name="name" value="coverart"/>
+        </insert>
+        <rollback>
+            <dropTable tableName="role" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema25_004" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user" />
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column name="username" type="varchar"/>
+            <column name="password" type="varchar" />
+        </createTable>
+        <addPrimaryKey tableName="user" columnNames="username" />
+        <addNotNullConstraint tableName="user" columnName="username" />
+        <addNotNullConstraint tableName="user" columnName="password" />
+        <insert tableName="user">
+            <column name="username" value="admin"/>
+            <column name="password" value="admin"/>
+        </insert>
+        <rollback>
+            <dropTable tableName="user" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema25_005" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_role" />
+            </not>
+        </preConditions>
+        <createTable tableName="user_role">
+            <column name="username" type="varchar"/>
+            <column name="role_id" type="int" />
+        </createTable>
+        <addPrimaryKey tableName="user_role" columnNames="username,role_id" />
+        <addNotNullConstraint tableName="user_role" columnName="username" />
+        <addNotNullConstraint tableName="user_role" columnName="role_id" />
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseColumnNames="username"
+                                 constraintName="ur_u_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="username"/>
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseColumnNames="role_id"
+                                 constraintName="ur_r_fk"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropTable tableName="user_role" />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

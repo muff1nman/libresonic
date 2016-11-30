@@ -1,0 +1,151 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet id="schema26_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 2</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="2" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema26_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="music_folder" />
+            </not>
+        </preConditions>
+        <createTable tableName="music_folder">
+            <column name="id" type="bigint" />
+            <column name="path" type="varchar" />
+            <column name="name" type="varchar" />
+            <column name="enabled" type="boolean" />
+        </createTable>
+        <addPrimaryKey tableName="music_folder" columnNames="id" />
+        <addAutoIncrement tableName="music_folder" columnName="id" />
+        <addNotNullConstraint tableName="music_folder" columnName="id" />
+        <addNotNullConstraint tableName="music_folder" columnName="path" />
+        <addNotNullConstraint tableName="music_folder" columnName="name" />
+        <addNotNullConstraint tableName="music_folder" columnName="boolean" />
+        <insert tableName="music_folder">
+            <column name="path" value="${defaultMusicFolder}"/>
+            <column name="name" value="Music"/>
+            <column name="enabled" valueBoolean="true" />
+        </insert>
+        <rollback>
+            <dropTable tableName="music_folder" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema26_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="music_file_info" />
+            </not>
+        </preConditions>
+        <createTable tableName="music_file_info">
+            <column name="id" type="bigint"/>
+            <column name="path" type="varchar" />
+            <column name="rating" type="int" />
+            <column name="comment" type="varchar" />
+            <column name="play_count" type="int" />
+            <column name="last_played" type="datetime" />
+        </createTable>
+        <addPrimaryKey tableName="music_file_info" columnNames="id" />
+        <addAutoIncrement tableName="music_file_info" columnName="id" />
+        <addNotNullConstraint tableName="music_file_info" columnName="id" />
+        <addNotNullConstraint tableName="music_file_info" columnName="path" />
+        <createIndex tableName="music_file_info" indexName="idx_music_file_info_path">
+            <column name="path"/>
+        </createIndex>
+        <rollback>
+            <dropTable tableName="music_file_info" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema26_004" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="internet_radio" />
+            </not>
+        </preConditions>
+        <createTable tableName="internet_radio">
+            <column name="id" type="bigint"/>
+            <column name="name" type="varchar" />
+            <column name="stream_url" type="varchar" />
+            <column name="homepage_url" type="varchar" />
+            <column name="enabled" type="boolean" />
+        </createTable>
+        <addPrimaryKey tableName="internet_radio" columnNames="id" />
+        <addNotNullConstraint tableName="internet_radio" columnName="id" />
+        <addAutoIncrement tableName="internet_radio" columnName="id" />
+        <addNotNullConstraint tableName="internet_radio" columnName="name" />
+        <addNotNullConstraint tableName="internet_radio" columnName="stream_url" />
+        <addNotNullConstraint tableName="internet_radio" columnName="enabled" />
+        <rollback>
+            <dropTable tableName="internet_radio" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema26_005" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="player" />
+            </not>
+        </preConditions>
+        <createTable tableName="player">
+            <column name="id" type="int"/>
+            <column name="name" type="varchar" />
+            <column name="type" type="varchar" />
+            <column name="username" type="varchar" />
+            <column name="ip_address" type="varchar" />
+            <column name="auto_control_enabled" type="boolean" />
+            <column name="last_seen" type="datetime" />
+            <column name="cover_art_scheme" type="varchar" />
+            <column name="transcode_scheme" type="varchar" />
+        </createTable>
+        <addPrimaryKey tableName="player" columnNames="id" />
+        <addNotNullConstraint tableName="player" columnName="id" />
+        <addNotNullConstraint tableName="player" columnName="auto_control_enabled" />
+        <addNotNullConstraint tableName="player" columnName="cover_art_scheme" />
+        <addNotNullConstraint tableName="player" columnName="transcode_scheme" />
+        <rollback>
+            <dropTable tableName="player" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema26_006" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="player" columnName="dynamic_ip" />
+            </not>
+        </preConditions>
+        <addColumn tableName="player">
+            <column name="dynamic_ip" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="player" columnName="dynamic_ip" />
+        <rollback>
+            <dropColumn tableName="player" columnName="dynamic_ip"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="schema26_007" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from role where id = 6</sqlCheck>
+        </preConditions>
+        <insert tableName="role">
+            <column name="id" valueNumeric="6"/>
+            <column name="name" value="comment" />
+        </insert>
+        <sql>
+            insert into user_role(username, role_id)
+            select distinct u.username, 6 from user u, user_role ur
+            where u.username = ur.username and ur.role_id in (1, 5)
+        </sql>
+        <rollback>
+            <delete tableName="user_role" >
+                <where>role_id = 6</where>
+            </delete>
+            <delete tableName="role">
+                <where>id = 6</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
