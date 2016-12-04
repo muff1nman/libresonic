@@ -9,6 +9,11 @@
         <insert tableName="version">
             <column name="version" valueNumeric="2" />
         </insert>
+        <rollback>
+            <delete tableName="version" >
+                <where>version = 2</where>
+            </delete>
+        </rollback>
     </changeSet>
     <changeSet id="schema26_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">

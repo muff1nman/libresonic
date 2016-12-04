@@ -13,5 +13,10 @@
         <update tableName="user">
             <column name="bytes_streamed" valueNumeric="0" />
         </update>
+        <rollback>
+            <delete tableName="version" >
+                <where>version = 15</where>
+            </delete>
+        </rollback>
     </changeSet>
 </databaseChangeLog>
