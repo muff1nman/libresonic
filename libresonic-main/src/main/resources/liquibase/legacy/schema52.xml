@@ -1,0 +1,84 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema52_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 24</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="24" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema52_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="music_folder_user" />
+            </not>
+        </preConditions>
+        <createTable tableName="music_folder_user">
+            <column name="music_folder_id" type="int"/>
+            <column name="username" type="varchar" />
+        </createTable>
+        <addNotNullConstraint tableName="music_folder_user" columnName="music_folder_id" />
+        <addNotNullConstraint tableName="music_folder_user" columnName="username" />
+        <createIndex tableName="music_folder_user" indexName="idx_music_folder_user_username">
+            <column name="username"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="music_folder_user" baseColumnNames="music_folder_id"
+                                 constraintName="mfu_mf_fk"
+                                 referencedTableName="music_folder"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+        <addForeignKeyConstraint baseTableName="music_folder_user"
+                                 baseColumnNames="username"
+                                 constraintName="mfu_u_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="username"
+                                 onDelete="CASCADE" />
+    </changeSet>
+    <changeSet id="schema52_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="album" columnName="folder_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="album">
+            <column name="folder_id" type="int"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="schema52_004" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="play_queue_file" />
+            </not>
+        </preConditions>
+        <createTable tableName="play_queue_file">
+            <column name="id" type="bigint"/>
+            <column name="play_queue_id" type="int" />
+            <column name="media_file_id" type="int" />
+        </createTable>
+        <addNotNullConstraint tableName="play_queue_file" columnName="id" />
+        <addNotNullConstraint tableName="play_queue_file" columnName="play_queue_id" />
+        <addNotNullConstraint tableName="play_queue_file" columnName="media_file_id" />
+        <addPrimaryKey tableName="play_queue_file" columnNames="id" />
+        <addAutoIncrement tableName="play_queue_file" columnName="id" />
+        <addForeignKeyConstraint baseTableName="play_queue_file"
+                                 baseColumnNames="play_queue_id"
+                                 constraintName="pqf_pq_fk"
+                                 referencedTableName="play_queue"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+        <addForeignKeyConstraint baseTableName="play_queue_file" baseColumnNames="media_file_id"
+                                 constraintName="pqf_mf_fk"
+                                 referencedTableName="media_file"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+        <sql dbms="hsql">
+            set table play_queue_file type cached
+        </sql>
+        <rollback>
+            <dropTable tableName="play_queue_file" />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

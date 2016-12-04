@@ -1,0 +1,103 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema32_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 8</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="8" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema32_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="show_now_playing" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="show_now_playing" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="show_now_playing"/>
+    </changeSet>
+    <changeSet id="schema32_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="selected_music_folder_id" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="selected_music_folder_id" type="int" defaultValueNumeric="-1"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="selected_music_folder_id"/>
+    </changeSet>
+    <changeSet id="schema32_004" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="podcast_channel" />
+            </not>
+        </preConditions>
+        <createTable tableName="podcast_channel">
+            <column name="id" type="bigint"/>
+            <column name="url" type="varchar" />
+            <column name="title" type="varchar" />
+            <column name="description" type="varchar" />
+            <column name="status" type="varchar" />
+            <column name="error_message" type="varchar" />
+        </createTable>
+        <addNotNullConstraint tableName="podcast_channel" columnName="id" />
+        <addNotNullConstraint tableName="podcast_channel" columnName="url" />
+        <addNotNullConstraint tableName="podcast_channel" columnName="status" />
+        <addPrimaryKey tableName="podcast_channel" columnNames="id" />
+        <addAutoIncrement tableName="podcast_channel" columnName="id" />
+    </changeSet>
+    <changeSet id="schema32_005" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="podcast_episode"/>
+            </not>
+        </preConditions>
+        <createTable tableName="podcast_episode">
+            <column name="id" type="bigint" />
+            <column name="channel_id" type="int" />
+            <column name="url" type="varchar" />
+            <column name="path" type="varchar" />
+            <column name="title" type="varchar" />
+            <column name="description" type="varchar" />
+            <column name="publish_date" type="datetime" />
+            <column name="duration" type="varchar" />
+            <column name="bytes_total" type="bigint" />
+            <column name="bytes_downloaded" type="bigint" />
+            <column name="status" type="varchar" />
+            <column name="error_message" type="varchar" />
+        </createTable>
+        <addNotNullConstraint tableName="podcast_episode" columnName="id" />
+        <addNotNullConstraint tableName="podcast_episode" columnName="channel_id" />
+        <addNotNullConstraint tableName="podcast_episode" columnName="url" />
+        <addNotNullConstraint tableName="podcast_episode" columnName="status" />
+        <addPrimaryKey tableName="podcast_episode" columnNames="id" />
+        <addAutoIncrement tableName="podcast_episode" columnName="id" />
+        <addForeignKeyConstraint baseTableName="podcast_episode"
+                                 baseColumnNames="channel_id"
+                                 constraintName="pe_pc_fk"
+                                 referencedTableName="podcast_channel"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+    <changeSet id="schema32_006" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from role where id = 7</sqlCheck>
+        </preConditions>
+        <insert tableName="role">
+            <column name="id" valueNumeric="7"/>
+            <column name="name" value="podcast" />
+        </insert>
+        <sql>
+            insert into user_role(username, role_id)
+            select distinct u.username, 7 from user u, user_role ur
+            where u.username = ur.username and ur.role_id = 1
+        </sql>
+        <rollback/>
+    </changeSet>
+</databaseChangeLog>

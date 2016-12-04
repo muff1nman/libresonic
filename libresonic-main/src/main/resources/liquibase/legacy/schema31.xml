@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema31_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 7</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="7" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema31_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="music_file_info" columnName="enabled" />
+            </not>
+        </preConditions>
+        <addColumn tableName="music_file_info">
+            <column name="enabled" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="music_file_info" columnName="enabled"/>
+    </changeSet>
+    <changeSet id="schema31_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="transcoding" columnName="default_active" />
+            </not>
+        </preConditions>
+        <addColumn tableName="transcoding">
+            <column name="default_active" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="transcoding" columnName="default_active"/>
+    </changeSet>
+</databaseChangeLog>

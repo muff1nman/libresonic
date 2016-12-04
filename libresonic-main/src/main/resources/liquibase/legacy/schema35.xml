@@ -1,0 +1,153 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema35_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 11</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="11" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema35_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="now_playing_allowed" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="now_playing_allowed" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="now_playing_allowed"/>
+    </changeSet>
+    <changeSet id="schema35_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="web_player_default" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="web_player_default" type="boolean" defaultValueBoolean="false"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="web_player_default"/>
+    </changeSet>
+    <changeSet id="schema35_004" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from role where id = 8</sqlCheck>
+        </preConditions>
+        <insert tableName="role">
+            <column name="id" valueNumeric="8"/>
+            <column name="name" value="stream" />
+        </insert>
+        <sql>
+            insert into user_role(username, role_id) select distinct u.username, 8 from user u
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet id="schema35_005" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="system_avatar" />
+            </not>
+        </preConditions>
+        <createTable tableName="system_avatar">
+            <column name="id" type="bigint"/>
+            <column name="name" type="varchar" />
+            <column name="created_date" type="datetime" />
+            <column name="mime_type" type="varchar" />
+            <column name="width" type="int" />
+            <column name="height" type="int" />
+            <column name="data" type="blob" />
+        </createTable>
+        <addNotNullConstraint tableName="system_avatar" columnName="id" />
+        <addNotNullConstraint tableName="system_avatar" columnName="created_date" />
+        <addNotNullConstraint tableName="system_avatar" columnName="mime_type" />
+        <addNotNullConstraint tableName="system_avatar" columnName="width" />
+        <addNotNullConstraint tableName="system_avatar" columnName="height" />
+        <addNotNullConstraint tableName="system_avatar" columnName="data" />
+        <addPrimaryKey tableName="system_avatar" columnNames="id" />
+        <addAutoIncrement tableName="system_avatar" columnName="id" />
+    </changeSet>
+    <changeSet id="schema35_006" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="custom_avatar" />
+            </not>
+        </preConditions>
+        <createTable tableName="custom_avatar">
+            <column name="id" type="bigint"/>
+            <column name="name" type="varchar" />
+            <column name="created_date" type="datetime" />
+            <column name="mime_type" type="varchar" />
+            <column name="width" type="int" />
+            <column name="height" type="int" />
+            <column name="data" type="blob" />
+            <column name="username" type="varchar" />
+        </createTable>
+        <addNotNullConstraint tableName="custom_avatar" columnName="id" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="created_date" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="mime_type" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="width" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="height" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="data" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="username" />
+        <addPrimaryKey tableName="custom_avatar" columnNames="id" />
+        <addAutoIncrement tableName="custom_avatar" columnName="id" />
+        <addForeignKeyConstraint baseTableName="custom_avatar"
+                                 baseColumnNames="username"
+                                 constraintName="ca_u_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="username"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+    <changeSet id="schema35_007" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="avatar_scheme" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="avatar_scheme" type="varchar" defaultValue="NONE"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="avatar_scheme" />
+    </changeSet>
+    <changeSet id="schema35_008" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="system_avatar_id" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="system_avatar_id" type="int"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="user_settings" baseColumnNames="system_avatar_id"
+                                 constraintName="us_sai_fk"
+                                 referencedTableName="system_avatar"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="schema35_009" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="player" columnName="jukebox" />
+            </not>
+        </preConditions>
+        <addColumn tableName="player">
+            <column name="jukebox" type="boolean" defaultValueBoolean="false"/>
+        </addColumn>
+        <addNotNullConstraint tableName="player" columnName="jukebox"/>
+    </changeSet>
+    <changeSet id="schema35_010" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Formal'</sqlCheck>
+        </preConditions>
+        <insert tableName="system_avatar">
+            <column name="created_date" valueDate="${current_date}"/>
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Formal.png" />
+        </insert>
+        <!-- TODO: the remainder -->
+    </changeSet>
+</databaseChangeLog>

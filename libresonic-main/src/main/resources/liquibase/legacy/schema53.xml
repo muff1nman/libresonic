@@ -1,0 +1,76 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema53_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 25</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="25" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema53_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_podcast_episode_url" />
+            </not>
+        </preConditions>
+        <createIndex tableName="podcast_episode" indexName="idx_podcast_episode_url">
+            <column name="url"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="schema53_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="default_album_list" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="default_album_list" type="varchar" defaultValue="random"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="default_album_list" />
+    </changeSet>
+    <changeSet id="schema53_004" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="queue_following_songs" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="queue_following_songs" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="queue_following_songs" />
+    </changeSet>
+    <changeSet id="schema53_005" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="image_url" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="image_url" type="varchar" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="schema53_006" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="user_settings" columnName="show_side_bar" />
+            </not>
+        </preConditions>
+        <addColumn tableName="user_settings">
+            <column name="show_side_bar" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+        <addNotNullConstraint tableName="user_settings" columnName="show_side_bar" />
+    </changeSet>
+    <changeSet id="schema53_007" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="artist" columnName="folder_id" />
+            </not>
+        </preConditions>
+        <addColumn tableName="artist">
+            <column name="folder_id" type="int"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

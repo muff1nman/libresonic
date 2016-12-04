@@ -1,0 +1,24 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema36_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 12</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="12" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema36_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="player" columnName="technology" />
+            </not>
+        </preConditions>
+        <addColumn tableName="player">
+            <column name="technology" type="varchar" defaultValue="WEB"/>
+        </addColumn>
+        <addNotNullConstraint tableName="player" columnName="technology"/>
+    </changeSet>
+</databaseChangeLog>

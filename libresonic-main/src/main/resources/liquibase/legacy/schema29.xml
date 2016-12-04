@@ -1,0 +1,42 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema29_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 5</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="5" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema29_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_rating" />
+            </not>
+        </preConditions>
+        <createTable tableName="user_rating">
+            <column name="username" type="varchar"/>
+            <column name="path" type="varchar" />
+            <column name="rating" type="double" />
+        </createTable>
+        <addNotNullConstraint tableName="user_rating" columnName="username" />
+        <addNotNullConstraint tableName="user_rating" columnName="path" />
+        <addNotNullConstraint tableName="user_rating" columnName="rating" />
+        <addPrimaryKey tableName="user_rating" columnNames="username,path" />
+        <addForeignKeyConstraint baseTableName="user_rating"
+                                 baseColumnNames="username"
+                                 constraintName="ura_u_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="username"
+                                 onDelete="CASCADE" />
+        <sql>
+            insert into user_rating select 'admin', path, rating from music_file_info
+            where rating is not null and rating > 0
+        </sql>
+        <rollback>
+            <dropTable tableName="user_rating" />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

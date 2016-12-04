@@ -1,0 +1,87 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="schema45_001" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from version where version = 18</sqlCheck>
+        </preConditions>
+        <insert tableName="version">
+            <column name="version" valueNumeric="18" />
+        </insert>
+    </changeSet>
+    <changeSet id="schema45_002" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from role where id = 11</sqlCheck>
+        </preConditions>
+        <insert tableName="role">
+            <column name="id" valueNumeric="11"/>
+            <column name="name" value="share" />
+        </insert>
+        <sql>
+            insert into user_role(username, role_id)
+            select distinct u.username, 11 from user u, user_role ur
+            where u.username = ur.username and ur.role_id = 1
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet id="schema45_003" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="share" />
+            </not>
+        </preConditions>
+        <createTable tableName="share">
+            <column name="id" type="bigint"/>
+            <column name="name" type="varchar" />
+            <column name="description" type="varchar" />
+            <column name="username" type="varchar" />
+            <column name="created" type="datetime" />
+            <column name="expires" type="datetime" />
+            <column name="last_visited" type="datetime" />
+            <column name="visit_count" type="int" defaultValueNumeric="0" />
+        </createTable>
+        <addNotNullConstraint tableName="share" columnName="id" />
+        <addNotNullConstraint tableName="share" columnName="name" />
+        <addNotNullConstraint tableName="share" columnName="username" />
+        <addNotNullConstraint tableName="share" columnName="created" />
+        <addNotNullConstraint tableName="share" columnName="visit_count" />
+        <addPrimaryKey tableName="share" columnNames="id" />
+        <addAutoIncrement tableName="share" columnName="id" />
+        <createIndex unique="true" tableName="share" indexName="idx_share_name">
+            <column name="name"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="share"
+                                 baseColumnNames="username"
+                                 constraintName="s_u_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="username"
+                                 onDelete="CASCADE" />
+        <sql dbms="hsql">
+            set table share type cached
+        </sql>
+        <createTable tableName="share_file">
+            <column name="id" type="bigint"/>
+            <column name="share_id" type="int"/>
+            <column name="path" type="varchar" />
+        </createTable>
+        <addNotNullConstraint tableName="share_file" columnName="id" />
+        <addNotNullConstraint tableName="share_file" columnName="share_id" />
+        <addNotNullConstraint tableName="share_file" columnName="path" />
+        <addPrimaryKey tableName="share_file" columnNames="id" />
+        <addAutoIncrement tableName="share_file" columnName="id" />
+        <addForeignKeyConstraint baseTableName="share_file"
+                                 baseColumnNames="share_id"
+                                 constraintName="sf_s_fk"
+                                 referencedTableName="share"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+        <sql dbms="hsql">
+            set table share_file type cached
+        </sql>
+        <rollback>
+            <dropTable tableName="share" />
+            <dropTable tableName="share_file" />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
