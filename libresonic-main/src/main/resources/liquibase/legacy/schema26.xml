@@ -27,7 +27,7 @@
         <addNotNullConstraint tableName="music_folder" columnName="id" />
         <addNotNullConstraint tableName="music_folder" columnName="path" />
         <addNotNullConstraint tableName="music_folder" columnName="name" />
-        <addNotNullConstraint tableName="music_folder" columnName="boolean" />
+        <addNotNullConstraint tableName="music_folder" columnName="enabled" />
         <insert tableName="music_folder">
             <column name="path" value="${defaultMusicFolder}"/>
             <column name="name" value="Music"/>

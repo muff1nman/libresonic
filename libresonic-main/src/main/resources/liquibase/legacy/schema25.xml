@@ -38,7 +38,7 @@
             <column name="id" type="int"/>
             <column name="name" type="varchar" />
         </createTable>
-        <addPrimaryKey tableName="role" columnNames="ie" />
+        <addPrimaryKey tableName="role" columnNames="id" />
         <addNotNullConstraint tableName="role" columnName="id" />
         <addNotNullConstraint tableName="role" columnName="name" />
         <insert tableName="role">
