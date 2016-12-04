@@ -39,7 +39,7 @@
             </not>
         </preConditions>
         <createTable tableName="podcast_channel">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="url" type="varchar" />
             <column name="title" type="varchar" />
             <column name="description" type="varchar" />
@@ -50,7 +50,7 @@
         <addNotNullConstraint tableName="podcast_channel" columnName="url" />
         <addNotNullConstraint tableName="podcast_channel" columnName="status" />
         <addPrimaryKey tableName="podcast_channel" columnNames="id" />
-        <addAutoIncrement tableName="podcast_channel" columnName="id" />
+        <addAutoIncrement tableName="podcast_channel" columnName="id" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema32_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -59,7 +59,7 @@
             </not>
         </preConditions>
         <createTable tableName="podcast_episode">
-            <column name="id" type="bigint" />
+            <column name="id" type="int" />
             <column name="channel_id" type="int" />
             <column name="url" type="varchar" />
             <column name="path" type="varchar" />
@@ -77,7 +77,7 @@
         <addNotNullConstraint tableName="podcast_episode" columnName="url" />
         <addNotNullConstraint tableName="podcast_episode" columnName="status" />
         <addPrimaryKey tableName="podcast_episode" columnNames="id" />
-        <addAutoIncrement tableName="podcast_episode" columnName="id" />
+        <addAutoIncrement tableName="podcast_episode" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="podcast_episode"
                                  baseColumnNames="channel_id"
                                  constraintName="pe_pc_fk"

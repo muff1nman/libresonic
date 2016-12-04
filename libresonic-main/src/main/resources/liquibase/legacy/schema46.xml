@@ -17,7 +17,7 @@
             </not>
         </preConditions>
         <createTable tableName="transcoding2">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="name" type="varchar" />
             <column name="source_formats" type="varchar" />
             <column name="target_format" type="varchar" />
@@ -31,7 +31,7 @@
         <addNotNullConstraint tableName="transcoding2" columnName="name" />
         <addNotNullConstraint tableName="transcoding2" columnName="id" />
         <addPrimaryKey tableName="transcoding2" columnNames="id" />
-        <addAutoIncrement tableName="transcoding2" columnName="id" />
+        <addAutoIncrement tableName="transcoding2" columnName="id" columnDataType="int"/>
         <insert tableName="transcoding2">
             <column name="name" value="mp3 audio" />
             <column name="source_formats" value="ogg oga aac m4a flac wav wma aif aiff ape mpc shn" />

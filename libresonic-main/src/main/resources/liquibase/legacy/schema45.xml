@@ -32,7 +32,7 @@
             </not>
         </preConditions>
         <createTable tableName="share">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="name" type="varchar" />
             <column name="description" type="varchar" />
             <column name="username" type="varchar" />
@@ -47,7 +47,7 @@
         <addNotNullConstraint tableName="share" columnName="created" />
         <addNotNullConstraint tableName="share" columnName="visit_count" />
         <addPrimaryKey tableName="share" columnNames="id" />
-        <addAutoIncrement tableName="share" columnName="id" />
+        <addAutoIncrement tableName="share" columnName="id" columnDataType="int"/>
         <createIndex unique="true" tableName="share" indexName="idx_share_name">
             <column name="name"/>
         </createIndex>
@@ -61,7 +61,7 @@
             set table share type cached
         </sql>
         <createTable tableName="share_file">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="share_id" type="int"/>
             <column name="path" type="varchar" />
         </createTable>
@@ -69,7 +69,7 @@
         <addNotNullConstraint tableName="share_file" columnName="share_id" />
         <addNotNullConstraint tableName="share_file" columnName="path" />
         <addPrimaryKey tableName="share_file" columnNames="id" />
-        <addAutoIncrement tableName="share_file" columnName="id" />
+        <addAutoIncrement tableName="share_file" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="share_file"
                                  baseColumnNames="share_id"
                                  constraintName="sf_s_fk"

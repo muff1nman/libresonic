@@ -17,7 +17,7 @@
             </not>
         </preConditions>
         <createTable tableName="media_file">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="path" type="varchar" />
             <column name="folder" type="varchar" />
             <column name="type" type="varchar" />
@@ -60,7 +60,7 @@
         <addNotNullConstraint tableName="media_file" columnName="present" />
         <addNotNullConstraint tableName="media_file" columnName="version" />
         <addPrimaryKey tableName="media_file" columnNames="id" />
-        <addAutoIncrement tableName="media_file" columnName="id" />
+        <addAutoIncrement tableName="media_file" columnName="id" columnDataType="int" />
         <createIndex unique="true" tableName="media_file" indexName="idx_media_file_path">
             <column name="path"/>
         </createIndex>
@@ -108,7 +108,7 @@
             </not>
         </preConditions>
         <createTable tableName="artist">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="name" type="varchar" />
             <column name="cover_art_path" type="varchar" />
             <column name="album_count" type="int" defaultValueNumeric="0"/>
@@ -120,6 +120,8 @@
         <addNotNullConstraint tableName="artist" columnName="album_count" />
         <addNotNullConstraint tableName="artist" columnName="last_scanned" />
         <addNotNullConstraint tableName="artist" columnName="present" />
+        <addPrimaryKey tableName="artist" columnNames="id" />
+        <addAutoIncrement tableName="artist" columnName="id" columnDataType="int" />
         <createIndex tableName="artist" indexName="idx_artist_name" unique="true">
             <column name="name"/>
         </createIndex>
@@ -140,7 +142,7 @@
             </not>
         </preConditions>
         <createTable tableName="album">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="path" type="varchar" />
             <column name="name" type="varchar" />
             <column name="artist" type="varchar" />
@@ -164,6 +166,8 @@
         <addNotNullConstraint tableName="album" columnName="created" />
         <addNotNullConstraint tableName="album" columnName="last_scanned" />
         <addNotNullConstraint tableName="album" columnName="present" />
+        <addPrimaryKey tableName="album" columnNames="id" />
+        <addAutoIncrement tableName="album" columnName="id" columnDataType="int" />
         <createIndex tableName="album" indexName="idx_album_artist_name" unique="true">
             <column name="artist" />
             <column name="name"/>
@@ -201,7 +205,7 @@
             </not>
         </preConditions>
         <createTable tableName="starred_media_file">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="media_file_id" type="int" />
             <column name="username" type="varchar" />
             <column name="created" type="datetime" />
@@ -211,7 +215,7 @@
         <addNotNullConstraint tableName="starred_media_file" columnName="username" />
         <addNotNullConstraint tableName="starred_media_file" columnName="created" />
         <addPrimaryKey tableName="starred_media_file" columnNames="id" />
-        <addAutoIncrement tableName="starred_media_file" columnName="id" />
+        <addAutoIncrement tableName="starred_media_file" columnName="id" columnDataType="int" />
         <createIndex tableName="starred_media_file" indexName="idx_starred_media_file_media_file_id">
             <column name="media_file_id"/>
         </createIndex>
@@ -239,7 +243,7 @@
             </not>
         </preConditions>
         <createTable tableName="starred_album">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="album_id" type="int" />
             <column name="username" type="varchar" />
             <column name="created" type="datetime" />
@@ -249,7 +253,7 @@
         <addNotNullConstraint tableName="starred_album" columnName="username" />
         <addNotNullConstraint tableName="starred_album" columnName="created" />
         <addPrimaryKey tableName="starred_album" columnNames="id" />
-        <addAutoIncrement tableName="starred_album" columnName="id" />
+        <addAutoIncrement tableName="starred_album" columnName="id" columnDataType="int" />
         <createIndex tableName="starred_album" indexName="idx_starred_album_album_id">
             <column name="album_id"/>
         </createIndex>
@@ -277,7 +281,7 @@
             </not>
         </preConditions>
         <createTable tableName="starred_artist">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="artist_id" type="int"/>
             <column name="username" type="varchar" />
             <column name="created" type="datetime" />
@@ -287,7 +291,7 @@
         <addNotNullConstraint tableName="starred_artist" columnName="username" />
         <addNotNullConstraint tableName="starred_artist" columnName="created" />
         <addPrimaryKey tableName="starred_artist" columnNames="id" />
-        <addAutoIncrement tableName="starred_artist" columnName="id" />
+        <addAutoIncrement tableName="starred_artist" columnName="id" columnDataType="int"/>
         <createIndex tableName="starred_artist" indexName="idx_starred_artist_artist_id">
             <column name="artist_id"/>
         </createIndex>
@@ -315,7 +319,7 @@
             </not>
         </preConditions>
         <createTable tableName="playlist">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="username" type="varchar" />
             <column name="is_public" type="boolean" />
             <column name="name" type="varchar" />
@@ -334,7 +338,7 @@
         <addNotNullConstraint tableName="playlist" columnName="created" />
         <addNotNullConstraint tableName="playlist" columnName="changed" />
         <addPrimaryKey tableName="playlist" columnNames="id" />
-        <addAutoIncrement tableName="playlist" columnName="id" />
+        <addAutoIncrement tableName="playlist" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="playlist"
                                  baseColumnNames="username"
                                  constraintName="p_u_fk"
@@ -359,7 +363,7 @@
             </not>
         </preConditions>
         <createTable tableName="playlist_file">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="playlist_id" type="int" />
             <column name="media_file_id" type="int" />
         </createTable>
@@ -367,7 +371,7 @@
         <addNotNullConstraint tableName="playlist_file" columnName="playlist_id" />
         <addNotNullConstraint tableName="playlist_file" columnName="media_file_id" />
         <addPrimaryKey tableName="playlist_file" columnNames="id" />
-        <addAutoIncrement tableName="playlist_file" columnName="id" />
+        <addAutoIncrement tableName="playlist_file" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="playlist_file"
                                  baseColumnNames="playlist_id"
                                  constraintName="pf_p_fk"
@@ -395,7 +399,7 @@
             </not>
         </preConditions>
         <createTable tableName="playlist_user">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="playlist_id" type="int" />
             <column name="username" type="varchar" />
         </createTable>
@@ -403,7 +407,7 @@
         <addNotNullConstraint tableName="playlist_user" columnName="playlist_id" />
         <addNotNullConstraint tableName="playlist_user" columnName="username" />
         <addPrimaryKey tableName="playlist_user" columnNames="id" />
-        <addAutoIncrement tableName="playlist_user" columnName="id" />
+        <addAutoIncrement tableName="playlist_user" columnName="id" columnDataType="int"/>
         <addUniqueConstraint tableName="playlist_user" columnNames="playlist_id,username" />
         <addForeignKeyConstraint baseTableName="playlist_user"
                                  baseColumnNames="playlist_id"
@@ -425,7 +429,7 @@
             </not>
         </preConditions>
         <createTable tableName="bookmark">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="media_file_id" type="int" />
             <column name="position_millis" type="bigint" />
             <column name="username" type="varchar" />
@@ -440,7 +444,7 @@
         <addNotNullConstraint tableName="bookmark" columnName="created" />
         <addNotNullConstraint tableName="bookmark" columnName="changed" />
         <addPrimaryKey tableName="bookmark" columnNames="id" />
-        <addAutoIncrement tableName="bookmark" columnName="id" />
+        <addAutoIncrement tableName="bookmark" columnName="id" columnDataType="int"/>
         <createIndex tableName="bookmark" indexName="idx_bookmark_media_file_id">
             <column name="media_file_id"/>
         </createIndex>

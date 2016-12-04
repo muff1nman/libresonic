@@ -81,7 +81,7 @@
             </not>
         </preConditions>
         <createTable tableName="transcoding">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="name" type="varchar" />
             <column name="source_format" type="varchar" />
             <column name="target_format" type="varchar" />
@@ -97,7 +97,7 @@
         <addNotNullConstraint tableName="transcoding" columnName="step1" />
         <addNotNullConstraint tableName="transcoding" columnName="enabled" />
         <addPrimaryKey tableName="transcoding" columnNames="id" />
-        <addAutoIncrement tableName="transcoding" columnName="id" />
+        <addAutoIncrement tableName="transcoding" columnName="id" columnDataType="int"/>
         <insert tableName="transcoding">
             <column name="name" value="wav > mp3"/>
             <column name="source_format" value="wav" />

@@ -54,7 +54,7 @@
             </not>
         </preConditions>
         <createTable tableName="play_queue_file">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="play_queue_id" type="int" />
             <column name="media_file_id" type="int" />
         </createTable>
@@ -62,7 +62,7 @@
         <addNotNullConstraint tableName="play_queue_file" columnName="play_queue_id" />
         <addNotNullConstraint tableName="play_queue_file" columnName="media_file_id" />
         <addPrimaryKey tableName="play_queue_file" columnNames="id" />
-        <addAutoIncrement tableName="play_queue_file" columnName="id" />
+        <addAutoIncrement tableName="play_queue_file" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="play_queue_file"
                                  baseColumnNames="play_queue_id"
                                  constraintName="pqf_pq_fk"

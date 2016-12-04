@@ -52,7 +52,7 @@
             </not>
         </preConditions>
         <createTable tableName="system_avatar">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int"/>
             <column name="name" type="varchar" />
             <column name="created_date" type="datetime" />
             <column name="mime_type" type="varchar" />
@@ -67,7 +67,7 @@
         <addNotNullConstraint tableName="system_avatar" columnName="height" />
         <addNotNullConstraint tableName="system_avatar" columnName="data" />
         <addPrimaryKey tableName="system_avatar" columnNames="id" />
-        <addAutoIncrement tableName="system_avatar" columnName="id" />
+        <addAutoIncrement tableName="system_avatar" columnName="id" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema35_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -76,7 +76,7 @@
             </not>
         </preConditions>
         <createTable tableName="custom_avatar">
-            <column name="id" type="bigint"/>
+            <column name="id" type="int" />
             <column name="name" type="varchar" />
             <column name="created_date" type="datetime" />
             <column name="mime_type" type="varchar" />
@@ -93,7 +93,7 @@
         <addNotNullConstraint tableName="custom_avatar" columnName="data" />
         <addNotNullConstraint tableName="custom_avatar" columnName="username" />
         <addPrimaryKey tableName="custom_avatar" columnNames="id" />
-        <addAutoIncrement tableName="custom_avatar" columnName="id" />
+        <addAutoIncrement tableName="custom_avatar" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="custom_avatar"
                                  baseColumnNames="username"
                                  constraintName="ca_u_fk"
