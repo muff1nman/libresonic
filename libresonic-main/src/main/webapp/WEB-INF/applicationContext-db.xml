@@ -25,7 +25,7 @@
                      jndi-name="jdbc/libresonicDB"
                      expected-type="javax.sql.DataSource" />
 
-    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+    <bean id="liquibase" class="org.libresonic.player.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource" />
         <property name="changeLog" value="classpath:liquibase/db-changelog.xml" />
         <property name="rollbackFile" ref="rollbackFile" />
