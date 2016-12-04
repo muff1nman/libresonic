@@ -31,11 +31,11 @@
             <column name="album" type="varchar" />
             <column name="artist" type="varchar" />
             <column name="album_artist" type="varchar" />
-            <column name="disc_number" type="varchar" />
-            <column name="track_number" type="varchar" />
+            <column name="disc_number" type="int" />
+            <column name="track_number" type="int" />
             <column name="year" type="int" />
             <column name="genre" type="varchar" />
-            <column name="bit_rate" type="varchar" />
+            <column name="bit_rate" type="int" />
             <column name="variable_bit_rate" type="boolean" />
             <column name="duration_seconds" type="int" />
             <column name="file_size" type="bigint" />
@@ -338,7 +338,7 @@
             <column name="is_public" type="boolean" />
             <column name="name" type="varchar" />
             <column name="comment" type="varchar" />
-            <column name="file_count" type="varchar" />
+            <column name="file_count" type="int" defaultValueNumeric="0"/>
             <column name="duration_seconds" type="int" defaultValueNumeric="0" />
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />

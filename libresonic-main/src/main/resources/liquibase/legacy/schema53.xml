@@ -50,10 +50,10 @@
     <changeSet id="schema53_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="image_url" />
+                <columnExists tableName="podcast_channel" columnName="image_url" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
+        <addColumn tableName="podcast_channel">
             <column name="image_url" type="varchar" />
         </addColumn>
     </changeSet>
