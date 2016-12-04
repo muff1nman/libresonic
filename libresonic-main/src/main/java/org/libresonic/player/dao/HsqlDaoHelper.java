@@ -61,6 +61,7 @@ import org.libresonic.player.service.SettingsService;
  *
  * @author Sindre Mehus
  */
+// TODO:AD delete
 public class HsqlDaoHelper implements DaoHelper {
 
     private static final Logger LOG = Logger.getLogger(HsqlDaoHelper.class);
