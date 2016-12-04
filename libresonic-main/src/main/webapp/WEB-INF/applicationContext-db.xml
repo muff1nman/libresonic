@@ -35,7 +35,6 @@
         <property name="changeLogParameters">
             <map>
                 <entry key="defaultMusicFolder" value="#{T(org.libresonic.player.util.Util).getDefaultMusicFolder()}" />
-                <entry key="current_date" value="#{new liquibase.util.ISODateFormat().format(new java.sql.Timestamp(new java.util.Date().getTime()))}" />
             </map>
         </property>
     </bean>
