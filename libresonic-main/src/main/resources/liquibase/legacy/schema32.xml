@@ -56,6 +56,9 @@
         <addNotNullConstraint tableName="podcast_channel" columnName="status" />
         <addPrimaryKey tableName="podcast_channel" columnNames="id" />
         <addAutoIncrement tableName="podcast_channel" columnName="id" columnDataType="int"/>
+        <rollback>
+            <dropTable tableName="podcast_channel" />
+        </rollback>
     </changeSet>
     <changeSet id="schema32_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -89,6 +92,9 @@
                                  referencedTableName="podcast_channel"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="podcast_episode" />
+        </rollback>
     </changeSet>
     <changeSet id="schema32_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -103,6 +109,13 @@
             select distinct u.username, 7 from user u, user_role ur
             where u.username = ur.username and ur.role_id = 1
         </sql>
-        <rollback/>
+        <rollback>
+            <delete tableName="user_role">
+                <where>role_id = 7</where>
+            </delete>
+            <delete tableName="role">
+                <where>id = 7</where>
+            </delete>
+        </rollback>
     </changeSet>
 </databaseChangeLog>

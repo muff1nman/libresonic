@@ -49,6 +49,9 @@
             <column name="target_format" value="flv" />
             <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -vcodec libx264 -preset superfast -threads 0 -"/>
         </insert>
+        <rollback>
+            <dropTable tableName="transcoding2" />
+        </rollback>
     </changeSet>
     <changeSet id="schema46_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">

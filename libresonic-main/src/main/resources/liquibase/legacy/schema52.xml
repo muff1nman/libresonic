@@ -55,6 +55,36 @@
     <changeSet id="schema52_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
+                <tableExists tableName="play_queue" />
+            </not>
+        </preConditions>
+        <createTable tableName="play_queue">
+            <column name="id" type="int"/>
+            <column name="username" type="varchar" />
+            <column name="current" type="int" />
+            <column name="position_millis" type="bigint" />
+            <column name="changed" type="datetime" />
+            <column name="changed_by" type="varchar" />
+        </createTable>
+        <addNotNullConstraint tableName="play_queue" columnName="id" />
+        <addNotNullConstraint tableName="play_queue" columnName="username" />
+        <addNotNullConstraint tableName="play_queue" columnName="changed" />
+        <addNotNullConstraint tableName="play_queue" columnName="changed_by" />
+        <addPrimaryKey tableName="play_queue" columnNames="id" />
+        <addAutoIncrement tableName="play_queue" columnName="id" columnDataType="int" />
+        <addForeignKeyConstraint baseTableName="play_queue"
+                                 baseColumnNames="username"
+                                 constraintName="pq_u_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="username"
+                                 onDelete="CASCADE" />
+        <rollback>
+            <dropTable tableName="play_queue" />
+        </rollback>
+    </changeSet>
+    <changeSet id="schema52_005" author="muff1nman">
+        <preConditions onFail="MARK_RAN">
+            <not>
                 <tableExists tableName="play_queue_file" />
             </not>
         </preConditions>

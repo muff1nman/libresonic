@@ -78,6 +78,9 @@
         <addNotNullConstraint tableName="user_settings" columnName="playlist_duration" />
         <addNotNullConstraint tableName="user_settings" columnName="playlist_format" />
         <addNotNullConstraint tableName="user_settings" columnName="playlist_file_size" />
+        <rollback>
+            <dropTable tableName="user_settings" />
+        </rollback>
     </changeSet>
     <changeSet id="schema28_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -183,6 +186,9 @@
             <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
             <column name="enabled" valueBoolean="true" />
         </insert>
+        <rollback>
+            <dropTable tableName="transcoding" />
+        </rollback>
     </changeSet>
     <changeSet id="schema28_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -209,5 +215,8 @@
                                  referencedTableName="transcoding"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="player_transcoding" />
+        </rollback>
     </changeSet>
 </databaseChangeLog>

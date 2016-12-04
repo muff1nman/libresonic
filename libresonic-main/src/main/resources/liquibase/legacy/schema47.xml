@@ -48,7 +48,7 @@
             <column name="comment" type="varchar" />
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />
-            <column name="last_schanned" type="datetime" />
+            <column name="last_scanned" type="datetime" />
             <column name="children_last_updated" type="datetime" />
             <column name="present" type="boolean" />
             <column name="version" type="int" />
@@ -240,6 +240,9 @@
                                  referencedColumnNames="username"
                                  onDelete="CASCADE" />
         <addUniqueConstraint tableName="starred_media_file" columnNames="media_file_id,username" />
+        <rollback>
+            <dropTable tableName="starred_media_file" />
+        </rollback>
     </changeSet>
     <changeSet id="schema47_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -278,6 +281,9 @@
                                  referencedColumnNames="username"
                                  onDelete="CASCADE" />
         <addUniqueConstraint tableName="starred_album" columnNames="album_id,username" />
+        <rollback>
+            <dropTable tableName="starred_album" />
+        </rollback>
     </changeSet>
     <changeSet id="schema47_008" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -316,6 +322,9 @@
                                  referencedColumnNames="username"
                                  onDelete="CASCADE" />
         <addUniqueConstraint tableName="starred_artist" columnNames="artist_id,username" />
+        <rollback>
+            <dropTable tableName="starred_artist" />
+        </rollback>
     </changeSet>
     <changeSet id="schema47_009" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -350,6 +359,9 @@
                                  referencedTableName="user"
                                  referencedColumnNames="username"
                                  onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="playlist" />
+        </rollback>
     </changeSet>
     <changeSet id="schema47_010" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -426,6 +438,9 @@
                                  referencedTableName="user"
                                  referencedColumnNames="username"
                                  onDelete="CASCADE" />
+        <rollback>
+            <dropTable tableName="playlist_user" />
+        </rollback>
     </changeSet>
     <changeSet id="schema47_013" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -466,8 +481,11 @@
         <addForeignKeyConstraint baseTableName="bookmark"
                                  baseColumnNames="media_file_id"
                                  constraintName="b_mf_fk"
-                                 referencedTableName="media_fil"
+                                 referencedTableName="media_file"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="bookmark" />
+        </rollback>
     </changeSet>
 </databaseChangeLog>

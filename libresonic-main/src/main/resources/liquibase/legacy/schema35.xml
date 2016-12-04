@@ -48,7 +48,14 @@
         <sql>
             insert into user_role(username, role_id) select distinct u.username, 8 from user u
         </sql>
-        <rollback />
+        <rollback>
+            <delete tableName="user_role" >
+                <where>role_id = 8</where>
+            </delete>
+            <delete tableName="role">
+                <where>id = 8</where>
+            </delete>
+        </rollback>
     </changeSet>
     <changeSet id="schema35_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -63,7 +70,7 @@
             <column name="mime_type" type="varchar" />
             <column name="width" type="int" />
             <column name="height" type="int" />
-            <column name="data" type="blob" />
+            <column name="data" type="binary" />
         </createTable>
         <addNotNullConstraint tableName="system_avatar" columnName="id" />
         <addNotNullConstraint tableName="system_avatar" columnName="created_date" />
@@ -73,6 +80,9 @@
         <addNotNullConstraint tableName="system_avatar" columnName="data" />
         <addPrimaryKey tableName="system_avatar" columnNames="id" />
         <addAutoIncrement tableName="system_avatar" columnName="id" columnDataType="int"/>
+        <rollback>
+            <dropTable tableName="system_avatar" />
+        </rollback>
     </changeSet>
     <changeSet id="schema35_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -87,7 +97,7 @@
             <column name="mime_type" type="varchar" />
             <column name="width" type="int" />
             <column name="height" type="int" />
-            <column name="data" type="blob" />
+            <column name="data" type="binary" />
             <column name="username" type="varchar" />
         </createTable>
         <addNotNullConstraint tableName="custom_avatar" columnName="id" />
@@ -105,6 +115,9 @@
                                  referencedTableName="user"
                                  referencedColumnNames="username"
                                  onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="custom_avatar" />
+        </rollback>
     </changeSet>
     <changeSet id="schema35_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -154,5 +167,8 @@
             <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Formal.png" />
         </insert>
         <!-- TODO: the remainder -->
+        <rollback>
+            <delete tableName="system_avatar"/>
+        </rollback>
     </changeSet>
 </databaseChangeLog>

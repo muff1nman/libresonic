@@ -49,7 +49,7 @@
         <addNotNullConstraint tableName="genre" columnName="song_count" />
     </changeSet>
     <changeSet id="schema49_005" author="muff1nman">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="genre" columnName="album_count" />
             </not>

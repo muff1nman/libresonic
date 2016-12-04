@@ -29,7 +29,7 @@
         <addNotNullConstraint tableName="user_settings" columnName="last_fm_enabled" />
     </changeSet>
     <changeSet id="schema30_003" author="muff1nman">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="user_settings" columnName="transcode_scheme" />
             </not>
@@ -37,6 +37,6 @@
         <addColumn tableName="user_settings">
             <column name="transcode_scheme" type="varchar" defaultValue="OFF"/>
         </addColumn>
-        <addNotNullConstraint tableName="transcode_scheme" columnName="transcode_scheme" />
+        <addNotNullConstraint tableName="user_settings" columnName="transcode_scheme" />
     </changeSet>
 </databaseChangeLog>
