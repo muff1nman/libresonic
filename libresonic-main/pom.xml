@@ -376,7 +376,8 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>3.5.3</version>
+            <!-- Cannot use 3.5.3/2 due to https://liquibase.jira.com/browse/CORE-2944 -->
+            <version>3.5.1</version>
         </dependency>
 
     </dependencies>
