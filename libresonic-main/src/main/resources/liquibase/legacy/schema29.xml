@@ -37,7 +37,7 @@
                                  referencedColumnNames="username"
                                  onDelete="CASCADE" />
         <sql>
-            insert into "user_rating" select 'admin', path, rating from "music_file_info"
+            insert into "USER_RATING" select 'admin', path, rating from "MUSIC_FILE_INFO"
             where rating is not null and rating > 0
         </sql>
         <rollback>
