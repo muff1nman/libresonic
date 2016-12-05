@@ -2,6 +2,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="curr_date_expr" value="current_timestamp" />
     <changeSet id="schema35_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 11</sqlCheck>
@@ -66,7 +67,7 @@
         <createTable tableName="system_avatar">
             <column name="id" type="int"/>
             <column name="name" type="varchar" />
-            <column name="created_date" type="datetime" />
+            <column name="created_date" type="datetime" defaultValueComputed="${curr_date_expr}"/>
             <column name="mime_type" type="varchar" />
             <column name="width" type="int" />
             <column name="height" type="int" />
@@ -93,7 +94,7 @@
         <createTable tableName="custom_avatar">
             <column name="id" type="int" />
             <column name="name" type="varchar" />
-            <column name="created_date" type="datetime" />
+            <column name="created_date" type="datetime" defaultValueComputed="${curr_date_expr}"/>
             <column name="mime_type" type="varchar" />
             <column name="width" type="int" />
             <column name="height" type="int" />
@@ -161,7 +162,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Formal" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -179,7 +179,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Engineer" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -197,7 +196,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Footballer" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -215,7 +213,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Green-Boy" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -233,7 +230,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Linux-Zealot" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -251,7 +247,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Mac-Zealot" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -269,7 +264,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Windows-Zealot" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -287,7 +281,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Army-Officer" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -305,7 +298,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Beatnik" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -323,7 +315,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="All-Caps" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -341,7 +332,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Clown" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -359,7 +349,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Commie-Pinko" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -377,7 +366,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Forum-Flirt" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -395,7 +383,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Gamer" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -413,7 +400,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Hopelessly-Addicted" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -431,7 +417,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Jekyll-And-Hyde" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -449,7 +434,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Joker" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -467,7 +451,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Lurker" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -485,7 +468,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Moderator" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -503,7 +485,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Newbie" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -521,7 +502,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="No-Dissent" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -539,7 +519,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Performer" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -557,7 +536,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Push-My-Button" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -575,7 +553,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Ray-Of-Sunshine" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -593,7 +570,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Red-Hot-Chili-Peppers-1" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -611,7 +587,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Red-Hot-Chili-Peppers-2" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -629,7 +604,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Red-Hot-Chili-Peppers-3" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -647,7 +621,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Red-Hot-Chili-Peppers-4" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -665,7 +638,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Ringmaster" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -683,7 +655,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Rumor-Junkie" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -701,7 +672,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Sozzled-Surfer" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -719,7 +689,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Statistician" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -737,7 +706,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Tech-Support" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -755,7 +723,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="The-Guru" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -773,7 +740,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="The-Referee" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -791,7 +757,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Troll" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -809,7 +774,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Uptight" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -827,7 +791,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Fire-Guitar" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -845,7 +808,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Drum" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -863,7 +825,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Headphones" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -881,7 +842,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Mic" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -899,7 +859,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Turntable" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -917,7 +876,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Vinyl" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -935,7 +893,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Cool" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -953,7 +910,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Laugh" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
@@ -971,7 +927,6 @@
         </preConditions>
         <insert tableName="system_avatar">
             <column name="name" value="Study" />
-            <column name="created_date" valueNumeric="0"/>
             <column name="mime_type" value="img/png" />
             <column name="width" valueNumeric="48" />
             <column name="height" valueNumeric="48" />
