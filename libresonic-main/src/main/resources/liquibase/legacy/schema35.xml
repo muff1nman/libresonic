@@ -2,6 +2,8 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="binary_type" dbms="hsqldb" value="binary" />
+    <property name="binary_type" value="blob" />
     <property name="curr_date_expr" value="current_timestamp" />
     <changeSet id="schema35_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -71,7 +73,7 @@
             <column name="mime_type" type="varchar" />
             <column name="width" type="int" />
             <column name="height" type="int" />
-            <column name="data" type="binary" />
+            <column name="data" type="${binary_type}" />
         </createTable>
         <addNotNullConstraint tableName="system_avatar" columnName="id" />
         <addNotNullConstraint tableName="system_avatar" columnName="created_date" />
@@ -98,7 +100,7 @@
             <column name="mime_type" type="varchar" />
             <column name="width" type="int" />
             <column name="height" type="int" />
-            <column name="data" type="binary" />
+            <column name="data" type="${binary_type}" />
             <column name="username" type="varchar" />
         </createTable>
         <addNotNullConstraint tableName="custom_avatar" columnName="id" />
