@@ -35,6 +35,7 @@
         <property name="changeLogParameters">
             <map>
                 <entry key="defaultMusicFolder" value="#{T(org.libresonic.player.util.Util).getDefaultMusicFolder()}" />
+                <entry key="varcharLimit" value="${database.varchar.maxlength:512}" />
             </map>
         </property>
     </bean>

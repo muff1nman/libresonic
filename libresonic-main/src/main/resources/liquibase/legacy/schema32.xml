@@ -45,15 +45,15 @@
         </preConditions>
         <createTable tableName="podcast_channel">
             <column name="id" type="int"/>
-            <column name="url" type="varchar" />
-            <column name="title" type="varchar" />
-            <column name="description" type="varchar" />
-            <column name="status" type="varchar" />
-            <column name="error_message" type="varchar" />
+            <column name="url" type="${varchar_type}" />
+            <column name="title" type="${varchar_type}" />
+            <column name="description" type="${varchar_type}" />
+            <column name="status" type="${varchar_type}" />
+            <column name="error_message" type="${varchar_type}" />
         </createTable>
         <addNotNullConstraint tableName="podcast_channel" columnName="id"  columnDataType="int"/>
-        <addNotNullConstraint tableName="podcast_channel" columnName="url" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="podcast_channel" columnName="status" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="podcast_channel" columnName="url" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="podcast_channel" columnName="status" columnDataType="${varchar_type}"/>
         <addPrimaryKey tableName="podcast_channel" columnNames="id" />
         <addAutoIncrement tableName="podcast_channel" columnName="id" columnDataType="int"/>
         <rollback>
@@ -69,21 +69,21 @@
         <createTable tableName="podcast_episode">
             <column name="id" type="int" />
             <column name="channel_id" type="int" />
-            <column name="url" type="varchar" />
-            <column name="path" type="varchar" />
-            <column name="title" type="varchar" />
-            <column name="description" type="varchar" />
+            <column name="url" type="${varchar_type}" />
+            <column name="path" type="${varchar_type}" />
+            <column name="title" type="${varchar_type}" />
+            <column name="description" type="${varchar_type}" />
             <column name="publish_date" type="datetime" />
-            <column name="duration" type="varchar" />
+            <column name="duration" type="${varchar_type}" />
             <column name="bytes_total" type="bigint" />
             <column name="bytes_downloaded" type="bigint" />
-            <column name="status" type="varchar" />
-            <column name="error_message" type="varchar" />
+            <column name="status" type="${varchar_type}" />
+            <column name="error_message" type="${varchar_type}" />
         </createTable>
         <addNotNullConstraint tableName="podcast_episode" columnName="id"  columnDataType="int"/>
         <addNotNullConstraint tableName="podcast_episode" columnName="channel_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="podcast_episode" columnName="url" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="podcast_episode" columnName="status" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="podcast_episode" columnName="url" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="podcast_episode" columnName="status" columnDataType="${varchar_type}"/>
         <addPrimaryKey tableName="podcast_episode" columnNames="id" />
         <addAutoIncrement tableName="podcast_episode" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="podcast_episode"

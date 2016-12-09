@@ -32,7 +32,7 @@
             </not>
         </preConditions>
         <addColumn tableName="album">
-            <column name="genre" type="varchar"/>
+            <column name="genre" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema49_004" author="muff1nman">
@@ -42,10 +42,10 @@
             </not>
         </preConditions>
         <createTable tableName="genre">
-            <column name="name" type="varchar"/>
+            <column name="name" type="${varchar_type}"/>
             <column name="song_count" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="genre" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="genre" columnName="name" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="genre" columnName="song_count" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema49_005" author="muff1nman">

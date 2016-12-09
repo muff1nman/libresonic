@@ -22,16 +22,15 @@
             </not>
         </preConditions>
         <createTable tableName="music_folder">
-            <column name="id" type="int" />
-            <column name="path" type="varchar" />
-            <column name="name" type="varchar" />
+            <column name="id" type="int" autoIncrement="true" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="path" type="${varchar_type}" />
+            <column name="name" type="${varchar_type}" />
             <column name="enabled" type="boolean" />
         </createTable>
-        <addPrimaryKey tableName="music_folder" columnNames="id" />
-        <addAutoIncrement tableName="music_folder" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_folder" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_folder" columnName="path" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="music_folder" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="music_folder" columnName="path" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="music_folder" columnName="name" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="music_folder" columnName="enabled" columnDataType="boolean"/>
         <insert tableName="music_folder">
             <column name="path" value="${defaultMusicFolder}"/>
@@ -50,16 +49,16 @@
         </preConditions>
         <createTable tableName="music_file_info">
             <column name="id" type="int"/>
-            <column name="path" type="varchar" />
+            <column name="path" type="${varchar_type}" />
             <column name="rating" type="int" />
-            <column name="comment" type="varchar" />
+            <column name="comment" type="${varchar_type}" />
             <column name="play_count" type="int" />
             <column name="last_played" type="datetime" />
         </createTable>
         <addPrimaryKey tableName="music_file_info" columnNames="id" />
         <addAutoIncrement tableName="music_file_info" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="music_file_info" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_file_info" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="music_file_info" columnName="path" columnDataType="${varchar_type}"/>
         <createIndex tableName="music_file_info" indexName="idx_music_file_info_path">
             <column name="path"/>
         </createIndex>
@@ -75,16 +74,16 @@
         </preConditions>
         <createTable tableName="internet_radio">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
-            <column name="stream_url" type="varchar" />
-            <column name="homepage_url" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="stream_url" type="${varchar_type}" />
+            <column name="homepage_url" type="${varchar_type}" />
             <column name="enabled" type="boolean" />
         </createTable>
         <addPrimaryKey tableName="internet_radio" columnNames="id" />
         <addNotNullConstraint tableName="internet_radio" columnName="id" columnDataType="int"/>
         <addAutoIncrement tableName="internet_radio" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="internet_radio" columnName="name" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="internet_radio" columnName="stream_url" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="internet_radio" columnName="name" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="internet_radio" columnName="stream_url" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="internet_radio" columnName="enabled" columnDataType="boolean"/>
         <rollback>
             <dropTable tableName="internet_radio" />
@@ -98,20 +97,20 @@
         </preConditions>
         <createTable tableName="player">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
-            <column name="type" type="varchar" />
-            <column name="username" type="varchar" />
-            <column name="ip_address" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="type" type="${varchar_type}" />
+            <column name="username" type="${varchar_type}" />
+            <column name="ip_address" type="${varchar_type}" />
             <column name="auto_control_enabled" type="boolean" />
             <column name="last_seen" type="datetime" />
-            <column name="cover_art_scheme" type="varchar" />
-            <column name="transcode_scheme" type="varchar" />
+            <column name="cover_art_scheme" type="${varchar_type}" />
+            <column name="transcode_scheme" type="${varchar_type}" />
         </createTable>
         <addPrimaryKey tableName="player" columnNames="id" />
         <addNotNullConstraint tableName="player" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="player" columnName="auto_control_enabled" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="player" columnName="cover_art_scheme" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="player" columnName="transcode_scheme" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="player" columnName="cover_art_scheme" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="player" columnName="transcode_scheme" columnDataType="${varchar_type}"/>
         <rollback>
             <dropTable tableName="player" />
         </rollback>

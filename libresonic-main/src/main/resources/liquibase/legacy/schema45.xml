@@ -38,17 +38,17 @@
         </preConditions>
         <createTable tableName="share">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
-            <column name="description" type="varchar" />
-            <column name="username" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="description" type="${varchar_type}" />
+            <column name="username" type="${varchar_type}" />
             <column name="created" type="datetime" />
             <column name="expires" type="datetime" />
             <column name="last_visited" type="datetime" />
             <column name="visit_count" type="int" defaultValueNumeric="0" />
         </createTable>
         <addNotNullConstraint tableName="share" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="share" columnName="name" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="share" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="share" columnName="name" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="share" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="share" columnName="created" columnDataType="datetime"/>
         <addNotNullConstraint tableName="share" columnName="visit_count" columnDataType="int"/>
         <addPrimaryKey tableName="share" columnNames="id" />
@@ -68,11 +68,11 @@
         <createTable tableName="share_file">
             <column name="id" type="int"/>
             <column name="share_id" type="int"/>
-            <column name="path" type="varchar" />
+            <column name="path" type="${varchar_type}" />
         </createTable>
         <addNotNullConstraint tableName="share_file" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="share_file" columnName="share_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="share_file" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="share_file" columnName="path" columnDataType="${varchar_type}"/>
         <addPrimaryKey tableName="share_file" columnNames="id" />
         <addAutoIncrement tableName="share_file" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="share_file"

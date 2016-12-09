@@ -22,7 +22,7 @@
             </not>
         </preConditions>
         <addColumn tableName="player">
-            <column name="client_id" type="varchar"/>
+            <column name="client_id" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema38_003" author="muff1nman">

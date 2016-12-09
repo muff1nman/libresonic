@@ -36,11 +36,11 @@
         </preConditions>
         <createTable tableName="role">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
+            <column name="name" type="${varchar_type}" />
         </createTable>
         <addPrimaryKey tableName="role" columnNames="id" />
         <addNotNullConstraint tableName="role" columnName="id" columnDataType="int" />
-        <addNotNullConstraint tableName="role" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="role" columnName="name" columnDataType="${varchar_type}"/>
         <insert tableName="role">
             <column name="id" valueNumeric="1" />
             <column name="name" value="admin"/>
@@ -72,12 +72,12 @@
             </not>
         </preConditions>
         <createTable tableName="user">
-            <column name="username" type="varchar"/>
-            <column name="password" type="varchar" />
+            <column name="username" type="${varchar_type}"/>
+            <column name="password" type="${varchar_type}" />
         </createTable>
         <addPrimaryKey tableName="user" columnNames="username" />
-        <addNotNullConstraint tableName="user" columnName="username" columnDataType="varchar" />
-        <addNotNullConstraint tableName="user" columnName="password" columnDataType="varchar" />
+        <addNotNullConstraint tableName="user" columnName="username" columnDataType="${varchar_type}" />
+        <addNotNullConstraint tableName="user" columnName="password" columnDataType="${varchar_type}" />
         <insert tableName="user">
             <column name="username" value="admin"/>
             <column name="password" value="admin"/>
@@ -93,11 +93,11 @@
             </not>
         </preConditions>
         <createTable tableName="user_role">
-            <column name="username" type="varchar"/>
+            <column name="username" type="${varchar_type}"/>
             <column name="role_id" type="int" />
         </createTable>
         <addPrimaryKey tableName="user_role" columnNames="username,role_id" />
-        <addNotNullConstraint tableName="user_role" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_role" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="user_role" columnName="role_id"  columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="user_role"
                                  baseColumnNames="username"

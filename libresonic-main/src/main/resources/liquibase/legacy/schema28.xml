@@ -22,9 +22,9 @@
             </not>
         </preConditions>
         <createTable tableName="user_settings">
-            <column name="username" type="varchar"/>
-            <column name="locale" type="varchar" />
-            <column name="theme_id" type="varchar" />
+            <column name="username" type="${varchar_type}"/>
+            <column name="locale" type="${varchar_type}" />
+            <column name="theme_id" type="${varchar_type}" />
             <column name="final_version_notification" type="boolean" defaultValueBoolean="true" />
             <column name="beta_version_notification" type="boolean" defaultValueBoolean="false" />
             <column name="main_caption_cutoff" type="int" defaultValueNumeric="35" />
@@ -48,7 +48,7 @@
             <column name="playlist_format" type="boolean" defaultValueBoolean="true" />
             <column name="playlist_file_size" type="boolean" defaultValueBoolean="true" />
         </createTable>
-        <addNotNullConstraint tableName="user_settings" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_settings" columnName="username" columnDataType="${varchar_type}"/>
         <addPrimaryKey tableName="user_settings" columnNames="username" />
         <addForeignKeyConstraint baseTableName="user_settings"
                                  baseColumnNames="username"
@@ -90,19 +90,19 @@
         </preConditions>
         <createTable tableName="transcoding">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
-            <column name="source_format" type="varchar" />
-            <column name="target_format" type="varchar" />
-            <column name="step1" type="varchar" />
-            <column name="step2" type="varchar" />
-            <column name="step3" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="source_format" type="${varchar_type}" />
+            <column name="target_format" type="${varchar_type}" />
+            <column name="step1" type="${varchar_type}" />
+            <column name="step2" type="${varchar_type}" />
+            <column name="step3" type="${varchar_type}" />
             <column name="enabled" type="boolean" />
         </createTable>
         <addNotNullConstraint tableName="transcoding" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="transcoding" columnName="name" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="transcoding" columnName="source_format" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="transcoding" columnName="target_format" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="transcoding" columnName="step1" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding" columnName="name" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="transcoding" columnName="source_format" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="transcoding" columnName="target_format" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="transcoding" columnName="step1" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="transcoding" columnName="enabled" columnDataType="boolean"/>
         <addPrimaryKey tableName="transcoding" columnNames="id" />
         <addAutoIncrement tableName="transcoding" columnName="id" columnDataType="int"/>

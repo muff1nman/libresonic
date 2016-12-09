@@ -23,29 +23,29 @@
         </preConditions>
         <createTable tableName="media_file">
             <column name="id" type="int"/>
-            <column name="path" type="varchar" />
-            <column name="folder" type="varchar" />
-            <column name="type" type="varchar" />
-            <column name="format" type="varchar" />
-            <column name="title" type="varchar" />
-            <column name="album" type="varchar" />
-            <column name="artist" type="varchar" />
-            <column name="album_artist" type="varchar" />
+            <column name="path" type="${varchar_type}" />
+            <column name="folder" type="${varchar_type}" />
+            <column name="type" type="${varchar_type}" />
+            <column name="format" type="${varchar_type}" />
+            <column name="title" type="${varchar_type}" />
+            <column name="album" type="${varchar_type}" />
+            <column name="artist" type="${varchar_type}" />
+            <column name="album_artist" type="${varchar_type}" />
             <column name="disc_number" type="int" />
             <column name="track_number" type="int" />
             <column name="year" type="int" />
-            <column name="genre" type="varchar" />
+            <column name="genre" type="${varchar_type}" />
             <column name="bit_rate" type="int" />
             <column name="variable_bit_rate" type="boolean" />
             <column name="duration_seconds" type="int" />
             <column name="file_size" type="bigint" />
             <column name="width" type="int" />
             <column name="height" type="int" />
-            <column name="cover_art_path" type="varchar" />
-            <column name="parent_path" type="varchar" />
+            <column name="cover_art_path" type="${varchar_type}" />
+            <column name="parent_path" type="${varchar_type}" />
             <column name="play_count" type="int" />
             <column name="last_played" type="datetime" />
-            <column name="comment" type="varchar" />
+            <column name="comment" type="${varchar_type}" />
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />
             <column name="last_scanned" type="datetime" />
@@ -54,8 +54,8 @@
             <column name="version" type="int" />
         </createTable>
         <addNotNullConstraint tableName="media_file" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="media_file" columnName="path" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="media_file" columnName="type" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="media_file" columnName="path" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="media_file" columnName="type" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="media_file" columnName="variable_bit_rate" columnDataType="boolean"/>
         <addNotNullConstraint tableName="media_file" columnName="play_count" columnDataType="int"/>
         <addNotNullConstraint tableName="media_file" columnName="created" columnDataType="datetime"/>
@@ -114,14 +114,14 @@
         </preConditions>
         <createTable tableName="artist">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
-            <column name="cover_art_path" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="cover_art_path" type="${varchar_type}" />
             <column name="album_count" type="int" defaultValueNumeric="0"/>
             <column name="last_scanned" type="datetime" />
             <column name="present" type="boolean" />
         </createTable>
         <addNotNullConstraint tableName="artist" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="artist" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="artist" columnName="name" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="artist" columnName="album_count" columnDataType="int"/>
         <addNotNullConstraint tableName="artist" columnName="last_scanned" columnDataType="datetime"/>
         <addNotNullConstraint tableName="artist" columnName="present" columnDataType="boolean"/>
@@ -148,23 +148,23 @@
         </preConditions>
         <createTable tableName="album">
             <column name="id" type="int"/>
-            <column name="path" type="varchar" />
-            <column name="name" type="varchar" />
-            <column name="artist" type="varchar" />
+            <column name="path" type="${varchar_type}" />
+            <column name="name" type="${varchar_type}" />
+            <column name="artist" type="${varchar_type}" />
             <column name="song_count" type="int" defaultValueNumeric="0" />
             <column name="duration_seconds" type="int" defaultValueNumeric="0" />
-            <column name="cover_art_path" type="varchar" />
+            <column name="cover_art_path" type="${varchar_type}" />
             <column name="play_count" type="int" defaultValueNumeric="0" />
             <column name="last_played" type="datetime" />
-            <column name="comment" type="varchar" />
+            <column name="comment" type="${varchar_type}" />
             <column name="created" type="datetime" />
             <column name="last_scanned" type="datetime" />
             <column name="present" type="boolean" />
         </createTable>
         <addNotNullConstraint tableName="album" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="album" columnName="path" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="album" columnName="name" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="album" columnName="artist" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="album" columnName="path" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="album" columnName="name" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="album" columnName="artist" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="album" columnName="song_count" columnDataType="int"/>
         <addNotNullConstraint tableName="album" columnName="duration_seconds" columnDataType="int"/>
         <addNotNullConstraint tableName="album" columnName="play_count" columnDataType="int"/>
@@ -212,12 +212,12 @@
         <createTable tableName="starred_media_file">
             <column name="id" type="int"/>
             <column name="media_file_id" type="int" />
-            <column name="username" type="varchar" />
+            <column name="username" type="${varchar_type}" />
             <column name="created" type="datetime" />
         </createTable>
         <addNotNullConstraint tableName="starred_media_file" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="starred_media_file" columnName="media_file_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_media_file" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="starred_media_file" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="starred_media_file" columnName="created" columnDataType="datetime"/>
         <addPrimaryKey tableName="starred_media_file" columnNames="id" />
         <addAutoIncrement tableName="starred_media_file" columnName="id" columnDataType="int" />
@@ -253,12 +253,12 @@
         <createTable tableName="starred_album">
             <column name="id" type="int"/>
             <column name="album_id" type="int" />
-            <column name="username" type="varchar" />
+            <column name="username" type="${varchar_type}" />
             <column name="created" type="datetime" />
         </createTable>
         <addNotNullConstraint tableName="starred_album" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="starred_album" columnName="album_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_album" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="starred_album" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="starred_album" columnName="created" columnDataType="datetime"/>
         <addPrimaryKey tableName="starred_album" columnNames="id" />
         <addAutoIncrement tableName="starred_album" columnName="id" columnDataType="int" />
@@ -294,12 +294,12 @@
         <createTable tableName="starred_artist">
             <column name="id" type="int"/>
             <column name="artist_id" type="int"/>
-            <column name="username" type="varchar" />
+            <column name="username" type="${varchar_type}" />
             <column name="created" type="datetime" />
         </createTable>
         <addNotNullConstraint tableName="starred_artist" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="starred_artist" columnName="artist_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_artist" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="starred_artist" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="starred_artist" columnName="created" columnDataType="datetime"/>
         <addPrimaryKey tableName="starred_artist" columnNames="id" />
         <addAutoIncrement tableName="starred_artist" columnName="id" columnDataType="int"/>
@@ -334,19 +334,19 @@
         </preConditions>
         <createTable tableName="playlist">
             <column name="id" type="int"/>
-            <column name="username" type="varchar" />
+            <column name="username" type="${varchar_type}" />
             <column name="is_public" type="boolean" />
-            <column name="name" type="varchar" />
-            <column name="comment" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="comment" type="${varchar_type}" />
             <column name="file_count" type="int" defaultValueNumeric="0"/>
             <column name="duration_seconds" type="int" defaultValueNumeric="0" />
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />
         </createTable>
         <addNotNullConstraint tableName="playlist" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="playlist" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="playlist" columnName="is_public" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="playlist" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="playlist" columnName="name" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="playlist" columnName="file_count" columnDataType="int"/>
         <addNotNullConstraint tableName="playlist" columnName="duration_seconds" columnDataType="int"/>
         <addNotNullConstraint tableName="playlist" columnName="created" columnDataType="datetime"/>
@@ -370,7 +370,7 @@
             </not>
         </preConditions>
         <addColumn tableName="playlist">
-            <column name="imported_from" type="varchar"/>
+            <column name="imported_from" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema47_011" author="muff1nman">
@@ -418,11 +418,11 @@
         <createTable tableName="playlist_user">
             <column name="id" type="int"/>
             <column name="playlist_id" type="int" />
-            <column name="username" type="varchar" />
+            <column name="username" type="${varchar_type}" />
         </createTable>
         <addNotNullConstraint tableName="playlist_user" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="playlist_user" columnName="playlist_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist_user" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="playlist_user" columnName="username" columnDataType="${varchar_type}"/>
         <addPrimaryKey tableName="playlist_user" columnNames="id" />
         <addAutoIncrement tableName="playlist_user" columnName="id" columnDataType="int"/>
         <addUniqueConstraint tableName="playlist_user" columnNames="playlist_id,username" />
@@ -452,15 +452,15 @@
             <column name="id" type="int"/>
             <column name="media_file_id" type="int" />
             <column name="position_millis" type="bigint" />
-            <column name="username" type="varchar" />
-            <column name="comment" type="varchar" />
+            <column name="username" type="${varchar_type}" />
+            <column name="comment" type="${varchar_type}" />
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />
         </createTable>
         <addNotNullConstraint tableName="bookmark" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="bookmark" columnName="media_file_id" columnDataType="int"/>
         <addNotNullConstraint tableName="bookmark" columnName="position_millis" columnDataType="bigint"/>
-        <addNotNullConstraint tableName="bookmark" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="bookmark" columnName="username" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="bookmark" columnName="created" columnDataType="datetime"/>
         <addNotNullConstraint tableName="bookmark" columnName="changed" columnDataType="datetime"/>
         <addPrimaryKey tableName="bookmark" columnNames="id" />

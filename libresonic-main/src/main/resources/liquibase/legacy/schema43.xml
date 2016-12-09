@@ -124,7 +124,7 @@
             </not>
         </preConditions>
         <addColumn tableName="user">
-            <column name="email" type="varchar"/>
+            <column name="email" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

@@ -23,17 +23,17 @@
         </preConditions>
         <createTable tableName="transcoding2">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
-            <column name="source_formats" type="varchar" />
-            <column name="target_format" type="varchar" />
-            <column name="step1" type="varchar" />
-            <column name="step2" type="varchar" />
-            <column name="step3" type="varchar" />
+            <column name="name" type="${varchar_type}" />
+            <column name="source_formats" type="${varchar_type}" />
+            <column name="target_format" type="${varchar_type}" />
+            <column name="step1" type="${varchar_type}" />
+            <column name="step2" type="${varchar_type}" />
+            <column name="step3" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="transcoding2" columnName="step1" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="transcoding2" columnName="target_format" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="transcoding2" columnName="source_formats" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="transcoding2" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="step1" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="target_format" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="source_formats" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="name" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="transcoding2" columnName="id" columnDataType="int"/>
         <addPrimaryKey tableName="transcoding2" columnNames="id" />
         <addAutoIncrement tableName="transcoding2" columnName="id" columnDataType="int"/>

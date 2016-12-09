@@ -32,9 +32,9 @@
             </not>
         </preConditions>
         <addColumn tableName="user_settings">
-            <column name="default_album_list" type="varchar" defaultValue="random"/>
+            <column name="default_album_list" type="${varchar_type}" defaultValue="random"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="default_album_list" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_settings" columnName="default_album_list" columnDataType="${varchar_type}"/>
     </changeSet>
     <changeSet id="schema53_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -54,7 +54,7 @@
             </not>
         </preConditions>
         <addColumn tableName="podcast_channel">
-            <column name="image_url" type="varchar" />
+            <column name="image_url" type="${varchar_type}" />
         </addColumn>
     </changeSet>
     <changeSet id="schema53_006" author="muff1nman">

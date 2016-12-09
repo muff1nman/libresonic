@@ -22,12 +22,12 @@
             </not>
         </preConditions>
         <createTable tableName="user_rating">
-            <column name="username" type="varchar"/>
-            <column name="path" type="varchar" />
+            <column name="username" type="${varchar_type}"/>
+            <column name="path" type="${varchar_type}" />
             <column name="rating" type="double" />
         </createTable>
-        <addNotNullConstraint tableName="user_rating" columnName="username" columnDataType="varchar"/>
-        <addNotNullConstraint tableName="user_rating" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_rating" columnName="username" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="user_rating" columnName="path" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="user_rating" columnName="rating" columnDataType="double"/>
         <addPrimaryKey tableName="user_rating" columnNames="username,path" />
         <addForeignKeyConstraint baseTableName="user_rating"

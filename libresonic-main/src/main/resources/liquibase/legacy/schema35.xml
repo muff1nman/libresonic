@@ -65,16 +65,16 @@
         </preConditions>
         <createTable tableName="system_avatar">
             <column name="id" type="int"/>
-            <column name="name" type="varchar" />
+            <column name="name" type="${varchar_type}" />
             <column name="created_date" type="datetime" defaultValueComputed="${curr_date_expr}"/>
-            <column name="mime_type" type="varchar" />
+            <column name="mime_type" type="${varchar_type}" />
             <column name="width" type="int" />
             <column name="height" type="int" />
             <column name="data" type="${binary_type}" />
         </createTable>
         <addNotNullConstraint tableName="system_avatar" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="system_avatar" columnName="created_date" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="system_avatar" columnName="mime_type" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="system_avatar" columnName="mime_type" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="system_avatar" columnName="width" columnDataType="int"/>
         <addNotNullConstraint tableName="system_avatar" columnName="height" columnDataType="int"/>
         <addNotNullConstraint tableName="system_avatar" columnName="data" columnDataType="${binary_type}"/>
@@ -92,21 +92,21 @@
         </preConditions>
         <createTable tableName="custom_avatar">
             <column name="id" type="int" />
-            <column name="name" type="varchar" />
+            <column name="name" type="${varchar_type}" />
             <column name="created_date" type="datetime" defaultValueComputed="${curr_date_expr}"/>
-            <column name="mime_type" type="varchar" />
+            <column name="mime_type" type="${varchar_type}" />
             <column name="width" type="int" />
             <column name="height" type="int" />
             <column name="data" type="${binary_type}" />
-            <column name="username" type="varchar" />
+            <column name="username" type="${varchar_type}" />
         </createTable>
         <addNotNullConstraint tableName="custom_avatar" columnName="id" columnDataType="int"/>
         <addNotNullConstraint tableName="custom_avatar" columnName="created_date" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="custom_avatar" columnName="mime_type" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="mime_type" columnDataType="${varchar_type}"/>
         <addNotNullConstraint tableName="custom_avatar" columnName="width" columnDataType="int"/>
         <addNotNullConstraint tableName="custom_avatar" columnName="height" columnDataType="int"/>
         <addNotNullConstraint tableName="custom_avatar" columnName="data" columnDataType="${binary_type}"/>
-        <addNotNullConstraint tableName="custom_avatar" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="username" columnDataType="${varchar_type}"/>
         <addPrimaryKey tableName="custom_avatar" columnNames="id" />
         <addAutoIncrement tableName="custom_avatar" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="custom_avatar"
@@ -126,9 +126,9 @@
             </not>
         </preConditions>
         <addColumn tableName="user_settings">
-            <column name="avatar_scheme" type="varchar" defaultValue="NONE"/>
+            <column name="avatar_scheme" type="${varchar_type}" defaultValue="NONE"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="avatar_scheme" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_settings" columnName="avatar_scheme" columnDataType="${varchar_type}"/>
     </changeSet>
     <changeSet id="schema35_008" author="muff1nman">
         <preConditions onFail="MARK_RAN">
