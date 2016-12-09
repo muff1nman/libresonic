@@ -29,10 +29,10 @@
         </createTable>
         <addPrimaryKey tableName="music_folder" columnNames="id" />
         <addAutoIncrement tableName="music_folder" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_folder" columnName="id" />
-        <addNotNullConstraint tableName="music_folder" columnName="path" />
-        <addNotNullConstraint tableName="music_folder" columnName="name" />
-        <addNotNullConstraint tableName="music_folder" columnName="enabled" />
+        <addNotNullConstraint tableName="music_folder" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="music_folder" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="music_folder" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="music_folder" columnName="enabled" columnDataType="boolean"/>
         <insert tableName="music_folder">
             <column name="path" value="${defaultMusicFolder}"/>
             <column name="name" value="Music"/>
@@ -58,8 +58,8 @@
         </createTable>
         <addPrimaryKey tableName="music_file_info" columnNames="id" />
         <addAutoIncrement tableName="music_file_info" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_file_info" columnName="id" />
-        <addNotNullConstraint tableName="music_file_info" columnName="path" />
+        <addNotNullConstraint tableName="music_file_info" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="music_file_info" columnName="path" columnDataType="varchar"/>
         <createIndex tableName="music_file_info" indexName="idx_music_file_info_path">
             <column name="path"/>
         </createIndex>
@@ -81,11 +81,11 @@
             <column name="enabled" type="boolean" />
         </createTable>
         <addPrimaryKey tableName="internet_radio" columnNames="id" />
-        <addNotNullConstraint tableName="internet_radio" columnName="id" />
-        <addAutoIncrement tableName="internet_radio" columnName="id"  columnDataType="int"/>
-        <addNotNullConstraint tableName="internet_radio" columnName="name" />
-        <addNotNullConstraint tableName="internet_radio" columnName="stream_url" />
-        <addNotNullConstraint tableName="internet_radio" columnName="enabled" />
+        <addNotNullConstraint tableName="internet_radio" columnName="id" columnDataType="int"/>
+        <addAutoIncrement tableName="internet_radio" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="internet_radio" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="internet_radio" columnName="stream_url" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="internet_radio" columnName="enabled" columnDataType="boolean"/>
         <rollback>
             <dropTable tableName="internet_radio" />
         </rollback>
@@ -108,10 +108,10 @@
             <column name="transcode_scheme" type="varchar" />
         </createTable>
         <addPrimaryKey tableName="player" columnNames="id" />
-        <addNotNullConstraint tableName="player" columnName="id" />
-        <addNotNullConstraint tableName="player" columnName="auto_control_enabled" />
-        <addNotNullConstraint tableName="player" columnName="cover_art_scheme" />
-        <addNotNullConstraint tableName="player" columnName="transcode_scheme" />
+        <addNotNullConstraint tableName="player" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="player" columnName="auto_control_enabled" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="player" columnName="cover_art_scheme" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="player" columnName="transcode_scheme" columnDataType="varchar"/>
         <rollback>
             <dropTable tableName="player" />
         </rollback>
@@ -125,7 +125,7 @@
         <addColumn tableName="player">
             <column name="dynamic_ip" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="dynamic_ip" />
+        <addNotNullConstraint tableName="player" columnName="dynamic_ip" columnDataType="boolean"/>
         <rollback>
             <dropColumn tableName="player" columnName="dynamic_ip"/>
         </rollback>

@@ -24,6 +24,6 @@
         <addColumn tableName="player">
             <column name="technology" type="varchar" defaultValue="WEB"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="technology"/>
+        <addNotNullConstraint tableName="player" columnName="technology" columnDataType="varchar"/>
     </changeSet>
 </databaseChangeLog>

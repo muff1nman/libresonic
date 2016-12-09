@@ -24,7 +24,7 @@
         <addColumn tableName="user_settings">
             <column name="list_reload_delay" type="int" defaultValueNumeric="60"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="list_reload_delay" />
+        <addNotNullConstraint tableName="user_settings" columnName="list_reload_delay" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema61_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -35,6 +35,6 @@
         <addColumn tableName="user_settings">
             <column name="keyboard_shortcuts_enabled" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="keyboard_shortcuts_enabled" />
+        <addNotNullConstraint tableName="user_settings" columnName="keyboard_shortcuts_enabled" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

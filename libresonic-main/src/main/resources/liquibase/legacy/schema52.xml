@@ -25,8 +25,8 @@
             <column name="music_folder_id" type="int"/>
             <column name="username" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="music_folder_user" columnName="music_folder_id" />
-        <addNotNullConstraint tableName="music_folder_user" columnName="username" />
+        <addNotNullConstraint tableName="music_folder_user" columnName="music_folder_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="music_folder_user" columnName="username" columnDataType="varchar"/>
         <createIndex tableName="music_folder_user" indexName="idx_music_folder_user_username">
             <column name="username"/>
         </createIndex>
@@ -66,10 +66,10 @@
             <column name="changed" type="datetime" />
             <column name="changed_by" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="play_queue" columnName="id" />
-        <addNotNullConstraint tableName="play_queue" columnName="username" />
-        <addNotNullConstraint tableName="play_queue" columnName="changed" />
-        <addNotNullConstraint tableName="play_queue" columnName="changed_by" />
+        <addNotNullConstraint tableName="play_queue" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="play_queue" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="play_queue" columnName="changed" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="play_queue" columnName="changed_by" columnDataType="datetime"/>
         <addPrimaryKey tableName="play_queue" columnNames="id" />
         <addAutoIncrement tableName="play_queue" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="play_queue"
@@ -93,9 +93,9 @@
             <column name="play_queue_id" type="int" />
             <column name="media_file_id" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="play_queue_file" columnName="id" />
-        <addNotNullConstraint tableName="play_queue_file" columnName="play_queue_id" />
-        <addNotNullConstraint tableName="play_queue_file" columnName="media_file_id" />
+        <addNotNullConstraint tableName="play_queue_file" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="play_queue_file" columnName="play_queue_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="play_queue_file" columnName="media_file_id" columnDataType="int"/>
         <addPrimaryKey tableName="play_queue_file" columnNames="id" />
         <addAutoIncrement tableName="play_queue_file" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="play_queue_file"

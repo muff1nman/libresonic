@@ -41,7 +41,7 @@
         <addColumn tableName="user_settings">
             <column name="song_notification" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="song_notification" />
+        <addNotNullConstraint tableName="user_settings" columnName="song_notification" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema50_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">

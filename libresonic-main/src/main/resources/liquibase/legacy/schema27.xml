@@ -27,8 +27,8 @@
             <column name="bytes_downloaded" type="bigint" defaultValueNumeric="0"/>
             <column name="bytes_uploaded" type="bigint" defaultValueNumeric="0"/>
         </addColumn>
-        <addNotNullConstraint tableName="user" columnName="bytes_streamed" />
-        <addNotNullConstraint tableName="user" columnName="bytes_downloaded" />
-        <addNotNullConstraint tableName="user" columnName="bytes_uploaded" />
+        <addNotNullConstraint tableName="user" columnName="bytes_streamed" columnDataType="bigint"/>
+        <addNotNullConstraint tableName="user" columnName="bytes_downloaded" columnDataType="bigint"/>
+        <addNotNullConstraint tableName="user" columnName="bytes_uploaded" columnDataType="bigint"/>
     </changeSet>
 </databaseChangeLog>

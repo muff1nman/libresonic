@@ -48,7 +48,7 @@
             <column name="playlist_format" type="boolean" defaultValueBoolean="true" />
             <column name="playlist_file_size" type="boolean" defaultValueBoolean="true" />
         </createTable>
-        <addNotNullConstraint tableName="user_settings" columnName="username" />
+        <addNotNullConstraint tableName="user_settings" columnName="username" columnDataType="varchar"/>
         <addPrimaryKey tableName="user_settings" columnNames="username" />
         <addForeignKeyConstraint baseTableName="user_settings"
                                  baseColumnNames="username"
@@ -56,28 +56,28 @@
                                  referencedTableName="user"
                                  referencedColumnNames="username"
                                  onDelete="CASCADE"/>
-        <addNotNullConstraint tableName="user_settings" columnName="final_version_notification" />
-        <addNotNullConstraint tableName="user_settings" columnName="beta_version_notification" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_caption_cutoff" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_track_number" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_artist" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_album" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_genre" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_year" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_bit_rate" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_duration" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_format" />
-        <addNotNullConstraint tableName="user_settings" columnName="main_file_size" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_caption_cutoff" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_track_number" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_artist" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_album" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_genre" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_year" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_bit_rate" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_duration" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_format" />
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_file_size" />
+        <addNotNullConstraint tableName="user_settings" columnName="final_version_notification" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="beta_version_notification" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_caption_cutoff" columnDataType="int"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_track_number" columnDataType="int"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_artist" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_album" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_genre" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_year" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_bit_rate" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_duration" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_format" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="main_file_size" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_caption_cutoff" columnDataType="int"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_track_number" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_artist" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_album" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_genre" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_year" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_bit_rate" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_duration" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_format" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="user_settings" columnName="playlist_file_size" columnDataType="boolean"/>
         <rollback>
             <dropTable tableName="user_settings" />
         </rollback>
@@ -98,12 +98,12 @@
             <column name="step3" type="varchar" />
             <column name="enabled" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="transcoding" columnName="id" />
-        <addNotNullConstraint tableName="transcoding" columnName="name" />
-        <addNotNullConstraint tableName="transcoding" columnName="source_format" />
-        <addNotNullConstraint tableName="transcoding" columnName="target_format" />
-        <addNotNullConstraint tableName="transcoding" columnName="step1" />
-        <addNotNullConstraint tableName="transcoding" columnName="enabled" />
+        <addNotNullConstraint tableName="transcoding" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="transcoding" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding" columnName="source_format" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding" columnName="target_format" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding" columnName="step1" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding" columnName="enabled" columnDataType="boolean"/>
         <addPrimaryKey tableName="transcoding" columnNames="id" />
         <addAutoIncrement tableName="transcoding" columnName="id" columnDataType="int"/>
         <insert tableName="transcoding">
@@ -200,8 +200,8 @@
             <column name="player_id" type="int"/>
             <column name="transcoding_id" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="player_transcoding" columnName="player_id" />
-        <addNotNullConstraint tableName="player_transcoding" columnName="transcoding_id" />
+        <addNotNullConstraint tableName="player_transcoding" columnName="player_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="player_transcoding" columnName="transcoding_id" columnDataType="int"/>
         <addPrimaryKey tableName="player_transcoding" columnNames="player_id,transcoding_id" />
         <addForeignKeyConstraint baseTableName="player_transcoding"
                                  baseColumnNames="player_id"

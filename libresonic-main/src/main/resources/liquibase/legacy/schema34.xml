@@ -24,7 +24,7 @@
         <addColumn tableName="user">
             <column name="ldap_authenticated" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user" columnName="ldap_authenticated"/>
+        <addNotNullConstraint tableName="user" columnName="ldap_authenticated" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema34_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -35,6 +35,6 @@
         <addColumn tableName="user_settings">
             <column name="party_mode_enabled" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="party_mode_enabled"/>
+        <addNotNullConstraint tableName="user_settings" columnName="party_mode_enabled" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

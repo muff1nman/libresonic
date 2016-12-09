@@ -45,8 +45,8 @@
             <column name="name" type="varchar"/>
             <column name="song_count" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="genre" columnName="name" />
-        <addNotNullConstraint tableName="genre" columnName="song_count" />
+        <addNotNullConstraint tableName="genre" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="genre" columnName="song_count" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema49_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -57,6 +57,6 @@
         <addColumn tableName="genre">
             <column name="album_count" type="int" defaultValueNumeric="0"/>
         </addColumn>
-        <addNotNullConstraint tableName="genre" columnName="album_count" />
+        <addNotNullConstraint tableName="genre" columnName="album_count" columnDataType="int"/>
     </changeSet>
 </databaseChangeLog>

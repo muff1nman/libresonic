@@ -24,7 +24,7 @@
         <addColumn tableName="user_settings">
             <column name="show_artist_info" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="show_artist_info" />
+        <addNotNullConstraint tableName="user_settings" columnName="show_artist_info" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema51_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -35,7 +35,7 @@
         <addColumn tableName="user_settings">
             <column name="auto_hide_play_queue" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="auto_hide_play_queue" />
+        <addNotNullConstraint tableName="user_settings" columnName="auto_hide_play_queue" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema51_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -46,6 +46,6 @@
         <addColumn tableName="user_settings">
             <column name="view_as_list" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="view_as_list" />
+        <addNotNullConstraint tableName="user_settings" columnName="view_as_list"  columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

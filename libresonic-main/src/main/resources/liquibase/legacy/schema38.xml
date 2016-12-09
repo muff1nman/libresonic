@@ -34,6 +34,6 @@
         <addColumn tableName="user_settings">
             <column name="show_chat" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="show_chat" />
+        <addNotNullConstraint tableName="user_settings" columnName="show_chat" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

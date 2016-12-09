@@ -27,7 +27,7 @@
         <addColumn tableName="user_settings">
             <column name="now_playing_allowed" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="now_playing_allowed"/>
+        <addNotNullConstraint tableName="user_settings" columnName="now_playing_allowed" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema35_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -38,7 +38,7 @@
         <addColumn tableName="user_settings">
             <column name="web_player_default" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="web_player_default"/>
+        <addNotNullConstraint tableName="user_settings" columnName="web_player_default" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema35_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -75,12 +75,12 @@
             <column name="height" type="int" />
             <column name="data" type="${binary_type}" />
         </createTable>
-        <addNotNullConstraint tableName="system_avatar" columnName="id" />
-        <addNotNullConstraint tableName="system_avatar" columnName="created_date" />
-        <addNotNullConstraint tableName="system_avatar" columnName="mime_type" />
-        <addNotNullConstraint tableName="system_avatar" columnName="width" />
-        <addNotNullConstraint tableName="system_avatar" columnName="height" />
-        <addNotNullConstraint tableName="system_avatar" columnName="data" />
+        <addNotNullConstraint tableName="system_avatar" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="system_avatar" columnName="created_date" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="system_avatar" columnName="mime_type" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="system_avatar" columnName="width" columnDataType="int"/>
+        <addNotNullConstraint tableName="system_avatar" columnName="height" columnDataType="int"/>
+        <addNotNullConstraint tableName="system_avatar" columnName="data" columnDataType="${binary_type}"/>
         <addPrimaryKey tableName="system_avatar" columnNames="id" />
         <addAutoIncrement tableName="system_avatar" columnName="id" columnDataType="int"/>
         <rollback>
@@ -103,13 +103,13 @@
             <column name="data" type="${binary_type}" />
             <column name="username" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="custom_avatar" columnName="id" />
-        <addNotNullConstraint tableName="custom_avatar" columnName="created_date" />
-        <addNotNullConstraint tableName="custom_avatar" columnName="mime_type" />
-        <addNotNullConstraint tableName="custom_avatar" columnName="width" />
-        <addNotNullConstraint tableName="custom_avatar" columnName="height" />
-        <addNotNullConstraint tableName="custom_avatar" columnName="data" />
-        <addNotNullConstraint tableName="custom_avatar" columnName="username" />
+        <addNotNullConstraint tableName="custom_avatar" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="created_date" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="mime_type" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="width" columnDataType="int"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="height" columnDataType="int"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="data" columnDataType="${binary_type}"/>
+        <addNotNullConstraint tableName="custom_avatar" columnName="username" columnDataType="varchar"/>
         <addPrimaryKey tableName="custom_avatar" columnNames="id" />
         <addAutoIncrement tableName="custom_avatar" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="custom_avatar"
@@ -131,7 +131,7 @@
         <addColumn tableName="user_settings">
             <column name="avatar_scheme" type="varchar" defaultValue="NONE"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="avatar_scheme" />
+        <addNotNullConstraint tableName="user_settings" columnName="avatar_scheme" columnDataType="varchar"/>
     </changeSet>
     <changeSet id="schema35_008" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -156,7 +156,7 @@
         <addColumn tableName="player">
             <column name="jukebox" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="jukebox"/>
+        <addNotNullConstraint tableName="player" columnName="jukebox" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema35_010_Formal" author="muff1nman">
         <preConditions onFail="MARK_RAN">

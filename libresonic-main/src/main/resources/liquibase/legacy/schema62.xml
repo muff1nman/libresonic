@@ -24,6 +24,6 @@
         <addColumn tableName="player">
             <column name="m3u_bom_enabled" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="m3u_bom_enabled" />
+        <addNotNullConstraint tableName="player" columnName="m3u_bom_enabled" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

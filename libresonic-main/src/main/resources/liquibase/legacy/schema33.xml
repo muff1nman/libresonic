@@ -24,6 +24,6 @@
         <addColumn tableName="player">
             <column name="client_side_playlist" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="client_side_playlist"/>
+        <addNotNullConstraint tableName="player" columnName="client_side_playlist" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

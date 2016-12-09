@@ -24,7 +24,7 @@
         <addColumn tableName="music_file_info">
             <column name="enabled" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="music_file_info" columnName="enabled"/>
+        <addNotNullConstraint tableName="music_file_info" columnName="enabled" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema31_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -35,6 +35,6 @@
         <addColumn tableName="transcoding">
             <column name="default_active" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="transcoding" columnName="default_active"/>
+        <addNotNullConstraint tableName="transcoding" columnName="default_active" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

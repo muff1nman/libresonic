@@ -26,7 +26,7 @@
             <column name="last_fm_username" type="varchar" />
             <column name="last_fm_password" type="varchar" />
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="last_fm_enabled" />
+        <addNotNullConstraint tableName="user_settings" columnName="last_fm_enabled" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema30_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -37,6 +37,6 @@
         <addColumn tableName="user_settings">
             <column name="transcode_scheme" type="varchar" defaultValue="OFF"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="transcode_scheme" />
+        <addNotNullConstraint tableName="user_settings" columnName="transcode_scheme" columnDataType="varchar"/>
     </changeSet>
 </databaseChangeLog>

@@ -53,17 +53,17 @@
             <column name="present" type="boolean" />
             <column name="version" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="media_file" columnName="id" />
-        <addNotNullConstraint tableName="media_file" columnName="path" />
-        <addNotNullConstraint tableName="media_file" columnName="type" />
-        <addNotNullConstraint tableName="media_file" columnName="variable_bit_rate" />
-        <addNotNullConstraint tableName="media_file" columnName="play_count" />
-        <addNotNullConstraint tableName="media_file" columnName="created" />
-        <addNotNullConstraint tableName="media_file" columnName="changed" />
-        <addNotNullConstraint tableName="media_file" columnName="last_scanned" />
-        <addNotNullConstraint tableName="media_file" columnName="children_last_updated" />
-        <addNotNullConstraint tableName="media_file" columnName="present" />
-        <addNotNullConstraint tableName="media_file" columnName="version" />
+        <addNotNullConstraint tableName="media_file" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="media_file" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="media_file" columnName="type" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="media_file" columnName="variable_bit_rate" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="media_file" columnName="play_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="media_file" columnName="created" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="media_file" columnName="changed" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="media_file" columnName="last_scanned" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="media_file" columnName="children_last_updated" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="media_file" columnName="present" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="media_file" columnName="version" columnDataType="int"/>
         <addPrimaryKey tableName="media_file" columnNames="id" />
         <addAutoIncrement tableName="media_file" columnName="id" columnDataType="int" />
         <createIndex unique="true" tableName="media_file" indexName="idx_media_file_path">
@@ -120,11 +120,11 @@
             <column name="last_scanned" type="datetime" />
             <column name="present" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="artist" columnName="id" />
-        <addNotNullConstraint tableName="artist" columnName="name" />
-        <addNotNullConstraint tableName="artist" columnName="album_count" />
-        <addNotNullConstraint tableName="artist" columnName="last_scanned" />
-        <addNotNullConstraint tableName="artist" columnName="present" />
+        <addNotNullConstraint tableName="artist" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="artist" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="artist" columnName="album_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="artist" columnName="last_scanned" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="artist" columnName="present" columnDataType="boolean"/>
         <addPrimaryKey tableName="artist" columnNames="id" />
         <addAutoIncrement tableName="artist" columnName="id" columnDataType="int" />
         <createIndex tableName="artist" indexName="idx_artist_name" unique="true">
@@ -161,16 +161,16 @@
             <column name="last_scanned" type="datetime" />
             <column name="present" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="album" columnName="id" />
-        <addNotNullConstraint tableName="album" columnName="path" />
-        <addNotNullConstraint tableName="album" columnName="name" />
-        <addNotNullConstraint tableName="album" columnName="artist" />
-        <addNotNullConstraint tableName="album" columnName="song_count" />
-        <addNotNullConstraint tableName="album" columnName="duration_seconds" />
-        <addNotNullConstraint tableName="album" columnName="play_count" />
-        <addNotNullConstraint tableName="album" columnName="created" />
-        <addNotNullConstraint tableName="album" columnName="last_scanned" />
-        <addNotNullConstraint tableName="album" columnName="present" />
+        <addNotNullConstraint tableName="album" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="album" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="album" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="album" columnName="artist" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="album" columnName="song_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="album" columnName="duration_seconds" columnDataType="int"/>
+        <addNotNullConstraint tableName="album" columnName="play_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="album" columnName="created" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="album" columnName="last_scanned" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="album" columnName="present" columnDataType="boolean"/>
         <addPrimaryKey tableName="album" columnNames="id" />
         <addAutoIncrement tableName="album" columnName="id" columnDataType="int" />
         <createIndex tableName="album" indexName="idx_album_artist_name" unique="true">
@@ -215,10 +215,10 @@
             <column name="username" type="varchar" />
             <column name="created" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="starred_media_file" columnName="id" />
-        <addNotNullConstraint tableName="starred_media_file" columnName="media_file_id" />
-        <addNotNullConstraint tableName="starred_media_file" columnName="username" />
-        <addNotNullConstraint tableName="starred_media_file" columnName="created" />
+        <addNotNullConstraint tableName="starred_media_file" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="starred_media_file" columnName="media_file_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="starred_media_file" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="starred_media_file" columnName="created" columnDataType="datetime"/>
         <addPrimaryKey tableName="starred_media_file" columnNames="id" />
         <addAutoIncrement tableName="starred_media_file" columnName="id" columnDataType="int" />
         <createIndex tableName="starred_media_file" indexName="idx_starred_media_file_media_file_id">
@@ -256,10 +256,10 @@
             <column name="username" type="varchar" />
             <column name="created" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="starred_album" columnName="id" />
-        <addNotNullConstraint tableName="starred_album" columnName="album_id" />
-        <addNotNullConstraint tableName="starred_album" columnName="username" />
-        <addNotNullConstraint tableName="starred_album" columnName="created" />
+        <addNotNullConstraint tableName="starred_album" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="starred_album" columnName="album_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="starred_album" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="starred_album" columnName="created" columnDataType="datetime"/>
         <addPrimaryKey tableName="starred_album" columnNames="id" />
         <addAutoIncrement tableName="starred_album" columnName="id" columnDataType="int" />
         <createIndex tableName="starred_album" indexName="idx_starred_album_album_id">
@@ -297,10 +297,10 @@
             <column name="username" type="varchar" />
             <column name="created" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="starred_artist" columnName="id" />
-        <addNotNullConstraint tableName="starred_artist" columnName="artist_id" />
-        <addNotNullConstraint tableName="starred_artist" columnName="username" />
-        <addNotNullConstraint tableName="starred_artist" columnName="created" />
+        <addNotNullConstraint tableName="starred_artist" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="starred_artist" columnName="artist_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="starred_artist" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="starred_artist" columnName="created" columnDataType="datetime"/>
         <addPrimaryKey tableName="starred_artist" columnNames="id" />
         <addAutoIncrement tableName="starred_artist" columnName="id" columnDataType="int"/>
         <createIndex tableName="starred_artist" indexName="idx_starred_artist_artist_id">
@@ -343,14 +343,14 @@
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="playlist" columnName="id" />
-        <addNotNullConstraint tableName="playlist" columnName="username" />
-        <addNotNullConstraint tableName="playlist" columnName="is_public" />
-        <addNotNullConstraint tableName="playlist" columnName="name" />
-        <addNotNullConstraint tableName="playlist" columnName="file_count" />
-        <addNotNullConstraint tableName="playlist" columnName="duration_seconds" />
-        <addNotNullConstraint tableName="playlist" columnName="created" />
-        <addNotNullConstraint tableName="playlist" columnName="changed" />
+        <addNotNullConstraint tableName="playlist" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="playlist" columnName="is_public" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="playlist" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="playlist" columnName="file_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist" columnName="duration_seconds" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist" columnName="created" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="playlist" columnName="changed" columnDataType="datetime"/>
         <addPrimaryKey tableName="playlist" columnNames="id" />
         <addAutoIncrement tableName="playlist" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="playlist"
@@ -384,9 +384,9 @@
             <column name="playlist_id" type="int" />
             <column name="media_file_id" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="playlist_file" columnName="id" />
-        <addNotNullConstraint tableName="playlist_file" columnName="playlist_id" />
-        <addNotNullConstraint tableName="playlist_file" columnName="media_file_id" />
+        <addNotNullConstraint tableName="playlist_file" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist_file" columnName="playlist_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist_file" columnName="media_file_id" columnDataType="int"/>
         <addPrimaryKey tableName="playlist_file" columnNames="id" />
         <addAutoIncrement tableName="playlist_file" columnName="id" columnDataType="int" />
         <addForeignKeyConstraint baseTableName="playlist_file"
@@ -420,9 +420,9 @@
             <column name="playlist_id" type="int" />
             <column name="username" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="playlist_user" columnName="id" />
-        <addNotNullConstraint tableName="playlist_user" columnName="playlist_id" />
-        <addNotNullConstraint tableName="playlist_user" columnName="username" />
+        <addNotNullConstraint tableName="playlist_user" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist_user" columnName="playlist_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="playlist_user" columnName="username" columnDataType="varchar"/>
         <addPrimaryKey tableName="playlist_user" columnNames="id" />
         <addAutoIncrement tableName="playlist_user" columnName="id" columnDataType="int"/>
         <addUniqueConstraint tableName="playlist_user" columnNames="playlist_id,username" />
@@ -457,12 +457,12 @@
             <column name="created" type="datetime" />
             <column name="changed" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="bookmark" columnName="id" />
-        <addNotNullConstraint tableName="bookmark" columnName="media_file_id" />
-        <addNotNullConstraint tableName="bookmark" columnName="position_millis" />
-        <addNotNullConstraint tableName="bookmark" columnName="username" />
-        <addNotNullConstraint tableName="bookmark" columnName="created" />
-        <addNotNullConstraint tableName="bookmark" columnName="changed" />
+        <addNotNullConstraint tableName="bookmark" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="bookmark" columnName="media_file_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="bookmark" columnName="position_millis" columnDataType="bigint"/>
+        <addNotNullConstraint tableName="bookmark" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="bookmark" columnName="created" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="bookmark" columnName="changed" columnDataType="datetime"/>
         <addPrimaryKey tableName="bookmark" columnNames="id" />
         <addAutoIncrement tableName="bookmark" columnName="id" columnDataType="int"/>
         <createIndex tableName="bookmark" indexName="idx_bookmark_media_file_id">

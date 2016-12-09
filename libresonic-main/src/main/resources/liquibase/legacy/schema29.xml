@@ -26,9 +26,9 @@
             <column name="path" type="varchar" />
             <column name="rating" type="double" />
         </createTable>
-        <addNotNullConstraint tableName="user_rating" columnName="username" />
-        <addNotNullConstraint tableName="user_rating" columnName="path" />
-        <addNotNullConstraint tableName="user_rating" columnName="rating" />
+        <addNotNullConstraint tableName="user_rating" columnName="username" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_rating" columnName="path" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="user_rating" columnName="rating" columnDataType="double"/>
         <addPrimaryKey tableName="user_rating" columnNames="username,path" />
         <addForeignKeyConstraint baseTableName="user_rating"
                                  baseColumnNames="username"

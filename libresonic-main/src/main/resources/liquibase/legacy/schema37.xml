@@ -51,7 +51,7 @@
         <addColumn tableName="music_folder">
             <column name="changed" type="datetime" defaultValueComputed="${curr_date_expr}"/>
         </addColumn>
-        <addNotNullConstraint tableName="music_folder" columnName="changed" />
+        <addNotNullConstraint tableName="music_folder" columnName="changed" columnDataType="datetime"/>
     </changeSet>
     <changeSet id="schema37_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -62,7 +62,7 @@
         <addColumn tableName="internet_radio">
             <column name="changed" type="datetime" defaultValueComputed="${curr_date_expr}"/>
         </addColumn>
-        <addNotNullConstraint tableName="internet_radio" columnName="changed" />
+        <addNotNullConstraint tableName="internet_radio" columnName="changed" columnDataType="datetime"/>
     </changeSet>
     <changeSet id="schema37_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -73,6 +73,6 @@
         <addColumn tableName="user_settings">
             <column name="changed" type="datetime" defaultValueComputed="${curr_date_expr}"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="changed" />
+        <addNotNullConstraint tableName="user_settings" columnName="changed" columnDataType="datetime"/>
     </changeSet>
 </databaseChangeLog>

@@ -24,7 +24,7 @@
         <addColumn tableName="user_settings">
             <column name="show_now_playing" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="show_now_playing"/>
+        <addNotNullConstraint tableName="user_settings" columnName="show_now_playing" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema32_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -35,7 +35,7 @@
         <addColumn tableName="user_settings">
             <column name="selected_music_folder_id" type="int" defaultValueNumeric="-1"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="selected_music_folder_id"/>
+        <addNotNullConstraint tableName="user_settings" columnName="selected_music_folder_id" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema32_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -51,9 +51,9 @@
             <column name="status" type="varchar" />
             <column name="error_message" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="podcast_channel" columnName="id" />
-        <addNotNullConstraint tableName="podcast_channel" columnName="url" />
-        <addNotNullConstraint tableName="podcast_channel" columnName="status" />
+        <addNotNullConstraint tableName="podcast_channel" columnName="id"  columnDataType="int"/>
+        <addNotNullConstraint tableName="podcast_channel" columnName="url" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="podcast_channel" columnName="status" columnDataType="varchar"/>
         <addPrimaryKey tableName="podcast_channel" columnNames="id" />
         <addAutoIncrement tableName="podcast_channel" columnName="id" columnDataType="int"/>
         <rollback>
@@ -80,10 +80,10 @@
             <column name="status" type="varchar" />
             <column name="error_message" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="podcast_episode" columnName="id" />
-        <addNotNullConstraint tableName="podcast_episode" columnName="channel_id" />
-        <addNotNullConstraint tableName="podcast_episode" columnName="url" />
-        <addNotNullConstraint tableName="podcast_episode" columnName="status" />
+        <addNotNullConstraint tableName="podcast_episode" columnName="id"  columnDataType="int"/>
+        <addNotNullConstraint tableName="podcast_episode" columnName="channel_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="podcast_episode" columnName="url" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="podcast_episode" columnName="status" columnDataType="varchar"/>
         <addPrimaryKey tableName="podcast_episode" columnNames="id" />
         <addAutoIncrement tableName="podcast_episode" columnName="id" columnDataType="int"/>
         <addForeignKeyConstraint baseTableName="podcast_episode"

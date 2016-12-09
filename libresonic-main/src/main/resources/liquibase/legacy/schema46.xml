@@ -30,11 +30,11 @@
             <column name="step2" type="varchar" />
             <column name="step3" type="varchar" />
         </createTable>
-        <addNotNullConstraint tableName="transcoding2" columnName="step1" />
-        <addNotNullConstraint tableName="transcoding2" columnName="target_format" />
-        <addNotNullConstraint tableName="transcoding2" columnName="source_formats" />
-        <addNotNullConstraint tableName="transcoding2" columnName="name" />
-        <addNotNullConstraint tableName="transcoding2" columnName="id" />
+        <addNotNullConstraint tableName="transcoding2" columnName="step1" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="target_format" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="source_formats" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="name" columnDataType="varchar"/>
+        <addNotNullConstraint tableName="transcoding2" columnName="id" columnDataType="int"/>
         <addPrimaryKey tableName="transcoding2" columnNames="id" />
         <addAutoIncrement tableName="transcoding2" columnName="id" columnDataType="int"/>
         <insert tableName="transcoding2">
@@ -63,8 +63,8 @@
             <column name="player_id" type="int"/>
             <column name="transcoding_id" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="player_transcoding2" columnName="player_id" />
-        <addNotNullConstraint tableName="player_transcoding2" columnName="transcoding_id" />
+        <addNotNullConstraint tableName="player_transcoding2" columnName="player_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="player_transcoding2" columnName="transcoding_id" columnDataType="int"/>
         <addPrimaryKey tableName="player_transcoding2" columnNames="player_id,transcoding_id" />
         <addForeignKeyConstraint baseTableName="player_transcoding2" baseColumnNames="player_id"
                                  constraintName="pt2_p_fk"
@@ -93,6 +93,6 @@
         <addColumn tableName="transcoding2">
             <column name="default_active" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="transcoding2" columnName="default_active" />
+        <addNotNullConstraint tableName="transcoding2" columnName="default_active" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>
