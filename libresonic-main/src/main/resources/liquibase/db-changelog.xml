@@ -1,7 +1,9 @@
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="binary_type" dbms="hsqldb" value="binary" />
+    <property name="binary_type" value="blob" />
+    <property name="curr_date_expr" value="current_timestamp" />
     <include file="legacy/legacy-changelog.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
