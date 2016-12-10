@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 20</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="20" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="20" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 20</where>
             </delete>
         </rollback>
@@ -18,179 +18,179 @@
     <changeSet id="schema47_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="media_file" />
+                <tableExists tableName="MEDIA_FILE" />
             </not>
         </preConditions>
-        <createTable tableName="media_file">
-            <column name="id" type="int"/>
-            <column name="path" type="${varchar_type}" />
-            <column name="folder" type="${varchar_type}" />
-            <column name="type" type="${varchar_type}" />
-            <column name="format" type="${varchar_type}" />
-            <column name="title" type="${varchar_type}" />
-            <column name="album" type="${varchar_type}" />
-            <column name="artist" type="${varchar_type}" />
-            <column name="album_artist" type="${varchar_type}" />
-            <column name="disc_number" type="int" />
-            <column name="track_number" type="int" />
-            <column name="year" type="int" />
-            <column name="genre" type="${varchar_type}" />
-            <column name="bit_rate" type="int" />
-            <column name="variable_bit_rate" type="boolean" />
-            <column name="duration_seconds" type="int" />
-            <column name="file_size" type="bigint" />
-            <column name="width" type="int" />
-            <column name="height" type="int" />
-            <column name="cover_art_path" type="${varchar_type}" />
-            <column name="parent_path" type="${varchar_type}" />
-            <column name="play_count" type="int" />
-            <column name="last_played" type="datetime" />
-            <column name="comment" type="${varchar_type}" />
-            <column name="created" type="datetime" />
-            <column name="changed" type="datetime" />
-            <column name="last_scanned" type="datetime" />
-            <column name="children_last_updated" type="datetime" />
-            <column name="present" type="boolean" />
-            <column name="version" type="int" />
+        <createTable tableName="MEDIA_FILE">
+            <column name="ID" type="int"/>
+            <column name="PATH" type="${varchar_type}" />
+            <column name="FOLDER" type="${varchar_type}" />
+            <column name="TYPE" type="${varchar_type}" />
+            <column name="FORMAT" type="${varchar_type}" />
+            <column name="TITLE" type="${varchar_type}" />
+            <column name="ALBUM" type="${varchar_type}" />
+            <column name="ARTIST" type="${varchar_type}" />
+            <column name="ALBUM_ARTIST" type="${varchar_type}" />
+            <column name="DISC_NUMBER" type="int" />
+            <column name="TRACK_NUMBER" type="int" />
+            <column name="YEAR" type="int" />
+            <column name="GENRE" type="${varchar_type}" />
+            <column name="BIT_RATE" type="int" />
+            <column name="VARIABLE_BIT_RATE" type="boolean" />
+            <column name="DURATION_SECONDS" type="int" />
+            <column name="FILE_SIZE" type="bigint" />
+            <column name="WIDTH" type="int" />
+            <column name="HEIGHT" type="int" />
+            <column name="COVER_ART_PATH" type="${varchar_type}" />
+            <column name="PARENT_PATH" type="${varchar_type}" />
+            <column name="PLAY_COUNT" type="int" />
+            <column name="LAST_PLAYED" type="datetime" />
+            <column name="COMMENT" type="${varchar_type}" />
+            <column name="CREATED" type="datetime" />
+            <column name="CHANGED" type="datetime" />
+            <column name="LAST_SCANNED" type="datetime" />
+            <column name="CHILDREN_LAST_UPDATED" type="datetime" />
+            <column name="PRESENT" type="boolean" />
+            <column name="VERSION" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="media_file" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="media_file" columnName="path" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="media_file" columnName="type" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="media_file" columnName="variable_bit_rate" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="media_file" columnName="play_count" columnDataType="int"/>
-        <addNotNullConstraint tableName="media_file" columnName="created" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="media_file" columnName="changed" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="media_file" columnName="last_scanned" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="media_file" columnName="children_last_updated" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="media_file" columnName="present" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="media_file" columnName="version" columnDataType="int"/>
-        <addPrimaryKey tableName="media_file" columnNames="id" />
-        <addAutoIncrement tableName="media_file" columnName="id" columnDataType="int" />
-        <createIndex unique="true" tableName="media_file" indexName="idx_media_file_path">
-            <column name="path"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="PATH" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="TYPE" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="VARIABLE_BIT_RATE" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="PLAY_COUNT" columnDataType="int"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="CREATED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="CHANGED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="LAST_SCANNED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="CHILDREN_LAST_UPDATED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="PRESENT" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="MEDIA_FILE" columnName="VERSION" columnDataType="int"/>
+        <addPrimaryKey tableName="MEDIA_FILE" columnNames="ID" />
+        <addAutoIncrement tableName="MEDIA_FILE" columnName="ID" columnDataType="int" />
+        <createIndex unique="true" tableName="MEDIA_FILE" indexName="idx_media_file_path">
+            <column name="PATH"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_parent_path">
-            <column name="parent_path"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_parent_path">
+            <column name="PARENT_PATH"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_type">
-            <column name="type"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_type">
+            <column name="TYPE"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_album">
-            <column name="album"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_album">
+            <column name="ALBUM"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_artist">
-            <column name="artist"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_artist">
+            <column name="ARTIST"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_album_artist">
-            <column name="album_artist"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_album_artist">
+            <column name="ALBUM_ARTIST"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_present">
-            <column name="present"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_present">
+            <column name="PRESENT"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_genre">
-            <column name="genre"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_genre">
+            <column name="GENRE"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_play_count">
-            <column name="play_count"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_play_count">
+            <column name="PLAY_COUNT"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_created">
-            <column name="created"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_created">
+            <column name="CREATED"/>
         </createIndex>
-        <createIndex tableName="media_file" indexName="idx_media_file_last_played">
-            <column name="last_played"/>
+        <createIndex tableName="MEDIA_FILE" indexName="idx_media_file_last_played">
+            <column name="LAST_PLAYED"/>
         </createIndex>
         <sql dbms="hsql">
             set table media_file type cached
         </sql>
         <rollback>
-            <dropTable tableName="media_file" />
+            <dropTable tableName="MEDIA_FILE" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="artist" />
+                <tableExists tableName="ARTIST" />
             </not>
         </preConditions>
-        <createTable tableName="artist">
-            <column name="id" type="int"/>
-            <column name="name" type="${varchar_type}" />
-            <column name="cover_art_path" type="${varchar_type}" />
-            <column name="album_count" type="int" defaultValueNumeric="0"/>
-            <column name="last_scanned" type="datetime" />
-            <column name="present" type="boolean" />
+        <createTable tableName="ARTIST">
+            <column name="ID" type="int"/>
+            <column name="NAME" type="${varchar_type}" />
+            <column name="COVER_ART_PATH" type="${varchar_type}" />
+            <column name="ALBUM_COUNT" type="int" defaultValueNumeric="0"/>
+            <column name="LAST_SCANNED" type="datetime" />
+            <column name="PRESENT" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="artist" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="artist" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="artist" columnName="album_count" columnDataType="int"/>
-        <addNotNullConstraint tableName="artist" columnName="last_scanned" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="artist" columnName="present" columnDataType="boolean"/>
-        <addPrimaryKey tableName="artist" columnNames="id" />
-        <addAutoIncrement tableName="artist" columnName="id" columnDataType="int" />
-        <createIndex tableName="artist" indexName="idx_artist_name" unique="true">
-            <column name="name"/>
+        <addNotNullConstraint tableName="ARTIST" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="ARTIST" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="ARTIST" columnName="ALBUM_COUNT" columnDataType="int"/>
+        <addNotNullConstraint tableName="ARTIST" columnName="LAST_SCANNED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="ARTIST" columnName="PRESENT" columnDataType="boolean"/>
+        <addPrimaryKey tableName="ARTIST" columnNames="ID" />
+        <addAutoIncrement tableName="ARTIST" columnName="ID" columnDataType="int" />
+        <createIndex tableName="ARTIST" indexName="idx_artist_name" unique="true">
+            <column name="NAME"/>
         </createIndex>
-        <createIndex tableName="artist" indexName="idx_artist_present" >
-            <column name="present"/>
+        <createIndex tableName="ARTIST" indexName="idx_artist_present" >
+            <column name="PRESENT"/>
         </createIndex>
         <sql dbms="hsql">
             set table artist type cached
         </sql>
         <rollback>
-            <dropTable tableName="artist" />
+            <dropTable tableName="ARTIST" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="album" />
+                <tableExists tableName="ALBUM" />
             </not>
         </preConditions>
-        <createTable tableName="album">
-            <column name="id" type="int"/>
-            <column name="path" type="${varchar_type}" />
-            <column name="name" type="${varchar_type}" />
-            <column name="artist" type="${varchar_type}" />
-            <column name="song_count" type="int" defaultValueNumeric="0" />
-            <column name="duration_seconds" type="int" defaultValueNumeric="0" />
-            <column name="cover_art_path" type="${varchar_type}" />
-            <column name="play_count" type="int" defaultValueNumeric="0" />
-            <column name="last_played" type="datetime" />
-            <column name="comment" type="${varchar_type}" />
-            <column name="created" type="datetime" />
-            <column name="last_scanned" type="datetime" />
-            <column name="present" type="boolean" />
+        <createTable tableName="ALBUM">
+            <column name="ID" type="int"/>
+            <column name="PATH" type="${varchar_type}" />
+            <column name="NAME" type="${varchar_type}" />
+            <column name="ARTIST" type="${varchar_type}" />
+            <column name="SONG_COUNT" type="int" defaultValueNumeric="0" />
+            <column name="DURATION_SECONDS" type="int" defaultValueNumeric="0" />
+            <column name="COVER_ART_PATH" type="${varchar_type}" />
+            <column name="PLAY_COUNT" type="int" defaultValueNumeric="0" />
+            <column name="LAST_PLAYED" type="datetime" />
+            <column name="COMMENT" type="${varchar_type}" />
+            <column name="CREATED" type="datetime" />
+            <column name="LAST_SCANNED" type="datetime" />
+            <column name="PRESENT" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="album" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="album" columnName="path" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="album" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="album" columnName="artist" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="album" columnName="song_count" columnDataType="int"/>
-        <addNotNullConstraint tableName="album" columnName="duration_seconds" columnDataType="int"/>
-        <addNotNullConstraint tableName="album" columnName="play_count" columnDataType="int"/>
-        <addNotNullConstraint tableName="album" columnName="created" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="album" columnName="last_scanned" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="album" columnName="present" columnDataType="boolean"/>
-        <addPrimaryKey tableName="album" columnNames="id" />
-        <addAutoIncrement tableName="album" columnName="id" columnDataType="int" />
-        <createIndex tableName="album" indexName="idx_album_artist_name" unique="true">
-            <column name="artist" />
-            <column name="name"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="PATH" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="ARTIST" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="SONG_COUNT" columnDataType="int"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="DURATION_SECONDS" columnDataType="int"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="PLAY_COUNT" columnDataType="int"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="CREATED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="LAST_SCANNED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="ALBUM" columnName="PRESENT" columnDataType="boolean"/>
+        <addPrimaryKey tableName="ALBUM" columnNames="ID" />
+        <addAutoIncrement tableName="ALBUM" columnName="ID" columnDataType="int" />
+        <createIndex tableName="ALBUM" indexName="idx_album_artist_name" unique="true">
+            <column name="ARTIST" />
+            <column name="NAME"/>
         </createIndex>
-        <createIndex tableName="album" indexName="idx_album_play_count" >
-            <column name="play_count"/>
+        <createIndex tableName="ALBUM" indexName="idx_album_play_count" >
+            <column name="PLAY_COUNT"/>
         </createIndex>
-        <createIndex tableName="album" indexName="idx_album_last_played" >
-            <column name="last_played"/>
+        <createIndex tableName="ALBUM" indexName="idx_album_last_played" >
+            <column name="LAST_PLAYED"/>
         </createIndex>
-        <createIndex tableName="album" indexName="idx_album_present" >
-            <column name="present"/>
+        <createIndex tableName="ALBUM" indexName="idx_album_present" >
+            <column name="PRESENT"/>
         </createIndex>
         <sql dbms="hsql">
             set table album type cached
         </sql>
         <rollback>
-            <dropTable tableName="album" />
+            <dropTable tableName="ALBUM" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_005" author="muff1nman">
@@ -199,293 +199,293 @@
                 <indexExists indexName="idx_album_name" />
             </not>
         </preConditions>
-        <createIndex tableName="album" indexName="idx_album_name">
-            <column name="name"/>
+        <createIndex tableName="ALBUM" indexName="idx_album_name">
+            <column name="NAME"/>
         </createIndex>
     </changeSet>
     <changeSet id="schema47_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="starred_media_file" />
+                <tableExists tableName="STARRED_MEDIA_FILE" />
             </not>
         </preConditions>
-        <createTable tableName="starred_media_file">
-            <column name="id" type="int"/>
-            <column name="media_file_id" type="int" />
-            <column name="username" type="${varchar_type}" />
-            <column name="created" type="datetime" />
+        <createTable tableName="STARRED_MEDIA_FILE">
+            <column name="ID" type="int"/>
+            <column name="MEDIA_FILE_ID" type="int" />
+            <column name="USERNAME" type="${varchar_type}" />
+            <column name="CREATED" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="starred_media_file" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_media_file" columnName="media_file_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_media_file" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="starred_media_file" columnName="created" columnDataType="datetime"/>
-        <addPrimaryKey tableName="starred_media_file" columnNames="id" />
-        <addAutoIncrement tableName="starred_media_file" columnName="id" columnDataType="int" />
-        <createIndex tableName="starred_media_file" indexName="idx_starred_media_file_media_file_id">
-            <column name="media_file_id"/>
+        <addNotNullConstraint tableName="STARRED_MEDIA_FILE" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="STARRED_MEDIA_FILE" columnName="MEDIA_FILE_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="STARRED_MEDIA_FILE" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="STARRED_MEDIA_FILE" columnName="CREATED" columnDataType="datetime"/>
+        <addPrimaryKey tableName="STARRED_MEDIA_FILE" columnNames="ID" />
+        <addAutoIncrement tableName="STARRED_MEDIA_FILE" columnName="ID" columnDataType="int" />
+        <createIndex tableName="STARRED_MEDIA_FILE" indexName="idx_starred_media_file_media_file_id">
+            <column name="MEDIA_FILE_ID"/>
         </createIndex>
-        <createIndex tableName="starred_media_file" indexName="idx_starred_media_file_username">
-            <column name="username"/>
+        <createIndex tableName="STARRED_MEDIA_FILE" indexName="idx_starred_media_file_username">
+            <column name="USERNAME"/>
         </createIndex>
-        <addForeignKeyConstraint baseTableName="starred_media_file"
-                                 baseColumnNames="media_file_id"
+        <addForeignKeyConstraint baseTableName="STARRED_MEDIA_FILE"
+                                 baseColumnNames="MEDIA_FILE_ID"
                                  constraintName="smf_mf_fk"
-                                 referencedTableName="media_file"
-                                 referencedColumnNames="id"
+                                 referencedTableName="MEDIA_FILE"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="starred_media_file"
-                                 baseColumnNames="username"
+        <addForeignKeyConstraint baseTableName="STARRED_MEDIA_FILE"
+                                 baseColumnNames="USERNAME"
                                  constraintName="smf_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE" />
-        <addUniqueConstraint tableName="starred_media_file" columnNames="media_file_id,username" />
+        <addUniqueConstraint tableName="STARRED_MEDIA_FILE" columnNames="MEDIA_FILE_ID,USERNAME" />
         <rollback>
-            <dropTable tableName="starred_media_file" />
+            <dropTable tableName="STARRED_MEDIA_FILE" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="starred_album" />
+                <tableExists tableName="STARRED_ALBUM" />
             </not>
         </preConditions>
-        <createTable tableName="starred_album">
-            <column name="id" type="int"/>
-            <column name="album_id" type="int" />
-            <column name="username" type="${varchar_type}" />
-            <column name="created" type="datetime" />
+        <createTable tableName="STARRED_ALBUM">
+            <column name="ID" type="int"/>
+            <column name="ALBUM_ID" type="int" />
+            <column name="USERNAME" type="${varchar_type}" />
+            <column name="CREATED" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="starred_album" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_album" columnName="album_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_album" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="starred_album" columnName="created" columnDataType="datetime"/>
-        <addPrimaryKey tableName="starred_album" columnNames="id" />
-        <addAutoIncrement tableName="starred_album" columnName="id" columnDataType="int" />
-        <createIndex tableName="starred_album" indexName="idx_starred_album_album_id">
-            <column name="album_id"/>
+        <addNotNullConstraint tableName="STARRED_ALBUM" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="STARRED_ALBUM" columnName="ALBUM_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="STARRED_ALBUM" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="STARRED_ALBUM" columnName="CREATED" columnDataType="datetime"/>
+        <addPrimaryKey tableName="STARRED_ALBUM" columnNames="ID" />
+        <addAutoIncrement tableName="STARRED_ALBUM" columnName="ID" columnDataType="int" />
+        <createIndex tableName="STARRED_ALBUM" indexName="idx_starred_album_album_id">
+            <column name="ALBUM_ID"/>
         </createIndex>
-        <createIndex tableName="starred_album" indexName="idx_starred_album_username">
-            <column name="username"/>
+        <createIndex tableName="STARRED_ALBUM" indexName="idx_starred_album_username">
+            <column name="USERNAME"/>
         </createIndex>
-        <addForeignKeyConstraint baseTableName="starred_album"
-                                 baseColumnNames="album_id"
+        <addForeignKeyConstraint baseTableName="STARRED_ALBUM"
+                                 baseColumnNames="ALBUM_ID"
                                  constraintName="sa_a_fk"
-                                 referencedTableName="album"
-                                 referencedColumnNames="id"
+                                 referencedTableName="ALBUM"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="starred_album"
-                                 baseColumnNames="username"
+        <addForeignKeyConstraint baseTableName="STARRED_ALBUM"
+                                 baseColumnNames="USERNAME"
                                  constraintName="sa_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE" />
-        <addUniqueConstraint tableName="starred_album" columnNames="album_id,username" />
+        <addUniqueConstraint tableName="STARRED_ALBUM" columnNames="ALBUM_ID,USERNAME" />
         <rollback>
-            <dropTable tableName="starred_album" />
+            <dropTable tableName="STARRED_ALBUM" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_008" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="starred_artist" />
+                <tableExists tableName="STARRED_ARTIST" />
             </not>
         </preConditions>
-        <createTable tableName="starred_artist">
-            <column name="id" type="int"/>
-            <column name="artist_id" type="int"/>
-            <column name="username" type="${varchar_type}" />
-            <column name="created" type="datetime" />
+        <createTable tableName="STARRED_ARTIST">
+            <column name="ID" type="int"/>
+            <column name="ARTIST_ID" type="int"/>
+            <column name="USERNAME" type="${varchar_type}" />
+            <column name="CREATED" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="starred_artist" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_artist" columnName="artist_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="starred_artist" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="starred_artist" columnName="created" columnDataType="datetime"/>
-        <addPrimaryKey tableName="starred_artist" columnNames="id" />
-        <addAutoIncrement tableName="starred_artist" columnName="id" columnDataType="int"/>
-        <createIndex tableName="starred_artist" indexName="idx_starred_artist_artist_id">
-            <column name="artist_id"/>
+        <addNotNullConstraint tableName="STARRED_ARTIST" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="STARRED_ARTIST" columnName="ARTIST_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="STARRED_ARTIST" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="STARRED_ARTIST" columnName="CREATED" columnDataType="datetime"/>
+        <addPrimaryKey tableName="STARRED_ARTIST" columnNames="ID" />
+        <addAutoIncrement tableName="STARRED_ARTIST" columnName="ID" columnDataType="int"/>
+        <createIndex tableName="STARRED_ARTIST" indexName="idx_starred_artist_artist_id">
+            <column name="ARTIST_ID"/>
         </createIndex>
-        <createIndex tableName="starred_artist" indexName="idx_starred_artist_username">
-            <column name="username"/>
+        <createIndex tableName="STARRED_ARTIST" indexName="idx_starred_artist_username">
+            <column name="USERNAME"/>
         </createIndex>
-        <addForeignKeyConstraint baseTableName="starred_artist"
-                                 baseColumnNames="artist_id"
+        <addForeignKeyConstraint baseTableName="STARRED_ARTIST"
+                                 baseColumnNames="ARTIST_ID"
                                  constraintName="sar_a_fk"
-                                 referencedTableName="artist"
-                                 referencedColumnNames="id"
+                                 referencedTableName="ARTIST"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="starred_artist"
-                                 baseColumnNames="username"
+        <addForeignKeyConstraint baseTableName="STARRED_ARTIST"
+                                 baseColumnNames="USERNAME"
                                  constraintName="sar_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE" />
-        <addUniqueConstraint tableName="starred_artist" columnNames="artist_id,username" />
+        <addUniqueConstraint tableName="STARRED_ARTIST" columnNames="ARTIST_ID,USERNAME" />
         <rollback>
-            <dropTable tableName="starred_artist" />
+            <dropTable tableName="STARRED_ARTIST" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_009" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="playlist" />
+                <tableExists tableName="PLAYLIST" />
             </not>
         </preConditions>
-        <createTable tableName="playlist">
-            <column name="id" type="int"/>
-            <column name="username" type="${varchar_type}" />
-            <column name="is_public" type="boolean" />
-            <column name="name" type="${varchar_type}" />
-            <column name="comment" type="${varchar_type}" />
-            <column name="file_count" type="int" defaultValueNumeric="0"/>
-            <column name="duration_seconds" type="int" defaultValueNumeric="0" />
-            <column name="created" type="datetime" />
-            <column name="changed" type="datetime" />
+        <createTable tableName="PLAYLIST">
+            <column name="ID" type="int"/>
+            <column name="USERNAME" type="${varchar_type}" />
+            <column name="IS_PUBLIC" type="boolean" />
+            <column name="NAME" type="${varchar_type}" />
+            <column name="COMMENT" type="${varchar_type}" />
+            <column name="FILE_COUNT" type="int" defaultValueNumeric="0"/>
+            <column name="DURATION_SECONDS" type="int" defaultValueNumeric="0" />
+            <column name="CREATED" type="datetime" />
+            <column name="CHANGED" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="playlist" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="playlist" columnName="is_public" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="playlist" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="playlist" columnName="file_count" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist" columnName="duration_seconds" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist" columnName="created" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="playlist" columnName="changed" columnDataType="datetime"/>
-        <addPrimaryKey tableName="playlist" columnNames="id" />
-        <addAutoIncrement tableName="playlist" columnName="id" columnDataType="int"/>
-        <addForeignKeyConstraint baseTableName="playlist"
-                                 baseColumnNames="username"
+        <addNotNullConstraint tableName="PLAYLIST" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="IS_PUBLIC" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="FILE_COUNT" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="DURATION_SECONDS" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="CREATED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="PLAYLIST" columnName="CHANGED" columnDataType="datetime"/>
+        <addPrimaryKey tableName="PLAYLIST" columnNames="ID" />
+        <addAutoIncrement tableName="PLAYLIST" columnName="ID" columnDataType="int"/>
+        <addForeignKeyConstraint baseTableName="PLAYLIST"
+                                 baseColumnNames="USERNAME"
                                  constraintName="p_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE"/>
         <rollback>
-            <dropTable tableName="playlist" />
+            <dropTable tableName="PLAYLIST" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_010" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="playlist" columnName="imported_from" />
+                <columnExists tableName="PLAYLIST" columnName="IMPORTED_FROM" />
             </not>
         </preConditions>
-        <addColumn tableName="playlist">
-            <column name="imported_from" type="${varchar_type}"/>
+        <addColumn tableName="PLAYLIST">
+            <column name="IMPORTED_FROM" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema47_011" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="playlist_file" />
+                <tableExists tableName="PLAYLIST_FILE" />
             </not>
         </preConditions>
-        <createTable tableName="playlist_file">
-            <column name="id" type="int"/>
-            <column name="playlist_id" type="int" />
-            <column name="media_file_id" type="int" />
+        <createTable tableName="PLAYLIST_FILE">
+            <column name="ID" type="int"/>
+            <column name="PLAYLIST_ID" type="int" />
+            <column name="MEDIA_FILE_ID" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="playlist_file" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist_file" columnName="playlist_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist_file" columnName="media_file_id" columnDataType="int"/>
-        <addPrimaryKey tableName="playlist_file" columnNames="id" />
-        <addAutoIncrement tableName="playlist_file" columnName="id" columnDataType="int" />
-        <addForeignKeyConstraint baseTableName="playlist_file"
-                                 baseColumnNames="playlist_id"
+        <addNotNullConstraint tableName="PLAYLIST_FILE" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST_FILE" columnName="PLAYLIST_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST_FILE" columnName="MEDIA_FILE_ID" columnDataType="int"/>
+        <addPrimaryKey tableName="PLAYLIST_FILE" columnNames="ID" />
+        <addAutoIncrement tableName="PLAYLIST_FILE" columnName="ID" columnDataType="int" />
+        <addForeignKeyConstraint baseTableName="PLAYLIST_FILE"
+                                 baseColumnNames="PLAYLIST_ID"
                                  constraintName="pf_p_fk"
-                                 referencedTableName="playlist"
-                                 referencedColumnNames="id"
+                                 referencedTableName="PLAYLIST"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE" />
-        <addForeignKeyConstraint baseTableName="playlist_file"
-                                 baseColumnNames="media_file_id"
+        <addForeignKeyConstraint baseTableName="PLAYLIST_FILE"
+                                 baseColumnNames="MEDIA_FILE_ID"
                                  constraintName="pf_mf_fk"
-                                 referencedTableName="media_file"
-                                 referencedColumnNames="id"
+                                 referencedTableName="MEDIA_FILE"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE" />
 
         <sql dbms="hsql">
             set table playlist_file type cached
         </sql>
         <rollback>
-            <dropTable tableName="playlist_file" />
+            <dropTable tableName="PLAYLIST_FILE" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_012" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="playlist_user" />
+                <tableExists tableName="PLAYLIST_USER" />
             </not>
         </preConditions>
-        <createTable tableName="playlist_user">
-            <column name="id" type="int"/>
-            <column name="playlist_id" type="int" />
-            <column name="username" type="${varchar_type}" />
+        <createTable tableName="PLAYLIST_USER">
+            <column name="ID" type="int"/>
+            <column name="PLAYLIST_ID" type="int" />
+            <column name="USERNAME" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="playlist_user" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist_user" columnName="playlist_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="playlist_user" columnName="username" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="playlist_user" columnNames="id" />
-        <addAutoIncrement tableName="playlist_user" columnName="id" columnDataType="int"/>
-        <addUniqueConstraint tableName="playlist_user" columnNames="playlist_id,username" />
-        <addForeignKeyConstraint baseTableName="playlist_user"
-                                 baseColumnNames="playlist_id"
+        <addNotNullConstraint tableName="PLAYLIST_USER" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST_USER" columnName="PLAYLIST_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYLIST_USER" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addPrimaryKey tableName="PLAYLIST_USER" columnNames="ID" />
+        <addAutoIncrement tableName="PLAYLIST_USER" columnName="ID" columnDataType="int"/>
+        <addUniqueConstraint tableName="PLAYLIST_USER" columnNames="PLAYLIST_ID,USERNAME" />
+        <addForeignKeyConstraint baseTableName="PLAYLIST_USER"
+                                 baseColumnNames="PLAYLIST_ID"
                                  constraintName="pu_p_fk"
-                                 referencedTableName="playlist"
-                                 referencedColumnNames="id"
+                                 referencedTableName="PLAYLIST"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE" />
-        <addForeignKeyConstraint baseTableName="playlist_user"
-                                 baseColumnNames="username"
+        <addForeignKeyConstraint baseTableName="PLAYLIST_USER"
+                                 baseColumnNames="USERNAME"
                                  constraintName="pu_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE" />
         <rollback>
-            <dropTable tableName="playlist_user" />
+            <dropTable tableName="PLAYLIST_USER" />
         </rollback>
     </changeSet>
     <changeSet id="schema47_013" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="bookmark" />
+                <tableExists tableName="BOOKMARK" />
             </not>
         </preConditions>
-        <createTable tableName="bookmark">
-            <column name="id" type="int"/>
-            <column name="media_file_id" type="int" />
-            <column name="position_millis" type="bigint" />
-            <column name="username" type="${varchar_type}" />
-            <column name="comment" type="${varchar_type}" />
-            <column name="created" type="datetime" />
-            <column name="changed" type="datetime" />
+        <createTable tableName="BOOKMARK">
+            <column name="ID" type="int"/>
+            <column name="MEDIA_FILE_ID" type="int" />
+            <column name="POSITION_MILLIS" type="bigint" />
+            <column name="USERNAME" type="${varchar_type}" />
+            <column name="COMMENT" type="${varchar_type}" />
+            <column name="CREATED" type="datetime" />
+            <column name="CHANGED" type="datetime" />
         </createTable>
-        <addNotNullConstraint tableName="bookmark" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="bookmark" columnName="media_file_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="bookmark" columnName="position_millis" columnDataType="bigint"/>
-        <addNotNullConstraint tableName="bookmark" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="bookmark" columnName="created" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="bookmark" columnName="changed" columnDataType="datetime"/>
-        <addPrimaryKey tableName="bookmark" columnNames="id" />
-        <addAutoIncrement tableName="bookmark" columnName="id" columnDataType="int"/>
-        <createIndex tableName="bookmark" indexName="idx_bookmark_media_file_id">
-            <column name="media_file_id"/>
+        <addNotNullConstraint tableName="BOOKMARK" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="BOOKMARK" columnName="MEDIA_FILE_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="BOOKMARK" columnName="POSITION_MILLIS" columnDataType="bigint"/>
+        <addNotNullConstraint tableName="BOOKMARK" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="BOOKMARK" columnName="CREATED" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="BOOKMARK" columnName="CHANGED" columnDataType="datetime"/>
+        <addPrimaryKey tableName="BOOKMARK" columnNames="ID" />
+        <addAutoIncrement tableName="BOOKMARK" columnName="ID" columnDataType="int"/>
+        <createIndex tableName="BOOKMARK" indexName="idx_bookmark_media_file_id">
+            <column name="MEDIA_FILE_ID"/>
         </createIndex>
-        <createIndex tableName="bookmark" indexName="idx_bookmark_username">
-            <column name="username"/>
+        <createIndex tableName="BOOKMARK" indexName="idx_bookmark_username">
+            <column name="USERNAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="media_file_id,username" tableName="bookmark" />
-        <addForeignKeyConstraint baseTableName="bookmark"
-                                 baseColumnNames="username"
+        <addUniqueConstraint columnNames="MEDIA_FILE_ID,USERNAME" tableName="BOOKMARK" />
+        <addForeignKeyConstraint baseTableName="BOOKMARK"
+                                 baseColumnNames="USERNAME"
                                  constraintName="b_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="bookmark"
-                                 baseColumnNames="media_file_id"
+        <addForeignKeyConstraint baseTableName="BOOKMARK"
+                                 baseColumnNames="MEDIA_FILE_ID"
                                  constraintName="b_mf_fk"
-                                 referencedTableName="media_file"
-                                 referencedColumnNames="id"
+                                 referencedTableName="MEDIA_FILE"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
         <rollback>
-            <dropTable tableName="bookmark" />
+            <dropTable tableName="BOOKMARK" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

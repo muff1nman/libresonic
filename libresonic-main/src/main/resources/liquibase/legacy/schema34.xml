@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 10</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="10" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="10" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 10</where>
             </delete>
         </rollback>
@@ -18,23 +18,23 @@
     <changeSet id="schema34_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user" columnName="ldap_authenticated" />
+                <columnExists tableName="USER" columnName="LDAP_AUTHENTICATED" />
             </not>
         </preConditions>
-        <addColumn tableName="user">
-            <column name="ldap_authenticated" type="boolean" defaultValueBoolean="false"/>
+        <addColumn tableName="USER">
+            <column name="LDAP_AUTHENTICATED" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user" columnName="ldap_authenticated" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER" columnName="LDAP_AUTHENTICATED" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema34_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="party_mode_enabled" />
+                <columnExists tableName="USER_SETTINGS" columnName="PARTY_MODE_ENABLED" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="party_mode_enabled" type="boolean" defaultValueBoolean="false"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="PARTY_MODE_ENABLED" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="party_mode_enabled" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PARTY_MODE_ENABLED" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

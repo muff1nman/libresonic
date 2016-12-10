@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 27</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="27" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="27" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 27</where>
             </delete>
         </rollback>
@@ -18,12 +18,12 @@
     <changeSet id="schema62_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="player" columnName="m3u_bom_enabled" />
+                <columnExists tableName="PLAYER" columnName="M3U_BOM_ENABLED" />
             </not>
         </preConditions>
-        <addColumn tableName="player">
-            <column name="m3u_bom_enabled" type="boolean" defaultValueBoolean="false"/>
+        <addColumn tableName="PLAYER">
+            <column name="M3U_BOM_ENABLED" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="m3u_bom_enabled" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="PLAYER" columnName="M3U_BOM_ENABLED" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

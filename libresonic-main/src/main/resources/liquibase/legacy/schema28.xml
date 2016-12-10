@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 4</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="4" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="4" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 4</where>
             </delete>
         </rollback>
@@ -18,205 +18,205 @@
     <changeSet id="schema28_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="user_settings" />
+                <tableExists tableName="USER_SETTINGS" />
             </not>
         </preConditions>
-        <createTable tableName="user_settings">
-            <column name="username" type="${varchar_type}"/>
-            <column name="locale" type="${varchar_type}" />
-            <column name="theme_id" type="${varchar_type}" />
-            <column name="final_version_notification" type="boolean" defaultValueBoolean="true" />
-            <column name="beta_version_notification" type="boolean" defaultValueBoolean="false" />
-            <column name="main_caption_cutoff" type="int" defaultValueNumeric="35" />
-            <column name="main_track_number" type="boolean" defaultValueBoolean="true" />
-            <column name="main_artist" type="boolean" defaultValueBoolean="true" />
-            <column name="main_album" type="boolean" defaultValueBoolean="false" />
-            <column name="main_genre" type="boolean" defaultValueBoolean="false" />
-            <column name="main_year" type="boolean" defaultValueBoolean="false" />
-            <column name="main_bit_rate" type="boolean" defaultValueBoolean="false" />
-            <column name="main_duration" type="boolean" defaultValueBoolean="true" />
-            <column name="main_format" type="boolean" defaultValueBoolean="false" />
-            <column name="main_file_size" type="boolean" defaultValueBoolean="false" />
-            <column name="playlist_caption_cutoff" type="int" defaultValueNumeric="35" />
-            <column name="playlist_track_number" type="boolean" defaultValueBoolean="false" />
-            <column name="playlist_artist" type="boolean" defaultValueBoolean="true" />
-            <column name="playlist_album" type="boolean" defaultValueBoolean="true" />
-            <column name="playlist_genre" type="boolean" defaultValueBoolean="false" />
-            <column name="playlist_year" type="boolean" defaultValueBoolean="true" />
-            <column name="playlist_bit_rate" type="boolean" defaultValueBoolean="false" />
-            <column name="playlist_duration" type="boolean" defaultValueBoolean="true" />
-            <column name="playlist_format" type="boolean" defaultValueBoolean="true" />
-            <column name="playlist_file_size" type="boolean" defaultValueBoolean="true" />
+        <createTable tableName="USER_SETTINGS">
+            <column name="USERNAME" type="${varchar_type}"/>
+            <column name="LOCALE" type="${varchar_type}" />
+            <column name="THEME_ID" type="${varchar_type}" />
+            <column name="FINAL_VERSION_NOTIFICATION" type="boolean" defaultValueBoolean="true" />
+            <column name="BETA_VERSION_NOTIFICATION" type="boolean" defaultValueBoolean="false" />
+            <column name="MAIN_CAPTION_CUTOFF" type="int" defaultValueNumeric="35" />
+            <column name="MAIN_TRACK_NUMBER" type="boolean" defaultValueBoolean="true" />
+            <column name="MAIN_ARTIST" type="boolean" defaultValueBoolean="true" />
+            <column name="MAIN_ALBUM" type="boolean" defaultValueBoolean="false" />
+            <column name="MAIN_GENRE" type="boolean" defaultValueBoolean="false" />
+            <column name="MAIN_YEAR" type="boolean" defaultValueBoolean="false" />
+            <column name="MAIN_BIT_RATE" type="boolean" defaultValueBoolean="false" />
+            <column name="MAIN_DURATION" type="boolean" defaultValueBoolean="true" />
+            <column name="MAIN_FORMAT" type="boolean" defaultValueBoolean="false" />
+            <column name="MAIN_FILE_SIZE" type="boolean" defaultValueBoolean="false" />
+            <column name="PLAYLIST_CAPTION_CUTOFF" type="int" defaultValueNumeric="35" />
+            <column name="PLAYLIST_TRACK_NUMBER" type="boolean" defaultValueBoolean="false" />
+            <column name="PLAYLIST_ARTIST" type="boolean" defaultValueBoolean="true" />
+            <column name="PLAYLIST_ALBUM" type="boolean" defaultValueBoolean="true" />
+            <column name="PLAYLIST_GENRE" type="boolean" defaultValueBoolean="false" />
+            <column name="PLAYLIST_YEAR" type="boolean" defaultValueBoolean="true" />
+            <column name="PLAYLIST_BIT_RATE" type="boolean" defaultValueBoolean="false" />
+            <column name="PLAYLIST_DURATION" type="boolean" defaultValueBoolean="true" />
+            <column name="PLAYLIST_FORMAT" type="boolean" defaultValueBoolean="true" />
+            <column name="PLAYLIST_FILE_SIZE" type="boolean" defaultValueBoolean="true" />
         </createTable>
-        <addNotNullConstraint tableName="user_settings" columnName="username" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="user_settings" columnNames="username" />
-        <addForeignKeyConstraint baseTableName="user_settings"
-                                 baseColumnNames="username"
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addPrimaryKey tableName="USER_SETTINGS" columnNames="USERNAME" />
+        <addForeignKeyConstraint baseTableName="USER_SETTINGS"
+                                 baseColumnNames="USERNAME"
                                  constraintName="us_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE"/>
-        <addNotNullConstraint tableName="user_settings" columnName="final_version_notification" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="beta_version_notification" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_caption_cutoff" columnDataType="int"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_track_number" columnDataType="int"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_artist" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_album" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_genre" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_year" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_bit_rate" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_duration" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_format" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="main_file_size" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_caption_cutoff" columnDataType="int"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_track_number" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_artist" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_album" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_genre" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_year" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_bit_rate" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_duration" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_format" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="user_settings" columnName="playlist_file_size" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="FINAL_VERSION_NOTIFICATION" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="BETA_VERSION_NOTIFICATION" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_CAPTION_CUTOFF" columnDataType="int"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_TRACK_NUMBER" columnDataType="int"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_ARTIST" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_ALBUM" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_GENRE" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_YEAR" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_BIT_RATE" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_DURATION" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_FORMAT" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_FILE_SIZE" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_CAPTION_CUTOFF" columnDataType="int"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_TRACK_NUMBER" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_ARTIST" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_ALBUM" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_GENRE" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_YEAR" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_BIT_RATE" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_DURATION" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_FORMAT" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_FILE_SIZE" columnDataType="boolean"/>
         <rollback>
-            <dropTable tableName="user_settings" />
+            <dropTable tableName="USER_SETTINGS" />
         </rollback>
     </changeSet>
     <changeSet id="schema28_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="transcoding" />
+                <tableExists tableName="TRANSCODING" />
             </not>
         </preConditions>
-        <createTable tableName="transcoding">
-            <column name="id" type="int"/>
-            <column name="name" type="${varchar_type}" />
-            <column name="source_format" type="${varchar_type}" />
-            <column name="target_format" type="${varchar_type}" />
-            <column name="step1" type="${varchar_type}" />
-            <column name="step2" type="${varchar_type}" />
-            <column name="step3" type="${varchar_type}" />
-            <column name="enabled" type="boolean" />
+        <createTable tableName="TRANSCODING">
+            <column name="ID" type="int"/>
+            <column name="NAME" type="${varchar_type}" />
+            <column name="SOURCE_FORMAT" type="${varchar_type}" />
+            <column name="TARGET_FORMAT" type="${varchar_type}" />
+            <column name="STEP1" type="${varchar_type}" />
+            <column name="STEP2" type="${varchar_type}" />
+            <column name="STEP3" type="${varchar_type}" />
+            <column name="ENABLED" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="transcoding" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="transcoding" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="transcoding" columnName="source_format" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="transcoding" columnName="target_format" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="transcoding" columnName="step1" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="transcoding" columnName="enabled" columnDataType="boolean"/>
-        <addPrimaryKey tableName="transcoding" columnNames="id" />
-        <addAutoIncrement tableName="transcoding" columnName="id" columnDataType="int"/>
-        <insert tableName="transcoding">
-            <column name="name" value="wav > mp3"/>
-            <column name="source_format" value="wav" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <addNotNullConstraint tableName="TRANSCODING" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="TRANSCODING" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="TRANSCODING" columnName="SOURCE_FORMAT" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="TRANSCODING" columnName="TARGET_FORMAT" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="TRANSCODING" columnName="STEP1" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="TRANSCODING" columnName="ENABLED" columnDataType="boolean"/>
+        <addPrimaryKey tableName="TRANSCODING" columnNames="ID" />
+        <addAutoIncrement tableName="TRANSCODING" columnName="ID" columnDataType="int"/>
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="wav > mp3"/>
+            <column name="SOURCE_FORMAT" value="wav" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="flac > mp3"/>
-            <column name="source_format" value="flac" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="flac > mp3"/>
+            <column name="SOURCE_FORMAT" value="flac" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="ogg > mp3"/>
-            <column name="source_format" value="ogg" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="ogg > mp3"/>
+            <column name="SOURCE_FORMAT" value="ogg" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="wma > mp3"/>
-            <column name="source_format" value="wma" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="wma > mp3"/>
+            <column name="SOURCE_FORMAT" value="wma" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="m4a > mp3"/>
-            <column name="source_format" value="m4a" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="false" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="m4a > mp3"/>
+            <column name="SOURCE_FORMAT" value="m4a" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="false" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="aac > mp3"/>
-            <column name="source_format" value="aac" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="false" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="aac > mp3"/>
+            <column name="SOURCE_FORMAT" value="aac" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="false" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="ape > mp3"/>
-            <column name="source_format" value="ape" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="ape > mp3"/>
+            <column name="SOURCE_FORMAT" value="ape" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="mpc > mp3"/>
-            <column name="source_format" value="mpc" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mpc > mp3"/>
+            <column name="SOURCE_FORMAT" value="mpc" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="mv > mp3"/>
-            <column name="source_format" value="mv" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mv > mp3"/>
+            <column name="SOURCE_FORMAT" value="mv" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
-        <insert tableName="transcoding">
-            <column name="name" value="shn > mp3"/>
-            <column name="source_format" value="shn" />
-            <column name="target_format" value="mp3"/>
-            <column name="step1" value="ffmpeg -i %s -v 0 -f wav -" />
-            <column name="step2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="shn > mp3"/>
+            <column name="SOURCE_FORMAT" value="shn" />
+            <column name="TARGET_FORMAT" value="mp3"/>
+            <column name="STEP1" value="ffmpeg -i %s -v 0 -f wav -" />
+            <column name="STEP2" value="lame -b %b --tt %t --ta %a --tl %l -S --resample 44.1 - -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <rollback>
-            <dropTable tableName="transcoding" />
+            <dropTable tableName="TRANSCODING" />
         </rollback>
     </changeSet>
     <changeSet id="schema28_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="player_transcoding" />
+                <tableExists tableName="PLAYER_TRANSCODING" />
             </not>
         </preConditions>
-        <createTable tableName="player_transcoding">
-            <column name="player_id" type="int"/>
-            <column name="transcoding_id" type="int" />
+        <createTable tableName="PLAYER_TRANSCODING">
+            <column name="PLAYER_ID" type="int"/>
+            <column name="TRANSCODING_ID" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="player_transcoding" columnName="player_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="player_transcoding" columnName="transcoding_id" columnDataType="int"/>
-        <addPrimaryKey tableName="player_transcoding" columnNames="player_id,transcoding_id" />
-        <addForeignKeyConstraint baseTableName="player_transcoding"
-                                 baseColumnNames="player_id"
+        <addNotNullConstraint tableName="PLAYER_TRANSCODING" columnName="PLAYER_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYER_TRANSCODING" columnName="TRANSCODING_ID" columnDataType="int"/>
+        <addPrimaryKey tableName="PLAYER_TRANSCODING" columnNames="PLAYER_ID,TRANSCODING_ID" />
+        <addForeignKeyConstraint baseTableName="PLAYER_TRANSCODING"
+                                 baseColumnNames="PLAYER_ID"
                                  constraintName="pt_p_fk"
-                                 referencedTableName="player"
-                                 referencedColumnNames="id"
+                                 referencedTableName="PLAYER"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="player_transcoding"
-                                 baseColumnNames="transcoding_id"
+        <addForeignKeyConstraint baseTableName="PLAYER_TRANSCODING"
+                                 baseColumnNames="TRANSCODING_ID"
                                  constraintName="pt_t_fk"
-                                 referencedTableName="transcoding"
-                                 referencedColumnNames="id"
+                                 referencedTableName="TRANSCODING"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
         <rollback>
-            <dropTable tableName="player_transcoding" />
+            <dropTable tableName="PLAYER_TRANSCODING" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

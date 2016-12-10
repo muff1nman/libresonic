@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 6</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="6" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="6" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 6</where>
             </delete>
         </rollback>
@@ -18,25 +18,25 @@
     <changeSet id="schema30_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="last_fm_enabled" />
+                <columnExists tableName="USER_SETTINGS" columnName="LAST_FM_ENABLED" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="last_fm_enabled" type="boolean" defaultValueBoolean="false"/>
-            <column name="last_fm_username" type="${varchar_type}" />
-            <column name="last_fm_password" type="${varchar_type}" />
+        <addColumn tableName="USER_SETTINGS">
+            <column name="LAST_FM_ENABLED" type="boolean" defaultValueBoolean="false"/>
+            <column name="LAST_FM_USERNAME" type="${varchar_type}" />
+            <column name="LAST_FM_PASSWORD" type="${varchar_type}" />
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="last_fm_enabled" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="LAST_FM_ENABLED" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema30_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="transcode_scheme" />
+                <columnExists tableName="USER_SETTINGS" columnName="TRANSCODE_SCHEME" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="transcode_scheme" type="${varchar_type}" defaultValue="OFF"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="TRANSCODE_SCHEME" type="${varchar_type}" defaultValue="OFF"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="transcode_scheme" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="TRANSCODE_SCHEME" columnDataType="${varchar_type}"/>
     </changeSet>
 </databaseChangeLog>

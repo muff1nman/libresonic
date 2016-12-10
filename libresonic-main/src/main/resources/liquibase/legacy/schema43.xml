@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 16</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="16" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="16" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 16</where>
             </delete>
         </rollback>
@@ -19,98 +19,98 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 17</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="17" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="17" />
         </insert>
-        <delete tableName="transcoding">
+        <delete tableName="TRANSCODING">
             <where>target_format = flv and source_format in ('avi', 'mpg', 'mpeg', 'mp4', 'm4v', 'mkv', 'mov', 'wmv', 'ogv')</where>
         </delete>
-        <insert tableName="transcoding">
-            <column name="name" value="avi > flv"/>
-            <column name="source_format" value="avi" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="avi > flv"/>
+            <column name="SOURCE_FORMAT" value="avi" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'avi > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="mpg > flv"/>
-            <column name="source_format" value="mpg" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mpg > flv"/>
+            <column name="SOURCE_FORMAT" value="mpg" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mpg > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="mpeg > flv"/>
-            <column name="source_format" value="mpeg" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mpeg > flv"/>
+            <column name="SOURCE_FORMAT" value="mpeg" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mpeg > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="mp4 > flv"/>
-            <column name="source_format" value="mp4" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mp4 > flv"/>
+            <column name="SOURCE_FORMAT" value="mp4" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mp4 > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="m4v > flv"/>
-            <column name="source_format" value="m4v" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="m4v > flv"/>
+            <column name="SOURCE_FORMAT" value="m4v" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'm4v > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="mkv > flv"/>
-            <column name="source_format" value="mkv" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mkv > flv"/>
+            <column name="SOURCE_FORMAT" value="mkv" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mkv > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="mov > flv"/>
-            <column name="source_format" value="mov" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="mov > flv"/>
+            <column name="SOURCE_FORMAT" value="mov" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mov > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="wmv > flv"/>
-            <column name="source_format" value="wmv" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="wmv > flv"/>
+            <column name="SOURCE_FORMAT" value="wmv" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'wmv > flv'
         </sql>
-        <insert tableName="transcoding">
-            <column name="name" value="ogv > flv"/>
-            <column name="source_format" value="ogv" />
-            <column name="target_format" value="flv" />
-            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
-            <column name="enabled" valueBoolean="true" />
+        <insert tableName="TRANSCODING">
+            <column name="NAME" value="ogv > flv"/>
+            <column name="SOURCE_FORMAT" value="ogv" />
+            <column name="TARGET_FORMAT" value="flv" />
+            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -" />
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'ogv > flv'
@@ -120,11 +120,11 @@
     <changeSet id="schema43_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user" columnName="email" />
+                <columnExists tableName="USER" columnName="EMAIL" />
             </not>
         </preConditions>
-        <addColumn tableName="user">
-            <column name="email" type="${varchar_type}"/>
+        <addColumn tableName="USER">
+            <column name="EMAIL" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

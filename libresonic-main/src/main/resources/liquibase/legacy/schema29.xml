@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 5</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="5" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="5" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 5</where>
             </delete>
         </rollback>
@@ -18,30 +18,30 @@
     <changeSet id="schema29_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="user_rating" />
+                <tableExists tableName="USER_RATING" />
             </not>
         </preConditions>
-        <createTable tableName="user_rating">
-            <column name="username" type="${varchar_type}"/>
-            <column name="path" type="${varchar_type}" />
-            <column name="rating" type="double" />
+        <createTable tableName="USER_RATING">
+            <column name="USERNAME" type="${varchar_type}"/>
+            <column name="PATH" type="${varchar_type}" />
+            <column name="RATING" type="double" />
         </createTable>
-        <addNotNullConstraint tableName="user_rating" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="user_rating" columnName="path" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="user_rating" columnName="rating" columnDataType="double"/>
-        <addPrimaryKey tableName="user_rating" columnNames="username,path" />
-        <addForeignKeyConstraint baseTableName="user_rating"
-                                 baseColumnNames="username"
+        <addNotNullConstraint tableName="USER_RATING" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="USER_RATING" columnName="PATH" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="USER_RATING" columnName="RATING" columnDataType="double"/>
+        <addPrimaryKey tableName="USER_RATING" columnNames="USERNAME,PATH" />
+        <addForeignKeyConstraint baseTableName="USER_RATING"
+                                 baseColumnNames="USERNAME"
                                  constraintName="ura_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"
                                  onDelete="CASCADE" />
         <sql>
             insert into "USER_RATING" select 'admin', path, rating from "MUSIC_FILE_INFO"
             where rating is not null and rating > 0
         </sql>
         <rollback>
-            <dropTable tableName="user_rating" />
+            <dropTable tableName="USER_RATING" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 23</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="23" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="23" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 23</where>
             </delete>
         </rollback>
@@ -18,34 +18,34 @@
     <changeSet id="schema51_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="show_artist_info" />
+                <columnExists tableName="USER_SETTINGS" columnName="SHOW_ARTIST_INFO" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="show_artist_info" type="boolean" defaultValueBoolean="true"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="SHOW_ARTIST_INFO" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="show_artist_info" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SHOW_ARTIST_INFO" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema51_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="auto_hide_play_queue" />
+                <columnExists tableName="USER_SETTINGS" columnName="AUTO_HIDE_PLAY_QUEUE" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="auto_hide_play_queue" type="boolean" defaultValueBoolean="true"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="AUTO_HIDE_PLAY_QUEUE" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="auto_hide_play_queue" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="AUTO_HIDE_PLAY_QUEUE" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema51_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="view_as_list" />
+                <columnExists tableName="USER_SETTINGS" columnName="VIEW_AS_LIST" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="view_as_list" type="boolean" defaultValueBoolean="false"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="VIEW_AS_LIST" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="view_as_list"  columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="VIEW_AS_LIST"  columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

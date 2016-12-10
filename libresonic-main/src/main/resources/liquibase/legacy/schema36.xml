@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 12</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="12" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="12" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 12</where>
             </delete>
         </rollback>
@@ -18,12 +18,12 @@
     <changeSet id="schema36_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="player" columnName="technology" />
+                <columnExists tableName="PLAYER" columnName="TECHNOLOGY" />
             </not>
         </preConditions>
-        <addColumn tableName="player">
-            <column name="technology" type="${varchar_type}" defaultValue="WEB"/>
+        <addColumn tableName="PLAYER">
+            <column name="TECHNOLOGY" type="${varchar_type}" defaultValue="WEB"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="technology" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="PLAYER" columnName="TECHNOLOGY" columnDataType="${varchar_type}"/>
     </changeSet>
 </databaseChangeLog>

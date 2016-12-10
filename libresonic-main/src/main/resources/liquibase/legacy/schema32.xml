@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 8</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="8" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="8" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 8</where>
             </delete>
         </rollback>
@@ -18,91 +18,91 @@
     <changeSet id="schema32_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="show_now_playing" />
+                <columnExists tableName="USER_SETTINGS" columnName="SHOW_NOW_PLAYING" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="show_now_playing" type="boolean" defaultValueBoolean="true"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="SHOW_NOW_PLAYING" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="show_now_playing" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SHOW_NOW_PLAYING" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema32_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="selected_music_folder_id" />
+                <columnExists tableName="USER_SETTINGS" columnName="SELECTED_MUSIC_FOLDER_ID" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="selected_music_folder_id" type="int" defaultValueNumeric="-1"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="SELECTED_MUSIC_FOLDER_ID" type="int" defaultValueNumeric="-1"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="selected_music_folder_id" columnDataType="int"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SELECTED_MUSIC_FOLDER_ID" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema32_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="podcast_channel" />
+                <tableExists tableName="PODCAST_CHANNEL" />
             </not>
         </preConditions>
-        <createTable tableName="podcast_channel">
-            <column name="id" type="int"/>
-            <column name="url" type="${varchar_type}" />
-            <column name="title" type="${varchar_type}" />
-            <column name="description" type="${varchar_type}" />
-            <column name="status" type="${varchar_type}" />
-            <column name="error_message" type="${varchar_type}" />
+        <createTable tableName="PODCAST_CHANNEL">
+            <column name="ID" type="int"/>
+            <column name="URL" type="${varchar_type}" />
+            <column name="TITLE" type="${varchar_type}" />
+            <column name="DESCRIPTION" type="${varchar_type}" />
+            <column name="STATUS" type="${varchar_type}" />
+            <column name="ERROR_MESSAGE" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="podcast_channel" columnName="id"  columnDataType="int"/>
-        <addNotNullConstraint tableName="podcast_channel" columnName="url" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="podcast_channel" columnName="status" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="podcast_channel" columnNames="id" />
-        <addAutoIncrement tableName="podcast_channel" columnName="id" columnDataType="int"/>
+        <addNotNullConstraint tableName="PODCAST_CHANNEL" columnName="ID"  columnDataType="int"/>
+        <addNotNullConstraint tableName="PODCAST_CHANNEL" columnName="URL" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="PODCAST_CHANNEL" columnName="STATUS" columnDataType="${varchar_type}"/>
+        <addPrimaryKey tableName="PODCAST_CHANNEL" columnNames="ID" />
+        <addAutoIncrement tableName="PODCAST_CHANNEL" columnName="ID" columnDataType="int"/>
         <rollback>
-            <dropTable tableName="podcast_channel" />
+            <dropTable tableName="PODCAST_CHANNEL" />
         </rollback>
     </changeSet>
     <changeSet id="schema32_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="podcast_episode"/>
+                <tableExists tableName="PODCAST_EPISODE"/>
             </not>
         </preConditions>
-        <createTable tableName="podcast_episode">
-            <column name="id" type="int" />
-            <column name="channel_id" type="int" />
-            <column name="url" type="${varchar_type}" />
-            <column name="path" type="${varchar_type}" />
-            <column name="title" type="${varchar_type}" />
-            <column name="description" type="${varchar_type}" />
-            <column name="publish_date" type="datetime" />
-            <column name="duration" type="${varchar_type}" />
-            <column name="bytes_total" type="bigint" />
-            <column name="bytes_downloaded" type="bigint" />
-            <column name="status" type="${varchar_type}" />
-            <column name="error_message" type="${varchar_type}" />
+        <createTable tableName="PODCAST_EPISODE">
+            <column name="ID" type="int" />
+            <column name="CHANNEL_ID" type="int" />
+            <column name="URL" type="${varchar_type}" />
+            <column name="PATH" type="${varchar_type}" />
+            <column name="TITLE" type="${varchar_type}" />
+            <column name="DESCRIPTION" type="${varchar_type}" />
+            <column name="PUBLISH_DATE" type="datetime" />
+            <column name="DURATION" type="${varchar_type}" />
+            <column name="BYTES_TOTAL" type="bigint" />
+            <column name="BYTES_DOWNLOADED" type="bigint" />
+            <column name="STATUS" type="${varchar_type}" />
+            <column name="ERROR_MESSAGE" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="podcast_episode" columnName="id"  columnDataType="int"/>
-        <addNotNullConstraint tableName="podcast_episode" columnName="channel_id" columnDataType="int"/>
-        <addNotNullConstraint tableName="podcast_episode" columnName="url" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="podcast_episode" columnName="status" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="podcast_episode" columnNames="id" />
-        <addAutoIncrement tableName="podcast_episode" columnName="id" columnDataType="int"/>
-        <addForeignKeyConstraint baseTableName="podcast_episode"
-                                 baseColumnNames="channel_id"
+        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="ID"  columnDataType="int"/>
+        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="CHANNEL_ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="URL" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="STATUS" columnDataType="${varchar_type}"/>
+        <addPrimaryKey tableName="PODCAST_EPISODE" columnNames="ID" />
+        <addAutoIncrement tableName="PODCAST_EPISODE" columnName="ID" columnDataType="int"/>
+        <addForeignKeyConstraint baseTableName="PODCAST_EPISODE"
+                                 baseColumnNames="CHANNEL_ID"
                                  constraintName="pe_pc_fk"
-                                 referencedTableName="podcast_channel"
-                                 referencedColumnNames="id"
+                                 referencedTableName="PODCAST_CHANNEL"
+                                 referencedColumnNames="ID"
                                  onDelete="CASCADE"/>
         <rollback>
-            <dropTable tableName="podcast_episode" />
+            <dropTable tableName="PODCAST_EPISODE" />
         </rollback>
     </changeSet>
     <changeSet id="schema32_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from role where id = 7</sqlCheck>
         </preConditions>
-        <insert tableName="role">
-            <column name="id" valueNumeric="7"/>
-            <column name="name" value="podcast" />
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="7"/>
+            <column name="NAME" value="podcast" />
         </insert>
         <sql>
             insert into "USER_ROLE"(username, role_id)
@@ -110,10 +110,10 @@
             where u.username = ur.username and ur.role_id = 1
         </sql>
         <rollback>
-            <delete tableName="user_role">
+            <delete tableName="USER_ROLE">
                 <where>role_id = 7</where>
             </delete>
-            <delete tableName="role">
+            <delete tableName="ROLE">
                 <where>id = 7</where>
             </delete>
         </rollback>

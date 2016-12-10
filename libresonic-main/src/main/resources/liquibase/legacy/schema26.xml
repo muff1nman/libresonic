@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 2</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="2" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="2" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 2</where>
             </delete>
         </rollback>
@@ -18,124 +18,124 @@
     <changeSet id="schema26_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="music_folder" />
+                <tableExists tableName="MUSIC_FOLDER" />
             </not>
         </preConditions>
-        <createTable tableName="music_folder">
-            <column name="id" type="int" autoIncrement="true" >
+        <createTable tableName="MUSIC_FOLDER">
+            <column name="ID" type="int" autoIncrement="true" >
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="path" type="${varchar_type}" />
-            <column name="name" type="${varchar_type}" />
-            <column name="enabled" type="boolean" />
+            <column name="PATH" type="${varchar_type}" />
+            <column name="NAME" type="${varchar_type}" />
+            <column name="ENABLED" type="boolean" />
         </createTable>
-        <addNotNullConstraint tableName="music_folder" columnName="path" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="music_folder" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="music_folder" columnName="enabled" columnDataType="boolean"/>
-        <insert tableName="music_folder">
-            <column name="path" value="${defaultMusicFolder}"/>
-            <column name="name" value="Music"/>
-            <column name="enabled" valueBoolean="true" />
+        <addNotNullConstraint tableName="MUSIC_FOLDER" columnName="PATH" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="MUSIC_FOLDER" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="MUSIC_FOLDER" columnName="ENABLED" columnDataType="boolean"/>
+        <insert tableName="MUSIC_FOLDER">
+            <column name="PATH" value="${defaultMusicFolder}"/>
+            <column name="NAME" value="Music"/>
+            <column name="ENABLED" valueBoolean="true" />
         </insert>
         <rollback>
-            <dropTable tableName="music_folder" />
+            <dropTable tableName="MUSIC_FOLDER" />
         </rollback>
     </changeSet>
     <changeSet id="schema26_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="music_file_info" />
+                <tableExists tableName="MUSIC_FILE_INFO" />
             </not>
         </preConditions>
-        <createTable tableName="music_file_info">
-            <column name="id" type="int"/>
-            <column name="path" type="${varchar_type}" />
-            <column name="rating" type="int" />
-            <column name="comment" type="${varchar_type}" />
-            <column name="play_count" type="int" />
-            <column name="last_played" type="datetime" />
+        <createTable tableName="MUSIC_FILE_INFO">
+            <column name="ID" type="int"/>
+            <column name="PATH" type="${varchar_type}" />
+            <column name="RATING" type="int" />
+            <column name="COMMENT" type="${varchar_type}" />
+            <column name="PLAY_COUNT" type="int" />
+            <column name="LAST_PLAYED" type="datetime" />
         </createTable>
-        <addPrimaryKey tableName="music_file_info" columnNames="id" />
-        <addAutoIncrement tableName="music_file_info" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_file_info" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="music_file_info" columnName="path" columnDataType="${varchar_type}"/>
-        <createIndex tableName="music_file_info" indexName="idx_music_file_info_path">
-            <column name="path"/>
+        <addPrimaryKey tableName="MUSIC_FILE_INFO" columnNames="ID" />
+        <addAutoIncrement tableName="MUSIC_FILE_INFO" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="MUSIC_FILE_INFO" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="MUSIC_FILE_INFO" columnName="PATH" columnDataType="${varchar_type}"/>
+        <createIndex tableName="MUSIC_FILE_INFO" indexName="idx_music_file_info_path">
+            <column name="PATH"/>
         </createIndex>
         <rollback>
-            <dropTable tableName="music_file_info" />
+            <dropTable tableName="MUSIC_FILE_INFO" />
         </rollback>
     </changeSet>
     <changeSet id="schema26_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="internet_radio" />
+                <tableExists tableName="INTERNET_RADIO" />
             </not>
         </preConditions>
-        <createTable tableName="internet_radio">
-            <column name="id" type="int"/>
-            <column name="name" type="${varchar_type}" />
-            <column name="stream_url" type="${varchar_type}" />
-            <column name="homepage_url" type="${varchar_type}" />
-            <column name="enabled" type="boolean" />
+        <createTable tableName="INTERNET_RADIO">
+            <column name="ID" type="int"/>
+            <column name="NAME" type="${varchar_type}" />
+            <column name="STREAM_URL" type="${varchar_type}" />
+            <column name="HOMEPAGE_URL" type="${varchar_type}" />
+            <column name="ENABLED" type="boolean" />
         </createTable>
-        <addPrimaryKey tableName="internet_radio" columnNames="id" />
-        <addNotNullConstraint tableName="internet_radio" columnName="id" columnDataType="int"/>
-        <addAutoIncrement tableName="internet_radio" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="internet_radio" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="internet_radio" columnName="stream_url" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="internet_radio" columnName="enabled" columnDataType="boolean"/>
+        <addPrimaryKey tableName="INTERNET_RADIO" columnNames="ID" />
+        <addNotNullConstraint tableName="INTERNET_RADIO" columnName="ID" columnDataType="int"/>
+        <addAutoIncrement tableName="INTERNET_RADIO" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="INTERNET_RADIO" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="INTERNET_RADIO" columnName="STREAM_URL" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="INTERNET_RADIO" columnName="ENABLED" columnDataType="boolean"/>
         <rollback>
-            <dropTable tableName="internet_radio" />
+            <dropTable tableName="INTERNET_RADIO" />
         </rollback>
     </changeSet>
     <changeSet id="schema26_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="player" />
+                <tableExists tableName="PLAYER" />
             </not>
         </preConditions>
-        <createTable tableName="player">
-            <column name="id" type="int"/>
-            <column name="name" type="${varchar_type}" />
-            <column name="type" type="${varchar_type}" />
-            <column name="username" type="${varchar_type}" />
-            <column name="ip_address" type="${varchar_type}" />
-            <column name="auto_control_enabled" type="boolean" />
-            <column name="last_seen" type="datetime" />
-            <column name="cover_art_scheme" type="${varchar_type}" />
-            <column name="transcode_scheme" type="${varchar_type}" />
+        <createTable tableName="PLAYER">
+            <column name="ID" type="int"/>
+            <column name="NAME" type="${varchar_type}" />
+            <column name="TYPE" type="${varchar_type}" />
+            <column name="USERNAME" type="${varchar_type}" />
+            <column name="IP_ADDRESS" type="${varchar_type}" />
+            <column name="AUTO_CONTROL_ENABLED" type="boolean" />
+            <column name="LAST_SEEN" type="datetime" />
+            <column name="COVER_ART_SCHEME" type="${varchar_type}" />
+            <column name="TRANSCODE_SCHEME" type="${varchar_type}" />
         </createTable>
-        <addPrimaryKey tableName="player" columnNames="id" />
-        <addNotNullConstraint tableName="player" columnName="id" columnDataType="int"/>
-        <addNotNullConstraint tableName="player" columnName="auto_control_enabled" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="player" columnName="cover_art_scheme" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="player" columnName="transcode_scheme" columnDataType="${varchar_type}"/>
+        <addPrimaryKey tableName="PLAYER" columnNames="ID" />
+        <addNotNullConstraint tableName="PLAYER" columnName="ID" columnDataType="int"/>
+        <addNotNullConstraint tableName="PLAYER" columnName="AUTO_CONTROL_ENABLED" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="PLAYER" columnName="COVER_ART_SCHEME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="PLAYER" columnName="TRANSCODE_SCHEME" columnDataType="${varchar_type}"/>
         <rollback>
-            <dropTable tableName="player" />
+            <dropTable tableName="PLAYER" />
         </rollback>
     </changeSet>
     <changeSet id="schema26_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="player" columnName="dynamic_ip" />
+                <columnExists tableName="PLAYER" columnName="DYNAMIC_IP" />
             </not>
         </preConditions>
-        <addColumn tableName="player">
-            <column name="dynamic_ip" type="boolean" defaultValueBoolean="true"/>
+        <addColumn tableName="PLAYER">
+            <column name="DYNAMIC_IP" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="player" columnName="dynamic_ip" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="PLAYER" columnName="DYNAMIC_IP" columnDataType="boolean"/>
         <rollback>
-            <dropColumn tableName="player" columnName="dynamic_ip"/>
+            <dropColumn tableName="PLAYER" columnName="DYNAMIC_IP"/>
         </rollback>
     </changeSet>
     <changeSet id="schema26_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from role where id = 6</sqlCheck>
         </preConditions>
-        <insert tableName="role">
-            <column name="id" valueNumeric="6"/>
-            <column name="name" value="comment" />
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="6"/>
+            <column name="NAME" value="comment" />
         </insert>
         <sql>
             insert into "USER_ROLE"(username, role_id)
@@ -143,10 +143,10 @@
             where u.username = ur.username and ur.role_id in (1, 5)
         </sql>
         <rollback>
-            <delete tableName="user_role" >
+            <delete tableName="USER_ROLE" >
                 <where>role_id = 6</where>
             </delete>
-            <delete tableName="role">
+            <delete tableName="ROLE">
                 <where>id = 6</where>
             </delete>
         </rollback>

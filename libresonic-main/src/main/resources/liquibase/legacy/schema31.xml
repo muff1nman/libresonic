@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 7</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="7" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="7" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 7</where>
             </delete>
         </rollback>
@@ -18,23 +18,23 @@
     <changeSet id="schema31_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="music_file_info" columnName="enabled" />
+                <columnExists tableName="MUSIC_FILE_INFO" columnName="ENABLED" />
             </not>
         </preConditions>
-        <addColumn tableName="music_file_info">
-            <column name="enabled" type="boolean" defaultValueBoolean="true"/>
+        <addColumn tableName="MUSIC_FILE_INFO">
+            <column name="ENABLED" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="music_file_info" columnName="enabled" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="MUSIC_FILE_INFO" columnName="ENABLED" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema31_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="transcoding" columnName="default_active" />
+                <columnExists tableName="TRANSCODING" columnName="DEFAULT_ACTIVE" />
             </not>
         </preConditions>
-        <addColumn tableName="transcoding">
-            <column name="default_active" type="boolean" defaultValueBoolean="true"/>
+        <addColumn tableName="TRANSCODING">
+            <column name="DEFAULT_ACTIVE" type="boolean" defaultValueBoolean="true"/>
         </addColumn>
-        <addNotNullConstraint tableName="transcoding" columnName="default_active" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="TRANSCODING" columnName="DEFAULT_ACTIVE" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

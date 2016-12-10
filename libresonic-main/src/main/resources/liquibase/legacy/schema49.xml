@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 21</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="21" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="21" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 21</where>
             </delete>
         </rollback>
@@ -18,45 +18,45 @@
     <changeSet id="schema49_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="album" columnName="year" />
+                <columnExists tableName="ALBUM" columnName="YEAR" />
             </not>
         </preConditions>
-        <addColumn tableName="album">
-            <column name="year" type="int"/>
+        <addColumn tableName="ALBUM">
+            <column name="YEAR" type="int"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema49_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="album" columnName="genre" />
+                <columnExists tableName="ALBUM" columnName="GENRE" />
             </not>
         </preConditions>
-        <addColumn tableName="album">
-            <column name="genre" type="${varchar_type}"/>
+        <addColumn tableName="ALBUM">
+            <column name="GENRE" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema49_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="genre" />
+                <tableExists tableName="GENRE" />
             </not>
         </preConditions>
-        <createTable tableName="genre">
-            <column name="name" type="${varchar_type}"/>
-            <column name="song_count" type="int" />
+        <createTable tableName="GENRE">
+            <column name="NAME" type="${varchar_type}"/>
+            <column name="SONG_COUNT" type="int" />
         </createTable>
-        <addNotNullConstraint tableName="genre" columnName="name" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="genre" columnName="song_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="GENRE" columnName="NAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="GENRE" columnName="SONG_COUNT" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema49_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="genre" columnName="album_count" />
+                <columnExists tableName="GENRE" columnName="ALBUM_COUNT" />
             </not>
         </preConditions>
-        <addColumn tableName="genre">
-            <column name="album_count" type="int" defaultValueNumeric="0"/>
+        <addColumn tableName="GENRE">
+            <column name="ALBUM_COUNT" type="int" defaultValueNumeric="0"/>
         </addColumn>
-        <addNotNullConstraint tableName="genre" columnName="album_count" columnDataType="int"/>
+        <addNotNullConstraint tableName="GENRE" columnName="ALBUM_COUNT" columnDataType="int"/>
     </changeSet>
 </databaseChangeLog>

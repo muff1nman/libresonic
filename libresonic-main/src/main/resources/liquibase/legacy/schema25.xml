@@ -5,7 +5,7 @@
     <changeSet id="schema25_001" author="muff1nman" dbms="hsqldb">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="version" />
+                <tableExists tableName="VERSION" />
             </not>
         </preConditions>
         <sql>set property &quot;hsqldb.cache_file_scale&quot; 8</sql>
@@ -14,103 +14,103 @@
     <changeSet id="schema25_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="version" />
+                <tableExists tableName="VERSION" />
             </not>
         </preConditions>
-        <createTable tableName="version">
-            <column name="version" type="int"/>
+        <createTable tableName="VERSION">
+            <column name="VERSION" type="int"/>
         </createTable>
-        <addNotNullConstraint tableName="version" columnName="version" columnDataType="int" />
-        <insert tableName="version" >
-            <column name="version" valueNumeric="1" />
+        <addNotNullConstraint tableName="VERSION" columnName="VERSION" columnDataType="int" />
+        <insert tableName="VERSION" >
+            <column name="VERSION" valueNumeric="1" />
         </insert>
         <rollback>
-            <dropTable tableName="version" />
+            <dropTable tableName="VERSION" />
         </rollback>
     </changeSet>
     <changeSet id="schema25_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="role" />
+                <tableExists tableName="ROLE" />
             </not>
         </preConditions>
-        <createTable tableName="role">
-            <column name="id" type="int"/>
-            <column name="name" type="${varchar_type}" />
+        <createTable tableName="ROLE">
+            <column name="ID" type="int"/>
+            <column name="NAME" type="${varchar_type}" />
         </createTable>
-        <addPrimaryKey tableName="role" columnNames="id" />
-        <addNotNullConstraint tableName="role" columnName="id" columnDataType="int" />
-        <addNotNullConstraint tableName="role" columnName="name" columnDataType="${varchar_type}"/>
-        <insert tableName="role">
-            <column name="id" valueNumeric="1" />
-            <column name="name" value="admin"/>
+        <addPrimaryKey tableName="ROLE" columnNames="ID" />
+        <addNotNullConstraint tableName="ROLE" columnName="ID" columnDataType="int" />
+        <addNotNullConstraint tableName="ROLE" columnName="NAME" columnDataType="${varchar_type}"/>
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="1" />
+            <column name="NAME" value="admin"/>
         </insert>
-        <insert tableName="role">
-            <column name="id" valueNumeric="2" />
-            <column name="name" value="download"/>
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="2" />
+            <column name="NAME" value="download"/>
         </insert>
-        <insert tableName="role">
-            <column name="id" valueNumeric="3" />
-            <column name="name" value="upload"/>
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="3" />
+            <column name="NAME" value="upload"/>
         </insert>
-        <insert tableName="role">
-            <column name="id" valueNumeric="4" />
-            <column name="name" value="playlist"/>
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="4" />
+            <column name="NAME" value="playlist"/>
         </insert>
-        <insert tableName="role">
-            <column name="id" valueNumeric="5" />
-            <column name="name" value="coverart"/>
+        <insert tableName="ROLE">
+            <column name="ID" valueNumeric="5" />
+            <column name="NAME" value="coverart"/>
         </insert>
         <rollback>
-            <dropTable tableName="role" />
+            <dropTable tableName="ROLE" />
         </rollback>
     </changeSet>
     <changeSet id="schema25_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="user" />
+                <tableExists tableName="USER" />
             </not>
         </preConditions>
-        <createTable tableName="user">
-            <column name="username" type="${varchar_type}"/>
-            <column name="password" type="${varchar_type}" />
+        <createTable tableName="USER">
+            <column name="USERNAME" type="${varchar_type}"/>
+            <column name="PASSWORD" type="${varchar_type}" />
         </createTable>
-        <addPrimaryKey tableName="user" columnNames="username" />
-        <addNotNullConstraint tableName="user" columnName="username" columnDataType="${varchar_type}" />
-        <addNotNullConstraint tableName="user" columnName="password" columnDataType="${varchar_type}" />
-        <insert tableName="user">
-            <column name="username" value="admin"/>
-            <column name="password" value="admin"/>
+        <addPrimaryKey tableName="USER" columnNames="USERNAME" />
+        <addNotNullConstraint tableName="USER" columnName="USERNAME" columnDataType="${varchar_type}" />
+        <addNotNullConstraint tableName="USER" columnName="PASSWORD" columnDataType="${varchar_type}" />
+        <insert tableName="USER">
+            <column name="USERNAME" value="admin"/>
+            <column name="PASSWORD" value="admin"/>
         </insert>
         <rollback>
-            <dropTable tableName="user" />
+            <dropTable tableName="USER" />
         </rollback>
     </changeSet>
     <changeSet id="schema25_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="user_role" />
+                <tableExists tableName="USER_ROLE" />
             </not>
         </preConditions>
-        <createTable tableName="user_role">
-            <column name="username" type="${varchar_type}"/>
-            <column name="role_id" type="int" />
+        <createTable tableName="USER_ROLE">
+            <column name="USERNAME" type="${varchar_type}"/>
+            <column name="ROLE_ID" type="int" />
         </createTable>
-        <addPrimaryKey tableName="user_role" columnNames="username,role_id" />
-        <addNotNullConstraint tableName="user_role" columnName="username" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="user_role" columnName="role_id"  columnDataType="int"/>
-        <addForeignKeyConstraint baseTableName="user_role"
-                                 baseColumnNames="username"
+        <addPrimaryKey tableName="USER_ROLE" columnNames="USERNAME,ROLE_ID" />
+        <addNotNullConstraint tableName="USER_ROLE" columnName="USERNAME" columnDataType="${varchar_type}"/>
+        <addNotNullConstraint tableName="USER_ROLE" columnName="ROLE_ID"  columnDataType="int"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="USERNAME"
                                  constraintName="ur_u_fk"
-                                 referencedTableName="user"
-                                 referencedColumnNames="username"/>
-        <addForeignKeyConstraint baseTableName="user_role"
-                                 baseColumnNames="role_id"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="USERNAME"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="ROLE_ID"
                                  constraintName="ur_r_fk"
-                                 referencedTableName="role"
-                                 referencedColumnNames="id"/>
+                                 referencedTableName="ROLE"
+                                 referencedColumnNames="ID"/>
         <rollback>
-            <dropTable tableName="user_role" />
+            <dropTable tableName="USER_ROLE" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

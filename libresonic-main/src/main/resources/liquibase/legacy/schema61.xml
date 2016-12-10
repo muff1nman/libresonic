@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 26</sqlCheck>
         </preConditions>
-        <insert tableName="version">
-            <column name="version" valueNumeric="26" />
+        <insert tableName="VERSION">
+            <column name="VERSION" valueNumeric="26" />
         </insert>
         <rollback>
-            <delete tableName="version" >
+            <delete tableName="VERSION" >
                 <where>version = 26</where>
             </delete>
         </rollback>
@@ -18,23 +18,23 @@
     <changeSet id="schema61_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="list_reload_delay" />
+                <columnExists tableName="USER_SETTINGS" columnName="LIST_RELOAD_DELAY" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="list_reload_delay" type="int" defaultValueNumeric="60"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="LIST_RELOAD_DELAY" type="int" defaultValueNumeric="60"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="list_reload_delay" columnDataType="int"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="LIST_RELOAD_DELAY" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema61_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="user_settings" columnName="keyboard_shortcuts_enabled" />
+                <columnExists tableName="USER_SETTINGS" columnName="KEYBOARD_SHORTCUTS_ENABLED" />
             </not>
         </preConditions>
-        <addColumn tableName="user_settings">
-            <column name="keyboard_shortcuts_enabled" type="boolean" defaultValueBoolean="false"/>
+        <addColumn tableName="USER_SETTINGS">
+            <column name="KEYBOARD_SHORTCUTS_ENABLED" type="boolean" defaultValueBoolean="false"/>
         </addColumn>
-        <addNotNullConstraint tableName="user_settings" columnName="keyboard_shortcuts_enabled" columnDataType="boolean"/>
+        <addNotNullConstraint tableName="USER_SETTINGS" columnName="KEYBOARD_SHORTCUTS_ENABLED" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>
