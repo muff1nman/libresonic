@@ -33,7 +33,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'avi > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'avi > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="mpg > flv"/>
@@ -43,7 +43,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mpg > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'mpg > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="mpeg > flv"/>
@@ -53,7 +53,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mpeg > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'mpeg > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="mp4 > flv"/>
@@ -63,7 +63,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mp4 > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'mp4 > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="m4v > flv"/>
@@ -73,7 +73,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'm4v > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'm4v > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="mkv > flv"/>
@@ -83,7 +83,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mkv > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'mkv > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="mov > flv"/>
@@ -93,7 +93,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'mov > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'mov > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="wmv > flv"/>
@@ -103,7 +103,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'wmv > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'wmv > flv'
         </sql>
         <insert tableName="transcoding">
             <column name="name" value="ogv > flv"/>
@@ -113,7 +113,7 @@
             <column name="enabled" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "PLAYER" p, "TRANSCODING" t where t.name = 'ogv > flv'
+            insert into "player_transcoding"(player_id, transcoding_id) select p.id as player_id, t.id as transaction_id from "player" p, "transcoding" t where t.name = 'ogv > flv'
         </sql>
         <rollback/>
     </changeSet>

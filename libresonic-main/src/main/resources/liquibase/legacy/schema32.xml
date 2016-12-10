@@ -104,8 +104,8 @@
             <column name="name" value="podcast" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(username, role_id)
-            select distinct u.username, 7 from "USER" u, "USER_ROLE" ur
+            insert into "user_role"(username, role_id)
+            select distinct u.username, 7 from "user" u, "user_role" ur
             where u.username = ur.username and ur.role_id = 1
         </sql>
         <rollback>

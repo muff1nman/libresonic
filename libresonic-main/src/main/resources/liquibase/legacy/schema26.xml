@@ -147,8 +147,8 @@
             <column name="name" value="comment" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(username, role_id)
-            select distinct u.username, 6 from "USER" u, "USER_ROLE" ur
+            insert into "user_role"(username, role_id)
+            select distinct u.username, 6 from "user" u, "user_role" ur
             where u.username = ur.username and ur.role_id in (1, 5)
         </sql>
         <rollback>

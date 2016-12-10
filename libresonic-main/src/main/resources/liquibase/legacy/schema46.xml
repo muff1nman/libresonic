@@ -72,8 +72,8 @@
         </createTable>
         <addPrimaryKey tableName="player_transcoding2" columnNames="player_id,transcoding_id" />
         <sql>
-            insert into "PLAYER_TRANSCODING2"(player_id, transcoding_id)
-            select distinct p.id, t.id from "PLAYER" p, "TRANSCODING2" t
+            insert into "player_transcoding2"(player_id, transcoding_id)
+            select distinct p.id, t.id from "player" p, "transcoding2" t
         </sql>
         <rollback>
             <dropTable tableName="player_transcoding2" />
