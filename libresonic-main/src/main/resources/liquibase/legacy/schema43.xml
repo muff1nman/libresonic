@@ -23,7 +23,7 @@
             <column name="version" valueNumeric="17" />
         </insert>
         <delete tableName="transcoding">
-            <where>target_format = flv and source_format in ('avi', 'mpg', 'mpeg', 'mp4', 'm4v', 'mkv', 'mov', 'wmv', 'ogv')</where>
+            <where>target_format = 'flv' and source_format in ('avi', 'mpg', 'mpeg', 'mp4', 'm4v', 'mkv', 'mov', 'wmv', 'ogv')</where>
         </delete>
         <insert tableName="transcoding">
             <column name="name" value="avi > flv"/>
