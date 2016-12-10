@@ -24,8 +24,8 @@
             <column name="name" value="share" />
         </insert>
         <sql>
-            insert into "user_role"(username, role_id)
-            select distinct u.username, 11 from "user" u, "user_role" ur
+            insert into user_role(username, role_id)
+            select distinct u.username, 11 from user u, user_role ur
             where u.username = ur.username and ur.role_id = 1
         </sql>
         <rollback />

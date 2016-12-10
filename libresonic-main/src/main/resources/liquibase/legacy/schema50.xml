@@ -17,8 +17,8 @@
             <column name="default_active" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "player_transcoding2"(player_id, transcoding_id)
-            select distinct p.id, t.id from "player" p, "transcoding2" t where t.name='mkv video'
+            insert into player_transcoding2(player_id, transcoding_id)
+            select distinct p.id, t.id from player p, transcoding2 t where t.name='mkv video'
         </sql>
         <rollback>
             <delete tableName="version" >
