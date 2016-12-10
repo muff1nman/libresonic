@@ -41,21 +41,21 @@
     </changeSet>
     <changeSet id="schema35_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from ROLE where ID = 8</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from role where id = 8</sqlCheck>
         </preConditions>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="8"/>
             <column name="NAME" value="stream" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(USERNAME, ROLE_ID) select distinct u.USERNAME, 8 from "USER" u
+            insert into "USER_ROLE"(username, role_id) select distinct u.username, 8 from "USER" u
         </sql>
         <rollback>
             <delete tableName="USER_ROLE" >
-                <where>ROLE_ID = 8</where>
+                <where>role_id = 8</where>
             </delete>
             <delete tableName="ROLE">
-                <where>ID = 8</where>
+                <where>id = 8</where>
             </delete>
         </rollback>
     </changeSet>
@@ -164,7 +164,7 @@
     </changeSet>
     <changeSet id="schema35_010_Formal" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Formal'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Formal'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Formal" />
@@ -175,13 +175,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Formal'</where>
+                <where>name = 'Formal'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Engineer" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Engineer'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Engineer'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Engineer" />
@@ -192,13 +192,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Engineer'</where>
+                <where>name = 'Engineer'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Footballer" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Footballer'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Footballer'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Footballer" />
@@ -209,13 +209,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Footballer'</where>
+                <where>name = 'Footballer'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Green-Boy" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Green-Boy'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Green-Boy'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Green-Boy" />
@@ -226,13 +226,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Green-Boy'</where>
+                <where>name = 'Green-Boy'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Linux-Zealot" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Linux-Zealot'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Linux-Zealot'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Linux-Zealot" />
@@ -243,13 +243,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Linux-Zealot'</where>
+                <where>name = 'Linux-Zealot'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Mac-Zealot" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Mac-Zealot'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Mac-Zealot'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Mac-Zealot" />
@@ -260,13 +260,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Mac-Zealot'</where>
+                <where>name = 'Mac-Zealot'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Windows-Zealot" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Windows-Zealot'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Windows-Zealot'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Windows-Zealot" />
@@ -277,13 +277,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Windows-Zealot'</where>
+                <where>name = 'Windows-Zealot'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Army-Officer" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Army-Officer'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Army-Officer'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Army-Officer" />
@@ -294,13 +294,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Army-Officer'</where>
+                <where>name = 'Army-Officer'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Beatnik" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Beatnik'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Beatnik'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Beatnik" />
@@ -311,13 +311,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Beatnik'</where>
+                <where>name = 'Beatnik'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_All-Caps" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'All-Caps'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'All-Caps'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="All-Caps" />
@@ -328,13 +328,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'All-Caps'</where>
+                <where>name = 'All-Caps'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Clown" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Clown'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Clown'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Clown" />
@@ -345,13 +345,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Clown'</where>
+                <where>name = 'Clown'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Commie-Pinko" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Commie-Pinko'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Commie-Pinko'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Commie-Pinko" />
@@ -362,13 +362,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Commie-Pinko'</where>
+                <where>name = 'Commie-Pinko'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Forum-Flirt" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Forum-Flirt'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Forum-Flirt'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Forum-Flirt" />
@@ -379,13 +379,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Forum-Flirt'</where>
+                <where>name = 'Forum-Flirt'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Gamer" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Gamer'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Gamer'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Gamer" />
@@ -396,13 +396,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Gamer'</where>
+                <where>name = 'Gamer'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Hopelessly-Addicted" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Hopelessly-Addicted'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Hopelessly-Addicted'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Hopelessly-Addicted" />
@@ -413,13 +413,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Hopelessly-Addicted'</where>
+                <where>name = 'Hopelessly-Addicted'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Jekyll-And-Hyde" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Jekyll-And-Hyde'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Jekyll-And-Hyde'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Jekyll-And-Hyde" />
@@ -430,13 +430,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Jekyll-And-Hyde'</where>
+                <where>name = 'Jekyll-And-Hyde'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Joker" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Joker'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Joker'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Joker" />
@@ -447,13 +447,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Joker'</where>
+                <where>name = 'Joker'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Lurker" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Lurker'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Lurker'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Lurker" />
@@ -464,13 +464,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Lurker'</where>
+                <where>name = 'Lurker'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Moderator" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Moderator'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Moderator'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Moderator" />
@@ -481,13 +481,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Moderator'</where>
+                <where>name = 'Moderator'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Newbie" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Newbie'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Newbie'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Newbie" />
@@ -498,13 +498,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Newbie'</where>
+                <where>name = 'Newbie'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_No-Dissent" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'No-Dissent'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'No-Dissent'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="No-Dissent" />
@@ -515,13 +515,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'No-Dissent'</where>
+                <where>name = 'No-Dissent'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Performer" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Performer'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Performer'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Performer" />
@@ -532,13 +532,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Performer'</where>
+                <where>name = 'Performer'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Push-My-Button" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Push-My-Button'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Push-My-Button'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Push-My-Button" />
@@ -549,13 +549,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Push-My-Button'</where>
+                <where>name = 'Push-My-Button'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Ray-Of-Sunshine" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Ray-Of-Sunshine'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Ray-Of-Sunshine'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Ray-Of-Sunshine" />
@@ -566,13 +566,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Ray-Of-Sunshine'</where>
+                <where>name = 'Ray-Of-Sunshine'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Red-Hot-Chili-Peppers-1" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Red-Hot-Chili-Peppers-1'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-1'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Red-Hot-Chili-Peppers-1" />
@@ -583,13 +583,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Red-Hot-Chili-Peppers-1'</where>
+                <where>name = 'Red-Hot-Chili-Peppers-1'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Red-Hot-Chili-Peppers-2" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Red-Hot-Chili-Peppers-2'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-2'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Red-Hot-Chili-Peppers-2" />
@@ -600,13 +600,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Red-Hot-Chili-Peppers-2'</where>
+                <where>name = 'Red-Hot-Chili-Peppers-2'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Red-Hot-Chili-Peppers-3" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Red-Hot-Chili-Peppers-3'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-3'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Red-Hot-Chili-Peppers-3" />
@@ -617,13 +617,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Red-Hot-Chili-Peppers-3'</where>
+                <where>name = 'Red-Hot-Chili-Peppers-3'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Red-Hot-Chili-Peppers-4" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Red-Hot-Chili-Peppers-4'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-4'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Red-Hot-Chili-Peppers-4" />
@@ -634,13 +634,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Red-Hot-Chili-Peppers-4'</where>
+                <where>name = 'Red-Hot-Chili-Peppers-4'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Ringmaster" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Ringmaster'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Ringmaster'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Ringmaster" />
@@ -651,13 +651,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Ringmaster'</where>
+                <where>name = 'Ringmaster'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Rumor-Junkie" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Rumor-Junkie'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Rumor-Junkie'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Rumor-Junkie" />
@@ -668,13 +668,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Rumor-Junkie'</where>
+                <where>name = 'Rumor-Junkie'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Sozzled-Surfer" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Sozzled-Surfer'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Sozzled-Surfer'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Sozzled-Surfer" />
@@ -685,13 +685,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Sozzled-Surfer'</where>
+                <where>name = 'Sozzled-Surfer'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Statistician" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Statistician'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Statistician'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Statistician" />
@@ -702,13 +702,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Statistician'</where>
+                <where>name = 'Statistician'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Tech-Support" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Tech-Support'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Tech-Support'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Tech-Support" />
@@ -719,13 +719,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Tech-Support'</where>
+                <where>name = 'Tech-Support'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_The-Guru" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'The-Guru'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'The-Guru'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="The-Guru" />
@@ -736,13 +736,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'The-Guru'</where>
+                <where>name = 'The-Guru'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_The-Referee" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'The-Referee'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'The-Referee'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="The-Referee" />
@@ -753,13 +753,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'The-Referee'</where>
+                <where>name = 'The-Referee'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Troll" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Troll'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Troll'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Troll" />
@@ -770,13 +770,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Troll'</where>
+                <where>name = 'Troll'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Uptight" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Uptight'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Uptight'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Uptight" />
@@ -787,13 +787,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Uptight'</where>
+                <where>name = 'Uptight'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Fire-Guitar" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Fire-Guitar'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Fire-Guitar'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Fire-Guitar" />
@@ -804,13 +804,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Fire-Guitar'</where>
+                <where>name = 'Fire-Guitar'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Drum" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Drum'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Drum'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Drum" />
@@ -821,13 +821,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Drum'</where>
+                <where>name = 'Drum'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Headphones" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Headphones'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Headphones'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Headphones" />
@@ -838,13 +838,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Headphones'</where>
+                <where>name = 'Headphones'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Mic" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Mic'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Mic'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Mic" />
@@ -855,13 +855,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Mic'</where>
+                <where>name = 'Mic'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Turntable" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Turntable'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Turntable'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Turntable" />
@@ -872,13 +872,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Turntable'</where>
+                <where>name = 'Turntable'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Vinyl" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Vinyl'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Vinyl'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Vinyl" />
@@ -889,13 +889,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Vinyl'</where>
+                <where>name = 'Vinyl'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Cool" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Cool'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Cool'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Cool" />
@@ -906,13 +906,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Cool'</where>
+                <where>name = 'Cool'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Laugh" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Laugh'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Laugh'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Laugh" />
@@ -923,13 +923,13 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Laugh'</where>
+                <where>name = 'Laugh'</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema35_010_Study" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from SYSTEM_AVATAR where NAME = 'Study'</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Study'</sqlCheck>
         </preConditions>
         <insert tableName="SYSTEM_AVATAR">
             <column name="NAME" value="Study" />
@@ -940,7 +940,7 @@
         </insert>
         <rollback>
             <delete tableName="SYSTEM_AVATAR">
-                <where>NAME = 'Study'</where>
+                <where>name = 'Study'</where>
             </delete>
         </rollback>
     </changeSet>

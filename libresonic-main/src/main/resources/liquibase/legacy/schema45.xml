@@ -17,16 +17,16 @@
     </changeSet>
     <changeSet id="schema45_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from ROLE where ID = 11</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from role where id = 11</sqlCheck>
         </preConditions>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="11"/>
             <column name="NAME" value="share" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(USERNAME, ROLE_ID)
-            select distinct u.USERNAME, 11 from "USER" u, "USER_ROLE" ur
-            where u.USERNAME = ur.USERNAME and ur.ROLE_ID = 1
+            insert into "USER_ROLE"(username, role_id)
+            select distinct u.username, 11 from "USER" u, "USER_ROLE" ur
+            where u.username = ur.username and ur.role_id = 1
         </sql>
         <rollback />
     </changeSet>

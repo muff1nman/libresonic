@@ -34,8 +34,8 @@
         </createTable>
         <addPrimaryKey tableName="USER_RATING" columnNames="USERNAME,PATH" />
         <sql>
-            insert into "USER_RATING" select 'admin', PATH, RATING from "MUSIC_FILE_INFO"
-            where RATING is not null and RATING > 0
+            insert into "USER_RATING" select 'admin', path, rating from "MUSIC_FILE_INFO"
+            where rating is not null and rating > 0
         </sql>
         <rollback>
             <dropTable tableName="USER_RATING" />

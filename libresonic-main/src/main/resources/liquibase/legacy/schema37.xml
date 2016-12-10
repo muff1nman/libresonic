@@ -18,27 +18,27 @@
     </changeSet>
     <changeSet id="schema37_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from ROLE where ID = 9</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from role where id = 9</sqlCheck>
         </preConditions>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="9"/>
             <column name="NAME" value="settings" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(USERNAME, ROLE_ID) select distinct u.USERNAME, 9 from "USER" u
+            insert into "USER_ROLE"(username, role_id) select distinct u.username, 9 from "USER" u
         </sql>
         <rollback />
     </changeSet>
     <changeSet id="schema37_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from ROLE where ID = 10</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from role where id = 10</sqlCheck>
         </preConditions>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="10"/>
             <column name="NAME" value="jukebox" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(USERNAME, ROLE_ID) select distinct u.USERNAME, 10 from "USER" u
+            insert into "USER_ROLE"(username, role_id) select distinct u.username, 10 from "USER" u
         </sql>
         <rollback />
     </changeSet>

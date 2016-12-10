@@ -17,18 +17,18 @@
             <column name="DEFAULT_ACTIVE" valueBoolean="true" />
         </insert>
         <sql>
-            insert into "PLAYER_TRANSCODING2"(PLAYER_ID, TRANSCODING_ID)
-            select distinct p.ID, t.ID from "PLAYER" p, "TRANSCODING2" t where t.NAME='mkv video'
+            insert into "PLAYER_TRANSCODING2"(player_id, transcoding_id)
+            select distinct p.id, t.id from "PLAYER" p, "TRANSCODING2" t where t.name='mkv video'
         </sql>
         <rollback>
             <delete tableName="VERSION" >
                 <where>VERSION = 22</where>
             </delete>
             <delete tableName="PLAYER_TRANSCODING" >
-                <where>TRANSCODING_ID in (select ID from TRANSCODING_2 where NAME = 'mkv video')</where>
+                <where>transcoding_id in (select id from transcoding_2 where name = 'mkv video')</where>
             </delete>
             <delete tableName="TRANSCODING2" >
-                <where>NAME = 'mkv video'</where>
+                <where>name = 'mkv video'</where>
             </delete>
         </rollback>
     </changeSet>
@@ -53,7 +53,7 @@
         </insert>
         <update tableName="TRANSCODING2">
             <column name="STEP1" value="ffmpeg -i %s -map 0:0 -b:a %bk -v 0 -f mp3 -" />
-            <where>NAME='mp3 audio'</where>
+            <where>name='mp3 audio'</where>
         </update>
         <rollback>
             <delete tableName="VERSION" >
