@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="schema50_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from VERSION where VERSION = 22</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from version where version = 22</sqlCheck>
         </preConditions>
         <insert tableName="VERSION">
             <column name="VERSION" valueNumeric="22" />
@@ -22,7 +22,7 @@
         </sql>
         <rollback>
             <delete tableName="VERSION" >
-                <where>VERSION = 22</where>
+                <where>version = 22</where>
             </delete>
             <delete tableName="PLAYER_TRANSCODING" >
                 <where>transcoding_id in (select id from transcoding_2 where name = 'mkv video')</where>
@@ -46,7 +46,7 @@
     </changeSet>
     <changeSet id="schema50_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from VERSION where VERSION = 23</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from version where version = 23</sqlCheck>
         </preConditions>
         <insert tableName="VERSION">
             <column name="VERSION" valueNumeric="23" />
@@ -57,7 +57,7 @@
         </update>
         <rollback>
             <delete tableName="VERSION" >
-                <where>VERSION = 23</where>
+                <where>version = 23</where>
             </delete>
         </rollback>
     </changeSet>

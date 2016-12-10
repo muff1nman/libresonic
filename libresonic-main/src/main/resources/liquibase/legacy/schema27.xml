@@ -5,14 +5,14 @@
     <!-- Note that music_file_info.path case insensitive change was ignored -->
     <changeSet id="schema27_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from VERSION where VERSION = 3</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from version where version = 3</sqlCheck>
         </preConditions>
         <insert tableName="VERSION">
             <column name="VERSION" valueNumeric="3" />
         </insert>
         <rollback>
             <delete tableName="VERSION" >
-                <where>VERSION = 3</where>
+                <where>version = 3</where>
             </delete>
         </rollback>
     </changeSet>
