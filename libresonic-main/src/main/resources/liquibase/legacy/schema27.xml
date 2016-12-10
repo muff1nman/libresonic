@@ -7,11 +7,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 3</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="3" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="3" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 3</where>
             </delete>
         </rollback>
@@ -19,17 +19,17 @@
     <changeSet id="schema27_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER" columnName="BYTES_STREAMED" />
+                <columnExists tableName="user" columnName="bytes_streamed" />
             </not>
         </preConditions>
-        <addColumn tableName="USER">
-            <column name="BYTES_STREAMED" type="bigint" defaultValueNumeric="0">
+        <addColumn tableName="user">
+            <column name="bytes_streamed" type="bigint" defaultValueNumeric="0">
                 <constraints nullable="false" />
             </column>
-            <column name="BYTES_DOWNLOADED" type="bigint" defaultValueNumeric="0">
+            <column name="bytes_downloaded" type="bigint" defaultValueNumeric="0">
                 <constraints nullable="false" />
             </column>
-            <column name="BYTES_UPLOADED" type="bigint" defaultValueNumeric="0">
+            <column name="bytes_uploaded" type="bigint" defaultValueNumeric="0">
                 <constraints nullable="false" />
             </column>
         </addColumn>

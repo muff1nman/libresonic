@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 14</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="14" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="14" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 14</where>
             </delete>
         </rollback>
@@ -18,21 +18,21 @@
     <changeSet id="schema38_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="PLAYER" columnName="CLIENT_ID" />
+                <columnExists tableName="player" columnName="client_id" />
             </not>
         </preConditions>
-        <addColumn tableName="PLAYER">
-            <column name="CLIENT_ID" type="${varchar_type}"/>
+        <addColumn tableName="player">
+            <column name="client_id" type="${varchar_type}"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema38_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="SHOW_CHAT" />
+                <columnExists tableName="user_settings" columnName="show_chat" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="SHOW_CHAT" type="boolean" defaultValueBoolean="true">
+        <addColumn tableName="user_settings">
+            <column name="show_chat" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </addColumn>

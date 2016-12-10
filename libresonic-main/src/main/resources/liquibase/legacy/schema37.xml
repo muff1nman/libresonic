@@ -7,11 +7,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 13</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="13" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="13" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 13</where>
             </delete>
         </rollback>
@@ -20,9 +20,9 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from role where id = 9</sqlCheck>
         </preConditions>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="9"/>
-            <column name="NAME" value="settings" />
+        <insert tableName="role">
+            <column name="id" valueNumeric="9"/>
+            <column name="name" value="settings" />
         </insert>
         <sql>
             insert into "USER_ROLE"(username, role_id) select distinct u.username, 9 from "USER" u
@@ -33,9 +33,9 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from role where id = 10</sqlCheck>
         </preConditions>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="10"/>
-            <column name="NAME" value="jukebox" />
+        <insert tableName="role">
+            <column name="id" valueNumeric="10"/>
+            <column name="name" value="jukebox" />
         </insert>
         <sql>
             insert into "USER_ROLE"(username, role_id) select distinct u.username, 10 from "USER" u
@@ -45,11 +45,11 @@
     <changeSet id="schema37_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="MUSIC_FOLDER" columnName="CHANGED" />
+                <columnExists tableName="music_folder" columnName="changed" />
             </not>
         </preConditions>
-        <addColumn tableName="MUSIC_FOLDER">
-            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}">
+        <addColumn tableName="music_folder">
+            <column name="changed" type="datetime" defaultValueComputed="${curr_date_expr}">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -57,11 +57,11 @@
     <changeSet id="schema37_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="INTERNET_RADIO" columnName="CHANGED" />
+                <columnExists tableName="internet_radio" columnName="changed" />
             </not>
         </preConditions>
-        <addColumn tableName="INTERNET_RADIO">
-            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}">
+        <addColumn tableName="internet_radio">
+            <column name="changed" type="datetime" defaultValueComputed="${curr_date_expr}">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -69,11 +69,11 @@
     <changeSet id="schema37_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="CHANGED" />
+                <columnExists tableName="user_settings" columnName="changed" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}">
+        <addColumn tableName="user_settings">
+            <column name="changed" type="datetime" defaultValueComputed="${curr_date_expr}">
                 <constraints nullable="false" />
             </column>
         </addColumn>

@@ -6,15 +6,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 15</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="15" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="15" />
         </insert>
         <!--Reset stream byte count since they have been wrong in earlier releases.-->
-        <update tableName="USER">
-            <column name="BYTES_STREAMED" valueNumeric="0" />
+        <update tableName="user">
+            <column name="bytes_streamed" valueNumeric="0" />
         </update>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 15</where>
             </delete>
         </rollback>

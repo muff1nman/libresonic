@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 25</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="25" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="25" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 25</where>
             </delete>
         </rollback>
@@ -21,18 +21,18 @@
                 <indexExists indexName="idx_podcast_episode_url" />
             </not>
         </preConditions>
-        <createIndex tableName="PODCAST_EPISODE" indexName="idx_podcast_episode_url">
-            <column name="URL"/>
+        <createIndex tableName="podcast_episode" indexName="idx_podcast_episode_url">
+            <column name="url"/>
         </createIndex>
     </changeSet>
     <changeSet id="schema53_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="DEFAULT_ALBUM_LIST" />
+                <columnExists tableName="user_settings" columnName="default_album_list" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="DEFAULT_ALBUM_LIST" type="${varchar_type}" defaultValue="random">
+        <addColumn tableName="user_settings">
+            <column name="default_album_list" type="${varchar_type}" defaultValue="random">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -40,11 +40,11 @@
     <changeSet id="schema53_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="QUEUE_FOLLOWING_SONGS" />
+                <columnExists tableName="user_settings" columnName="queue_following_songs" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="QUEUE_FOLLOWING_SONGS" type="boolean" defaultValueBoolean="true">
+        <addColumn tableName="user_settings">
+            <column name="queue_following_songs" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -52,21 +52,21 @@
     <changeSet id="schema53_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="PODCAST_CHANNEL" columnName="IMAGE_URL" />
+                <columnExists tableName="podcast_channel" columnName="image_url" />
             </not>
         </preConditions>
-        <addColumn tableName="PODCAST_CHANNEL">
-            <column name="IMAGE_URL" type="${varchar_type}" />
+        <addColumn tableName="podcast_channel">
+            <column name="image_url" type="${varchar_type}" />
         </addColumn>
     </changeSet>
     <changeSet id="schema53_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="SHOW_SIDE_BAR" />
+                <columnExists tableName="user_settings" columnName="show_side_bar" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="SHOW_SIDE_BAR" type="boolean" defaultValueBoolean="true">
+        <addColumn tableName="user_settings">
+            <column name="show_side_bar" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -74,11 +74,11 @@
     <changeSet id="schema53_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="ARTIST" columnName="FOLDER_ID" />
+                <columnExists tableName="artist" columnName="folder_id" />
             </not>
         </preConditions>
-        <addColumn tableName="ARTIST">
-            <column name="FOLDER_ID" type="int"/>
+        <addColumn tableName="artist">
+            <column name="folder_id" type="int"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

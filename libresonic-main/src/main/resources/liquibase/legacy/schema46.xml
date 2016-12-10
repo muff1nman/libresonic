@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 19</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="19" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="19" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 19</where>
             </delete>
         </rollback>
@@ -18,75 +18,75 @@
     <changeSet id="schema46_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="TRANSCODING2" />
+                <tableExists tableName="transcoding2" />
             </not>
         </preConditions>
-        <createTable tableName="TRANSCODING2">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="transcoding2">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="NAME" type="${varchar_type}" >
+            <column name="name" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="SOURCE_FORMATS" type="${varchar_type}" >
+            <column name="source_formats" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="TARGET_FORMAT" type="${varchar_type}" >
+            <column name="target_format" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="STEP1" type="${varchar_type}" >
+            <column name="step1" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="STEP2" type="${varchar_type}" />
-            <column name="STEP3" type="${varchar_type}" />
+            <column name="step2" type="${varchar_type}" />
+            <column name="step3" type="${varchar_type}" />
         </createTable>
-        <insert tableName="TRANSCODING2">
-            <column name="NAME" value="mp3 audio" />
-            <column name="SOURCE_FORMATS" value="ogg oga aac m4a flac wav wma aif aiff ape mpc shn" />
-            <column name="TARGET_FORMAT" value="mp3" />
-            <column name="STEP1" value="ffmpeg -i %s -ab %bk -v 0 -f mp3 -"/>
+        <insert tableName="transcoding2">
+            <column name="name" value="mp3 audio" />
+            <column name="source_formats" value="ogg oga aac m4a flac wav wma aif aiff ape mpc shn" />
+            <column name="target_format" value="mp3" />
+            <column name="step1" value="ffmpeg -i %s -ab %bk -v 0 -f mp3 -"/>
         </insert>
-        <insert tableName="TRANSCODING2">
-            <column name="NAME" value="flv/h264 video" />
-            <column name="SOURCE_FORMATS" value="avi mpg mpeg mp4 m4v mkv mov wmv ogv divx m2ts" />
-            <column name="TARGET_FORMAT" value="flv" />
-            <column name="STEP1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -vcodec libx264 -preset superfast -threads 0 -"/>
+        <insert tableName="transcoding2">
+            <column name="name" value="flv/h264 video" />
+            <column name="source_formats" value="avi mpg mpeg mp4 m4v mkv mov wmv ogv divx m2ts" />
+            <column name="target_format" value="flv" />
+            <column name="step1" value="ffmpeg -ss %o -i %s -async 1 -b %bk -s %wx%h -ar 44100 -ac 2 -v 0 -f flv -vcodec libx264 -preset superfast -threads 0 -"/>
         </insert>
         <rollback>
-            <dropTable tableName="TRANSCODING2" />
+            <dropTable tableName="transcoding2" />
         </rollback>
     </changeSet>
     <changeSet id="schema46_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="PLAYER_TRANSCODING2" />
+                <tableExists tableName="player_transcoding2" />
             </not>
         </preConditions>
-        <createTable tableName="PLAYER_TRANSCODING2">
-            <column name="PLAYER_ID" type="int">
-                <constraints nullable="false" foreignKeyName="pt2_p_fk" referencedTableName="PLAYER" referencedColumnNames="ID" deleteCascade="true"/>
+        <createTable tableName="player_transcoding2">
+            <column name="player_id" type="int">
+                <constraints nullable="false" foreignKeyName="pt2_p_fk" referencedTableName="player" referencedColumnNames="id" deleteCascade="true"/>
             </column>
-            <column name="TRANSCODING_ID" type="int" >
-                <constraints nullable="false" foreignKeyName="pt2_t_fk" referencedTableName="TRANSCODING2" referencedColumnNames="ID" deleteCascade="true"/>
+            <column name="transcoding_id" type="int" >
+                <constraints nullable="false" foreignKeyName="pt2_t_fk" referencedTableName="transcoding2" referencedColumnNames="id" deleteCascade="true"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="PLAYER_TRANSCODING2" columnNames="PLAYER_ID,TRANSCODING_ID" />
+        <addPrimaryKey tableName="player_transcoding2" columnNames="player_id,transcoding_id" />
         <sql>
             insert into "PLAYER_TRANSCODING2"(player_id, transcoding_id)
             select distinct p.id, t.id from "PLAYER" p, "TRANSCODING2" t
         </sql>
         <rollback>
-            <dropTable tableName="PLAYER_TRANSCODING2" />
+            <dropTable tableName="player_transcoding2" />
         </rollback>
     </changeSet>
     <changeSet id="schema46_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="TRANSCODING2" columnName="DEFAULT_ACTIVE" />
+                <columnExists tableName="transcoding2" columnName="default_active" />
             </not>
         </preConditions>
-        <addColumn tableName="TRANSCODING2">
-            <column name="DEFAULT_ACTIVE" type="boolean" defaultValueBoolean="true">
+        <addColumn tableName="transcoding2">
+            <column name="default_active" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </addColumn>

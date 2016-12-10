@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 5</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="5" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="5" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 5</where>
             </delete>
         </rollback>
@@ -18,27 +18,27 @@
     <changeSet id="schema29_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="USER_RATING" />
+                <tableExists tableName="user_rating" />
             </not>
         </preConditions>
-        <createTable tableName="USER_RATING">
-            <column name="USERNAME" type="${varchar_type}">
-                <constraints nullable="false" foreignKeyName="ura_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true"/>
+        <createTable tableName="user_rating">
+            <column name="username" type="${varchar_type}">
+                <constraints nullable="false" foreignKeyName="ura_u_fk" referencedTableName="user" referencedColumnNames="username" deleteCascade="true"/>
             </column>
-            <column name="PATH" type="${varchar_type}" >
+            <column name="path" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="RATING" type="double" >
+            <column name="rating" type="double" >
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <addPrimaryKey tableName="USER_RATING" columnNames="USERNAME,PATH" />
+        <addPrimaryKey tableName="user_rating" columnNames="username,path" />
         <sql>
             insert into "USER_RATING" select 'admin', path, rating from "MUSIC_FILE_INFO"
             where rating is not null and rating > 0
         </sql>
         <rollback>
-            <dropTable tableName="USER_RATING" />
+            <dropTable tableName="user_rating" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

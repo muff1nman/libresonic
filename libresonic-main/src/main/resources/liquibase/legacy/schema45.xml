@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 18</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="18" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="18" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 18</where>
             </delete>
         </rollback>
@@ -19,9 +19,9 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from role where id = 11</sqlCheck>
         </preConditions>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="11"/>
-            <column name="NAME" value="share" />
+        <insert tableName="role">
+            <column name="id" valueNumeric="11"/>
+            <column name="name" value="share" />
         </insert>
         <sql>
             insert into "USER_ROLE"(username, role_id)
@@ -33,43 +33,43 @@
     <changeSet id="schema45_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="SHARE" />
+                <tableExists tableName="share" />
             </not>
         </preConditions>
-        <createTable tableName="SHARE">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="share">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="NAME" type="${varchar_type}" >
+            <column name="name" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="DESCRIPTION" type="${varchar_type}" />
-            <column name="USERNAME" type="${varchar_type}" >
-                <constraints nullable="false" foreignKeyName="s_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true"/>
+            <column name="description" type="${varchar_type}" />
+            <column name="username" type="${varchar_type}" >
+                <constraints nullable="false" foreignKeyName="s_u_fk" referencedTableName="user" referencedColumnNames="username" deleteCascade="true"/>
             </column>
-            <column name="CREATED" type="datetime" >
+            <column name="created" type="datetime" >
                 <constraints nullable="false" />
             </column>
-            <column name="EXPIRES" type="datetime" />
-            <column name="LAST_VISITED" type="datetime" />
-            <column name="VISIT_COUNT" type="int" defaultValueNumeric="0" >
+            <column name="expires" type="datetime" />
+            <column name="last_visited" type="datetime" />
+            <column name="visit_count" type="int" defaultValueNumeric="0" >
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <createIndex unique="true" tableName="SHARE" indexName="idx_share_name">
-            <column name="NAME"/>
+        <createIndex unique="true" tableName="share" indexName="idx_share_name">
+            <column name="name"/>
         </createIndex>
         <sql dbms="hsql">
             set table share type cached
         </sql>
-        <createTable tableName="SHARE_FILE">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="share_file">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="SHARE_ID" type="int">
-                <constraints nullable="false" foreignKeyName="sf_s_fk" referencedTableName="SHARE" referencedColumnNames="ID" deleteCascade="true"/>
+            <column name="share_id" type="int">
+                <constraints nullable="false" foreignKeyName="sf_s_fk" referencedTableName="share" referencedColumnNames="id" deleteCascade="true"/>
             </column>
-            <column name="PATH" type="${varchar_type}" >
+            <column name="path" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -77,8 +77,8 @@
             set table share_file type cached
         </sql>
         <rollback>
-            <dropTable tableName="SHARE" />
-            <dropTable tableName="SHARE_FILE" />
+            <dropTable tableName="share" />
+            <dropTable tableName="share_file" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

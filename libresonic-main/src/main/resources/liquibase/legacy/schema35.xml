@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 11</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="11" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="11" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 11</where>
             </delete>
         </rollback>
@@ -18,11 +18,11 @@
     <changeSet id="schema35_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="NOW_PLAYING_ALLOWED" />
+                <columnExists tableName="user_settings" columnName="now_playing_allowed" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="NOW_PLAYING_ALLOWED" type="boolean" defaultValueBoolean="true">
+        <addColumn tableName="user_settings">
+            <column name="now_playing_allowed" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -30,11 +30,11 @@
     <changeSet id="schema35_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="WEB_PLAYER_DEFAULT" />
+                <columnExists tableName="user_settings" columnName="web_player_default" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="WEB_PLAYER_DEFAULT" type="boolean" defaultValueBoolean="false">
+        <addColumn tableName="user_settings">
+            <column name="web_player_default" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -43,18 +43,18 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from role where id = 8</sqlCheck>
         </preConditions>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="8"/>
-            <column name="NAME" value="stream" />
+        <insert tableName="role">
+            <column name="id" valueNumeric="8"/>
+            <column name="name" value="stream" />
         </insert>
         <sql>
             insert into "USER_ROLE"(username, role_id) select distinct u.username, 8 from "USER" u
         </sql>
         <rollback>
-            <delete tableName="USER_ROLE" >
+            <delete tableName="user_role" >
                 <where>role_id = 8</where>
             </delete>
-            <delete tableName="ROLE">
+            <delete tableName="role">
                 <where>id = 8</where>
             </delete>
         </rollback>
@@ -62,78 +62,78 @@
     <changeSet id="schema35_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="SYSTEM_AVATAR" />
+                <tableExists tableName="system_avatar" />
             </not>
         </preConditions>
-        <createTable tableName="SYSTEM_AVATAR">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="system_avatar">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="NAME" type="${varchar_type}" >
+            <column name="name" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="CREATED_DATE" type="datetime" defaultValueComputed="${curr_date_expr}">
+            <column name="created_date" type="datetime" defaultValueComputed="${curr_date_expr}">
                 <constraints nullable="false" />
             </column>
-            <column name="MIME_TYPE" type="${varchar_type}" >
+            <column name="mime_type" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="WIDTH" type="int" >
+            <column name="width" type="int" >
                 <constraints nullable="false" />
             </column>
-            <column name="HEIGHT" type="int" >
+            <column name="height" type="int" >
                 <constraints nullable="false" />
             </column>
-            <column name="DATA" type="${binary_type}" >
+            <column name="data" type="${binary_type}" >
                 <constraints nullable="false" />
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="SYSTEM_AVATAR" />
+            <dropTable tableName="system_avatar" />
         </rollback>
     </changeSet>
     <changeSet id="schema35_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="CUSTOM_AVATAR" />
+                <tableExists tableName="custom_avatar" />
             </not>
         </preConditions>
-        <createTable tableName="CUSTOM_AVATAR">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="custom_avatar">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="NAME" type="${varchar_type}"/>
-            <column name="CREATED_DATE" type="datetime" defaultValueComputed="${curr_date_expr}">
+            <column name="name" type="${varchar_type}"/>
+            <column name="created_date" type="datetime" defaultValueComputed="${curr_date_expr}">
                 <constraints nullable="false" />
             </column>
-            <column name="MIME_TYPE" type="${varchar_type}" >
+            <column name="mime_type" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="WIDTH" type="int" >
+            <column name="width" type="int" >
                 <constraints nullable="false" />
             </column>
-            <column name="HEIGHT" type="int" >
+            <column name="height" type="int" >
                 <constraints nullable="false" />
             </column>
-            <column name="DATA" type="${binary_type}" >
+            <column name="data" type="${binary_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="USERNAME" type="${varchar_type}" >
-                <constraints nullable="false" deleteCascade="true" foreignKeyName="ca_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" />
+            <column name="username" type="${varchar_type}" >
+                <constraints nullable="false" deleteCascade="true" foreignKeyName="ca_u_fk" referencedTableName="user" referencedColumnNames="username" />
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="CUSTOM_AVATAR" />
+            <dropTable tableName="custom_avatar" />
         </rollback>
     </changeSet>
     <changeSet id="schema35_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="AVATAR_SCHEME" />
+                <columnExists tableName="user_settings" columnName="avatar_scheme" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="AVATAR_SCHEME" type="${varchar_type}" defaultValue="NONE">
+        <addColumn tableName="user_settings">
+            <column name="avatar_scheme" type="${varchar_type}" defaultValue="NONE">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -141,23 +141,23 @@
     <changeSet id="schema35_008" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="SYSTEM_AVATAR_ID" />
+                <columnExists tableName="user_settings" columnName="system_avatar_id" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="SYSTEM_AVATAR_ID" type="int">
-                <constraints foreignKeyName="us_sai_fk" referencedTableName="SYSTEM_AVATAR" referencedColumnNames="ID" />
+        <addColumn tableName="user_settings">
+            <column name="system_avatar_id" type="int">
+                <constraints foreignKeyName="us_sai_fk" referencedTableName="system_avatar" referencedColumnNames="id" />
             </column>
         </addColumn>
     </changeSet>
     <changeSet id="schema35_009" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="PLAYER" columnName="JUKEBOX" />
+                <columnExists tableName="player" columnName="jukebox" />
             </not>
         </preConditions>
-        <addColumn tableName="PLAYER">
-            <column name="JUKEBOX" type="boolean" defaultValueBoolean="false">
+        <addColumn tableName="player">
+            <column name="jukebox" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -166,15 +166,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Formal'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Formal" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Formal.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Formal" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Formal.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Formal'</where>
             </delete>
         </rollback>
@@ -183,15 +183,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Engineer'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Engineer" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Engineer.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Engineer" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Engineer.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Engineer'</where>
             </delete>
         </rollback>
@@ -200,15 +200,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Footballer'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Footballer" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Footballer.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Footballer" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Footballer.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Footballer'</where>
             </delete>
         </rollback>
@@ -217,15 +217,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Green-Boy'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Green-Boy" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Green-Boy.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Green-Boy" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Green-Boy.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Green-Boy'</where>
             </delete>
         </rollback>
@@ -234,15 +234,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Linux-Zealot'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Linux-Zealot" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Linux-Zealot.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Linux-Zealot" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Linux-Zealot.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Linux-Zealot'</where>
             </delete>
         </rollback>
@@ -251,15 +251,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Mac-Zealot'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Mac-Zealot" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Mac-Zealot.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Mac-Zealot" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Mac-Zealot.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Mac-Zealot'</where>
             </delete>
         </rollback>
@@ -268,15 +268,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Windows-Zealot'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Windows-Zealot" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Windows-Zealot.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Windows-Zealot" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Windows-Zealot.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Windows-Zealot'</where>
             </delete>
         </rollback>
@@ -285,15 +285,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Army-Officer'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Army-Officer" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Army-Officer.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Army-Officer" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Army-Officer.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Army-Officer'</where>
             </delete>
         </rollback>
@@ -302,15 +302,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Beatnik'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Beatnik" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Beatnik.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Beatnik" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Beatnik.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Beatnik'</where>
             </delete>
         </rollback>
@@ -319,15 +319,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'All-Caps'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="All-Caps" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/All-Caps.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="All-Caps" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/All-Caps.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'All-Caps'</where>
             </delete>
         </rollback>
@@ -336,15 +336,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Clown'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Clown" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Clown.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Clown" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Clown.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Clown'</where>
             </delete>
         </rollback>
@@ -353,15 +353,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Commie-Pinko'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Commie-Pinko" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Commie-Pinko.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Commie-Pinko" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Commie-Pinko.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Commie-Pinko'</where>
             </delete>
         </rollback>
@@ -370,15 +370,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Forum-Flirt'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Forum-Flirt" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Forum-Flirt.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Forum-Flirt" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Forum-Flirt.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Forum-Flirt'</where>
             </delete>
         </rollback>
@@ -387,15 +387,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Gamer'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Gamer" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Gamer.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Gamer" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Gamer.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Gamer'</where>
             </delete>
         </rollback>
@@ -404,15 +404,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Hopelessly-Addicted'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Hopelessly-Addicted" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Hopelessly-Addicted.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Hopelessly-Addicted" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Hopelessly-Addicted.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Hopelessly-Addicted'</where>
             </delete>
         </rollback>
@@ -421,15 +421,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Jekyll-And-Hyde'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Jekyll-And-Hyde" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Jekyll-And-Hyde.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Jekyll-And-Hyde" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Jekyll-And-Hyde.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Jekyll-And-Hyde'</where>
             </delete>
         </rollback>
@@ -438,15 +438,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Joker'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Joker" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Joker.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Joker" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Joker.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Joker'</where>
             </delete>
         </rollback>
@@ -455,15 +455,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Lurker'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Lurker" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Lurker.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Lurker" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Lurker.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Lurker'</where>
             </delete>
         </rollback>
@@ -472,15 +472,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Moderator'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Moderator" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Moderator.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Moderator" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Moderator.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Moderator'</where>
             </delete>
         </rollback>
@@ -489,15 +489,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Newbie'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Newbie" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Newbie.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Newbie" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Newbie.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Newbie'</where>
             </delete>
         </rollback>
@@ -506,15 +506,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'No-Dissent'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="No-Dissent" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/No-Dissent.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="No-Dissent" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/No-Dissent.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'No-Dissent'</where>
             </delete>
         </rollback>
@@ -523,15 +523,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Performer'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Performer" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Performer.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Performer" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Performer.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Performer'</where>
             </delete>
         </rollback>
@@ -540,15 +540,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Push-My-Button'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Push-My-Button" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Push-My-Button.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Push-My-Button" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Push-My-Button.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Push-My-Button'</where>
             </delete>
         </rollback>
@@ -557,15 +557,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Ray-Of-Sunshine'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Ray-Of-Sunshine" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Ray-Of-Sunshine.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Ray-Of-Sunshine" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Ray-Of-Sunshine.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Ray-Of-Sunshine'</where>
             </delete>
         </rollback>
@@ -574,15 +574,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-1'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Red-Hot-Chili-Peppers-1" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-1.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Red-Hot-Chili-Peppers-1" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-1.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Red-Hot-Chili-Peppers-1'</where>
             </delete>
         </rollback>
@@ -591,15 +591,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-2'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Red-Hot-Chili-Peppers-2" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-2.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Red-Hot-Chili-Peppers-2" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-2.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Red-Hot-Chili-Peppers-2'</where>
             </delete>
         </rollback>
@@ -608,15 +608,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-3'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Red-Hot-Chili-Peppers-3" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-3.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Red-Hot-Chili-Peppers-3" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-3.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Red-Hot-Chili-Peppers-3'</where>
             </delete>
         </rollback>
@@ -625,15 +625,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Red-Hot-Chili-Peppers-4'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Red-Hot-Chili-Peppers-4" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-4.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Red-Hot-Chili-Peppers-4" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Red-Hot-Chili-Peppers-4.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Red-Hot-Chili-Peppers-4'</where>
             </delete>
         </rollback>
@@ -642,15 +642,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Ringmaster'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Ringmaster" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Ringmaster.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Ringmaster" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Ringmaster.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Ringmaster'</where>
             </delete>
         </rollback>
@@ -659,15 +659,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Rumor-Junkie'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Rumor-Junkie" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Rumor-Junkie.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Rumor-Junkie" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Rumor-Junkie.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Rumor-Junkie'</where>
             </delete>
         </rollback>
@@ -676,15 +676,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Sozzled-Surfer'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Sozzled-Surfer" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Sozzled-Surfer.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Sozzled-Surfer" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Sozzled-Surfer.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Sozzled-Surfer'</where>
             </delete>
         </rollback>
@@ -693,15 +693,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Statistician'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Statistician" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Statistician.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Statistician" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Statistician.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Statistician'</where>
             </delete>
         </rollback>
@@ -710,15 +710,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Tech-Support'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Tech-Support" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Tech-Support.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Tech-Support" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Tech-Support.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Tech-Support'</where>
             </delete>
         </rollback>
@@ -727,15 +727,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'The-Guru'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="The-Guru" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/The-Guru.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="The-Guru" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/The-Guru.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'The-Guru'</where>
             </delete>
         </rollback>
@@ -744,15 +744,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'The-Referee'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="The-Referee" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/The-Referee.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="The-Referee" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/The-Referee.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'The-Referee'</where>
             </delete>
         </rollback>
@@ -761,15 +761,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Troll'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Troll" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Troll.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Troll" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Troll.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Troll'</where>
             </delete>
         </rollback>
@@ -778,15 +778,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Uptight'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Uptight" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Uptight.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Uptight" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Uptight.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Uptight'</where>
             </delete>
         </rollback>
@@ -795,15 +795,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Fire-Guitar'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Fire-Guitar" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Fire-Guitar.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Fire-Guitar" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Fire-Guitar.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Fire-Guitar'</where>
             </delete>
         </rollback>
@@ -812,15 +812,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Drum'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Drum" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Drum.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Drum" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Drum.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Drum'</where>
             </delete>
         </rollback>
@@ -829,15 +829,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Headphones'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Headphones" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Headphones.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Headphones" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Headphones.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Headphones'</where>
             </delete>
         </rollback>
@@ -846,15 +846,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Mic'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Mic" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Mic.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Mic" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Mic.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Mic'</where>
             </delete>
         </rollback>
@@ -863,15 +863,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Turntable'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Turntable" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Turntable.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Turntable" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Turntable.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Turntable'</where>
             </delete>
         </rollback>
@@ -880,15 +880,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Vinyl'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Vinyl" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Vinyl.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Vinyl" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Vinyl.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Vinyl'</where>
             </delete>
         </rollback>
@@ -897,15 +897,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Cool'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Cool" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Cool.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Cool" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Cool.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Cool'</where>
             </delete>
         </rollback>
@@ -914,15 +914,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Laugh'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Laugh" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Laugh.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Laugh" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Laugh.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Laugh'</where>
             </delete>
         </rollback>
@@ -931,15 +931,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from system_avatar where name = 'Study'</sqlCheck>
         </preConditions>
-        <insert tableName="SYSTEM_AVATAR">
-            <column name="NAME" value="Study" />
-            <column name="MIME_TYPE" value="img/png" />
-            <column name="WIDTH" valueNumeric="48" />
-            <column name="HEIGHT" valueNumeric="48" />
-            <column name="DATA" valueBlobFile="../../org/libresonic/player/dao/schema/Study.png" />
+        <insert tableName="system_avatar">
+            <column name="name" value="Study" />
+            <column name="mime_type" value="img/png" />
+            <column name="width" valueNumeric="48" />
+            <column name="height" valueNumeric="48" />
+            <column name="data" valueBlobFile="../../org/libresonic/player/dao/schema/Study.png" />
         </insert>
         <rollback>
-            <delete tableName="SYSTEM_AVATAR">
+            <delete tableName="system_avatar">
                 <where>name = 'Study'</where>
             </delete>
         </rollback>

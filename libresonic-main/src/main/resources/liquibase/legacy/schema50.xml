@@ -6,28 +6,28 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 22</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="22" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="22" />
         </insert>
-        <insert tableName="TRANSCODING2">
-            <column name="NAME" value="mkv video"/>
-            <column name="SOURCE_FORMATS" value="avi mpg mpeg mp4 m4v mkv mov wmv ogv divx m2ts" />
-            <column name="TARGET_FORMAT" value="mkv" />
-            <column name="STEP1" value="ffmpeg -ss %o -i %s -c:v libx264 -preset superfast -b:v %bk -c:a libvorbis -f matroska -threads 0 -" />
-            <column name="DEFAULT_ACTIVE" valueBoolean="true" />
+        <insert tableName="transcoding2">
+            <column name="name" value="mkv video"/>
+            <column name="source_formats" value="avi mpg mpeg mp4 m4v mkv mov wmv ogv divx m2ts" />
+            <column name="target_format" value="mkv" />
+            <column name="step1" value="ffmpeg -ss %o -i %s -c:v libx264 -preset superfast -b:v %bk -c:a libvorbis -f matroska -threads 0 -" />
+            <column name="default_active" valueBoolean="true" />
         </insert>
         <sql>
             insert into "PLAYER_TRANSCODING2"(player_id, transcoding_id)
             select distinct p.id, t.id from "PLAYER" p, "TRANSCODING2" t where t.name='mkv video'
         </sql>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 22</where>
             </delete>
-            <delete tableName="PLAYER_TRANSCODING" >
+            <delete tableName="player_transcoding" >
                 <where>transcoding_id in (select id from transcoding_2 where name = 'mkv video')</where>
             </delete>
-            <delete tableName="TRANSCODING2" >
+            <delete tableName="transcoding2" >
                 <where>name = 'mkv video'</where>
             </delete>
         </rollback>
@@ -35,11 +35,11 @@
     <changeSet id="schema50_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="USER_SETTINGS" columnName="SONG_NOTIFICATION" />
+                <columnExists tableName="user_settings" columnName="song_notification" />
             </not>
         </preConditions>
-        <addColumn tableName="USER_SETTINGS">
-            <column name="SONG_NOTIFICATION" type="boolean" defaultValueBoolean="true">
+        <addColumn tableName="user_settings">
+            <column name="song_notification" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </addColumn>
@@ -48,15 +48,15 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 23</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="23" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="23" />
         </insert>
-        <update tableName="TRANSCODING2">
-            <column name="STEP1" value="ffmpeg -i %s -map 0:0 -b:a %bk -v 0 -f mp3 -" />
+        <update tableName="transcoding2">
+            <column name="step1" value="ffmpeg -i %s -map 0:0 -b:a %bk -v 0 -f mp3 -" />
             <where>name='mp3 audio'</where>
         </update>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 23</where>
             </delete>
         </rollback>

@@ -6,11 +6,11 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from version where version = 24</sqlCheck>
         </preConditions>
-        <insert tableName="VERSION">
-            <column name="VERSION" valueNumeric="24" />
+        <insert tableName="version">
+            <column name="version" valueNumeric="24" />
         </insert>
         <rollback>
-            <delete tableName="VERSION" >
+            <delete tableName="version" >
                 <where>version = 24</where>
             </delete>
         </rollback>
@@ -18,79 +18,79 @@
     <changeSet id="schema52_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="MUSIC_FOLDER_USER" />
+                <tableExists tableName="music_folder_user" />
             </not>
         </preConditions>
-        <createTable tableName="MUSIC_FOLDER_USER">
-            <column name="MUSIC_FOLDER_ID" type="int">
-                <constraints nullable="false" foreignKeyName="mfu_fm_fk" referencedTableName="MUSIC_FOLDER" referencedColumnNames="ID" deleteCascade="true" />
+        <createTable tableName="music_folder_user">
+            <column name="music_folder_id" type="int">
+                <constraints nullable="false" foreignKeyName="mfu_fm_fk" referencedTableName="music_folder" referencedColumnNames="id" deleteCascade="true" />
             </column>
-            <column name="USERNAME" type="${varchar_type}" >
-                <constraints nullable="false" foreignKeyName="mfu_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true" />
+            <column name="username" type="${varchar_type}" >
+                <constraints nullable="false" foreignKeyName="mfu_u_fk" referencedTableName="user" referencedColumnNames="username" deleteCascade="true" />
             </column>
         </createTable>
-        <createIndex tableName="MUSIC_FOLDER_USER" indexName="idx_music_folder_user_username">
-            <column name="USERNAME"/>
+        <createIndex tableName="music_folder_user" indexName="idx_music_folder_user_username">
+            <column name="username"/>
         </createIndex>
     </changeSet>
     <changeSet id="schema52_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="ALBUM" columnName="FOLDER_ID"/>
+                <columnExists tableName="album" columnName="folder_id"/>
             </not>
         </preConditions>
-        <addColumn tableName="ALBUM">
-            <column name="FOLDER_ID" type="int"/>
+        <addColumn tableName="album">
+            <column name="folder_id" type="int"/>
         </addColumn>
     </changeSet>
     <changeSet id="schema52_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="PLAY_QUEUE" />
+                <tableExists tableName="play_queue" />
             </not>
         </preConditions>
-        <createTable tableName="PLAY_QUEUE">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="play_queue">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="USERNAME" type="${varchar_type}" >
-                <constraints nullable="false" foreignKeyName="pq_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true" />
+            <column name="username" type="${varchar_type}" >
+                <constraints nullable="false" foreignKeyName="pq_u_fk" referencedTableName="user" referencedColumnNames="username" deleteCascade="true" />
             </column>
-            <column name="CURRENT" type="int" />
-            <column name="POSITION_MILLIS" type="bigint" />
-            <column name="CHANGED" type="datetime" >
+            <column name="current" type="int" />
+            <column name="position_millis" type="bigint" />
+            <column name="changed" type="datetime" >
                 <constraints nullable="false" />
             </column>
-            <column name="CHANGED_BY" type="${varchar_type}" >
+            <column name="changed_by" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="PLAY_QUEUE" />
+            <dropTable tableName="play_queue" />
         </rollback>
     </changeSet>
     <changeSet id="schema52_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="PLAY_QUEUE_FILE" />
+                <tableExists tableName="play_queue_file" />
             </not>
         </preConditions>
-        <createTable tableName="PLAY_QUEUE_FILE">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="play_queue_file">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="PLAY_QUEUE_ID" type="int" >
-                <constraints nullable="false" foreignKeyName="pqf_pq_fk" referencedTableName="PLAY_QUEUE" referencedColumnNames="ID" deleteCascade="true" />
+            <column name="play_queue_id" type="int" >
+                <constraints nullable="false" foreignKeyName="pqf_pq_fk" referencedTableName="play_queue" referencedColumnNames="id" deleteCascade="true" />
             </column>
-            <column name="MEDIA_FILE_ID" type="int" >
-                <constraints nullable="false" foreignKeyName="pqf_mf_fk" referencedTableName="MEDIA_FILE" referencedColumnNames="ID" deleteCascade="true" />
+            <column name="media_file_id" type="int" >
+                <constraints nullable="false" foreignKeyName="pqf_mf_fk" referencedTableName="media_file" referencedColumnNames="id" deleteCascade="true" />
             </column>
         </createTable>
         <sql dbms="hsql">
             set table play_queue_file type cached
         </sql>
         <rollback>
-            <dropTable tableName="PLAY_QUEUE_FILE" />
+            <dropTable tableName="play_queue_file" />
         </rollback>
     </changeSet>
 </databaseChangeLog>

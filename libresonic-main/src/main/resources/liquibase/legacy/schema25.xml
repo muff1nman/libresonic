@@ -5,7 +5,7 @@
     <changeSet id="schema25_001" author="muff1nman" dbms="hsqldb">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="VERSION" />
+                <tableExists tableName="version" />
             </not>
         </preConditions>
         <sql>set property &quot;hsqldb.cache_file_scale&quot; 8</sql>
@@ -14,98 +14,98 @@
     <changeSet id="schema25_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="VERSION" />
+                <tableExists tableName="version" />
             </not>
         </preConditions>
-        <createTable tableName="VERSION">
-            <column name="VERSION" type="int">
+        <createTable tableName="version">
+            <column name="version" type="int">
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <insert tableName="VERSION" >
-            <column name="VERSION" valueNumeric="1" />
+        <insert tableName="version" >
+            <column name="version" valueNumeric="1" />
         </insert>
         <rollback>
-            <dropTable tableName="VERSION" />
+            <dropTable tableName="version" />
         </rollback>
     </changeSet>
     <changeSet id="schema25_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="ROLE" />
+                <tableExists tableName="role" />
             </not>
         </preConditions>
-        <createTable tableName="ROLE">
-            <column name="ID" type="int" autoIncrement="true">
+        <createTable tableName="role">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="NAME" type="${varchar_type}" >
+            <column name="name" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="1" />
-            <column name="NAME" value="admin"/>
+        <insert tableName="role">
+            <column name="id" valueNumeric="1" />
+            <column name="name" value="admin"/>
         </insert>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="2" />
-            <column name="NAME" value="download"/>
+        <insert tableName="role">
+            <column name="id" valueNumeric="2" />
+            <column name="name" value="download"/>
         </insert>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="3" />
-            <column name="NAME" value="upload"/>
+        <insert tableName="role">
+            <column name="id" valueNumeric="3" />
+            <column name="name" value="upload"/>
         </insert>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="4" />
-            <column name="NAME" value="playlist"/>
+        <insert tableName="role">
+            <column name="id" valueNumeric="4" />
+            <column name="name" value="playlist"/>
         </insert>
-        <insert tableName="ROLE">
-            <column name="ID" valueNumeric="5" />
-            <column name="NAME" value="coverart"/>
+        <insert tableName="role">
+            <column name="id" valueNumeric="5" />
+            <column name="name" value="coverart"/>
         </insert>
         <rollback>
-            <dropTable tableName="ROLE" />
+            <dropTable tableName="role" />
         </rollback>
     </changeSet>
     <changeSet id="schema25_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="USER" />
+                <tableExists tableName="user" />
             </not>
         </preConditions>
-        <createTable tableName="USER">
-            <column name="USERNAME" type="${varchar_type}">
+        <createTable tableName="user">
+            <column name="username" type="${varchar_type}">
                 <constraints primaryKey="true" />
             </column>
-            <column name="PASSWORD" type="${varchar_type}" >
+            <column name="password" type="${varchar_type}" >
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <insert tableName="USER">
-            <column name="USERNAME" value="admin"/>
-            <column name="PASSWORD" value="admin"/>
+        <insert tableName="user">
+            <column name="username" value="admin"/>
+            <column name="password" value="admin"/>
         </insert>
         <rollback>
-            <dropTable tableName="USER" />
+            <dropTable tableName="user" />
         </rollback>
     </changeSet>
     <changeSet id="schema25_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="USER_ROLE" />
+                <tableExists tableName="user_role" />
             </not>
         </preConditions>
-        <createTable tableName="USER_ROLE">
-            <column name="USERNAME" type="${varchar_type}">
-                <constraints nullable="false" foreignKeyName="ur_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME"/>
+        <createTable tableName="user_role">
+            <column name="username" type="${varchar_type}">
+                <constraints nullable="false" foreignKeyName="ur_u_fk" referencedTableName="user" referencedColumnNames="username"/>
             </column>
-            <column name="ROLE_ID" type="int" >
-                <constraints nullable="false" foreignKeyName="ur_r_fk" referencedTableName="ROLE" referencedColumnNames="ID"/>
+            <column name="role_id" type="int" >
+                <constraints nullable="false" foreignKeyName="ur_r_fk" referencedTableName="role" referencedColumnNames="id"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="USER_ROLE" columnNames="USERNAME,ROLE_ID" />
+        <addPrimaryKey tableName="user_role" columnNames="username,role_id" />
         <rollback>
-            <dropTable tableName="USER_ROLE" />
+            <dropTable tableName="user_role" />
         </rollback>
     </changeSet>
 </databaseChangeLog>
