@@ -45,7 +45,6 @@
 
     <bean id="userDao" class="org.libresonic.player.dao.UserDao">
         <property name="daoHelper" ref="daoHelper"/>
-        <property name="settingsService" ref="settingsService" />
     </bean>
 
     <bean id="transcodingDao" class="org.libresonic.player.dao.TranscodingDao">
@@ -103,6 +102,7 @@
             <map>
                 <entry key="defaultMusicFolder" value="#{T(org.libresonic.player.util.Util).getDefaultMusicFolder()}" />
                 <entry key="varcharLimit" value="${database.varchar.maxlength:512}" />
+                <entry key="userTableQuote" value="${database.usertable.quote:''}" />
             </map>
         </property>
     </bean>

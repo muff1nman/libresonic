@@ -48,7 +48,7 @@
             <column name="name" value="stream" />
         </insert>
         <sql>
-            insert into user_role(username, role_id) select distinct u.username, 8 from ${user_table} u
+            insert into user_role(username, role_id) select distinct u.username, 8 from ${userTableQuote}user${userTableQuote} u
         </sql>
         <rollback>
             <delete tableName="user_role" >

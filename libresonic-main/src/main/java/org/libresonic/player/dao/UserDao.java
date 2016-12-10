@@ -19,10 +19,11 @@
  */
 package org.libresonic.player.dao;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.libresonic.player.Logger;
 import org.libresonic.player.domain.*;
-import org.libresonic.player.service.SettingsService;
 import org.libresonic.player.util.StringUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -61,7 +62,8 @@ public class UserDao extends AbstractDao {
 
     private UserRowMapper userRowMapper = new UserRowMapper();
     private UserSettingsRowMapper userSettingsRowMapper = new UserSettingsRowMapper();
-    private SettingsService settingsService;
+
+    String userTableQuote = "";
 
     /**
      * Returns the user with the given username.
@@ -166,7 +168,7 @@ public class UserDao extends AbstractDao {
 
     /**
      * Updates settings for the given username, creating it if necessary.
-      getUserTable() *
+     *
      * @param settings The user-specific settings.
      */
     public void updateUserSettings(UserSettings settings) {
@@ -250,10 +252,6 @@ public class UserDao extends AbstractDao {
                 }
             }
         }
-    }
-
-    private String getUserTable() {
-        return getSettingsService().getUserTable();
     }
 
     private void writeRoles(User user) {
@@ -362,12 +360,11 @@ public class UserDao extends AbstractDao {
         }
     }
 
-    public SettingsService getSettingsService() {
-        return settingsService;
+    private String getUserTable() {
+        return userTableQuote + "user" + userTableQuote;
     }
 
-    public void setSettingsService(SettingsService settingsService) {
-        this.settingsService = settingsService;
+    public void setUserTableQuote(String userTableQuote) {
+        this.userTableQuote = userTableQuote;
     }
-
 }

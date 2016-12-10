@@ -60,12 +60,6 @@ public abstract class DaoTestCaseBase extends TestCase {
         ratingDao.setDaoHelper(daoHelper);
         musicFolderDao.setDaoHelper(daoHelper);
         userDao.setDaoHelper(daoHelper);
-        userDao.setSettingsService(new SettingsService() {
-            @Override
-            public String getUserTable() {
-                return "user";
-            }
-        });
         transcodingDao.setDaoHelper(daoHelper);
         podcastDao.setDaoHelper(daoHelper);
     }
@@ -84,6 +78,7 @@ public abstract class DaoTestCaseBase extends TestCase {
         Map<String,String> parameters = new HashMap<>();
         parameters.put("defaultMusicFolder", Util.getDefaultMusicFolder());
         parameters.put("varcharLimit", "512");
+        parameters.put("userTableQuote", "");
         springLiquibase.setChangeLogParameters(parameters);
         try {
             springLiquibase.afterPropertiesSet();

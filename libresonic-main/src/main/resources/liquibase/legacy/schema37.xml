@@ -25,7 +25,7 @@
             <column name="name" value="settings" />
         </insert>
         <sql>
-            insert into user_role(username, role_id) select distinct u.username, 9 from ${user_table} u
+            insert into user_role(username, role_id) select distinct u.username, 9 from ${userTableQuote}user${userTableQuote} u
         </sql>
         <rollback />
     </changeSet>
@@ -38,7 +38,7 @@
             <column name="name" value="jukebox" />
         </insert>
         <sql>
-            insert into user_role(username, role_id) select distinct u.username, 10 from ${user_table} u
+            insert into user_role(username, role_id) select distinct u.username, 10 from ${userTableQuote}user${userTableQuote} u
         </sql>
         <rollback />
     </changeSet>

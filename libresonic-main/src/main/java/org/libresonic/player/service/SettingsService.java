@@ -111,7 +111,6 @@ public class SettingsService {
     private static final String KEY_SONOS_ENABLED = "SonosEnabled";
     private static final String KEY_SONOS_SERVICE_NAME = "SonosServiceName";
     private static final String KEY_SONOS_SERVICE_ID = "SonosServiceId";
-    private static final String KEY_USER_TABLE = "UserTable";
 
     private static final String KEY_SMTP_SERVER = "SmtpServer";
     private static final String KEY_SMTP_ENCRYPTION = "SmtpEncryption";
@@ -187,7 +186,6 @@ public class SettingsService {
     private static final boolean DEFAULT_SONOS_ENABLED = false;
     private static final String DEFAULT_SONOS_SERVICE_NAME = "Libresonic";
     private static final int DEFAULT_SONOS_SERVICE_ID = 242;
-    private static final String DEFAULT_USER_TABLE = "user";
 
     private static final String DEFAULT_SMTP_SERVER = null;
     private static final String DEFAULT_SMTP_ENCRYPTION = "None";
@@ -353,10 +351,6 @@ public class SettingsService {
 
     private String getProperty(String key, String defaultValue) {
         return configurationService.getString(key, defaultValue);
-    }
-
-    public String getUserTable() {
-        return getProperty(KEY_USER_TABLE, DEFAULT_USER_TABLE);
     }
 
     public void setIndexString(String indexString) {
@@ -1471,5 +1465,4 @@ public class SettingsService {
     public void setConfigurationService(ApacheCommonsConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
-
 }
