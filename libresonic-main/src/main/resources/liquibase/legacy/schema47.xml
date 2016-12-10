@@ -184,7 +184,9 @@
             <column name="last_played" type="datetime" />
             <column name="comment" type="${varchar_type}" />
             <column name="created" type="datetime" />
-            <column name="last_scanned" type="datetime" />
+            <column name="last_scanned" type="datetime" >
+                <constraints nullable="false" />
+            </column>
             <column name="present" type="boolean" >
                 <constraints nullable="false" />
             </column>
