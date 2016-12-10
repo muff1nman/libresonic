@@ -25,6 +25,7 @@ public class UserDaoTestCase extends DaoTestCaseBase {
     }
 
     public void testCreateUser() {
+        System.out.println(getJdbcTemplate().queryForList("select id from role"));
         User user = new User("sindre", "secret", "sindre@activeobjects.no", false, 1000L, 2000L, 3000L);
         user.setAdminRole(true);
         user.setCommentRole(true);
