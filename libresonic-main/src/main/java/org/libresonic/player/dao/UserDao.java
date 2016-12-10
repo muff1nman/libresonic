@@ -19,11 +19,9 @@
  */
 package org.libresonic.player.dao;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.libresonic.player.Logger;
 import org.libresonic.player.domain.*;
 import org.libresonic.player.util.StringUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
