@@ -37,50 +37,42 @@
             </not>
         </preConditions>
         <createTable tableName="SHARE">
-            <column name="ID" type="int"/>
-            <column name="NAME" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="NAME" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="DESCRIPTION" type="${varchar_type}" />
-            <column name="USERNAME" type="${varchar_type}" />
-            <column name="CREATED" type="datetime" />
+            <column name="USERNAME" type="${varchar_type}" >
+                <constraints nullable="false" foreignKeyName="s_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true"/>
+            </column>
+            <column name="CREATED" type="datetime" >
+                <constraints nullable="false" />
+            </column>
             <column name="EXPIRES" type="datetime" />
             <column name="LAST_VISITED" type="datetime" />
-            <column name="VISIT_COUNT" type="int" defaultValueNumeric="0" />
+            <column name="VISIT_COUNT" type="int" defaultValueNumeric="0" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="SHARE" columnName="ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="SHARE" columnName="NAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="SHARE" columnName="USERNAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="SHARE" columnName="CREATED" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="SHARE" columnName="VISIT_COUNT" columnDataType="int"/>
-        <addPrimaryKey tableName="SHARE" columnNames="ID" />
-        <addAutoIncrement tableName="SHARE" columnName="ID" columnDataType="int"/>
         <createIndex unique="true" tableName="SHARE" indexName="idx_share_name">
             <column name="NAME"/>
         </createIndex>
-        <addForeignKeyConstraint baseTableName="SHARE"
-                                 baseColumnNames="USERNAME"
-                                 constraintName="s_u_fk"
-                                 referencedTableName="USER"
-                                 referencedColumnNames="USERNAME"
-                                 onDelete="CASCADE" />
         <sql dbms="hsql">
             set table share type cached
         </sql>
         <createTable tableName="SHARE_FILE">
-            <column name="ID" type="int"/>
-            <column name="SHARE_ID" type="int"/>
-            <column name="PATH" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="SHARE_ID" type="int">
+                <constraints nullable="false" foreignKeyName="sf_s_fk" referencedTableName="SHARE" referencedColumnNames="ID" deleteCascade="true"/>
+            </column>
+            <column name="PATH" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="SHARE_FILE" columnName="ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="SHARE_FILE" columnName="SHARE_ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="SHARE_FILE" columnName="PATH" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="SHARE_FILE" columnNames="ID" />
-        <addAutoIncrement tableName="SHARE_FILE" columnName="ID" columnDataType="int" />
-        <addForeignKeyConstraint baseTableName="SHARE_FILE"
-                                 baseColumnNames="SHARE_ID"
-                                 constraintName="sf_s_fk"
-                                 referencedTableName="SHARE"
-                                 referencedColumnNames="ID"
-                                 onDelete="CASCADE" />
         <sql dbms="hsql">
             set table share_file type cached
         </sql>

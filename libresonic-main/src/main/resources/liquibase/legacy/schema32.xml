@@ -22,9 +22,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="SHOW_NOW_PLAYING" type="boolean" defaultValueBoolean="true"/>
+            <column name="SHOW_NOW_PLAYING" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SHOW_NOW_PLAYING" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema32_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -33,9 +34,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="SELECTED_MUSIC_FOLDER_ID" type="int" defaultValueNumeric="-1"/>
+            <column name="SELECTED_MUSIC_FOLDER_ID" type="int" defaultValueNumeric="-1">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SELECTED_MUSIC_FOLDER_ID" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema32_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -44,18 +46,19 @@
             </not>
         </preConditions>
         <createTable tableName="PODCAST_CHANNEL">
-            <column name="ID" type="int"/>
-            <column name="URL" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="URL" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="TITLE" type="${varchar_type}" />
             <column name="DESCRIPTION" type="${varchar_type}" />
-            <column name="STATUS" type="${varchar_type}" />
+            <column name="STATUS" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="ERROR_MESSAGE" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="PODCAST_CHANNEL" columnName="ID"  columnDataType="int"/>
-        <addNotNullConstraint tableName="PODCAST_CHANNEL" columnName="URL" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="PODCAST_CHANNEL" columnName="STATUS" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="PODCAST_CHANNEL" columnNames="ID" />
-        <addAutoIncrement tableName="PODCAST_CHANNEL" columnName="ID" columnDataType="int"/>
         <rollback>
             <dropTable tableName="PODCAST_CHANNEL" />
         </rollback>
@@ -67,9 +70,15 @@
             </not>
         </preConditions>
         <createTable tableName="PODCAST_EPISODE">
-            <column name="ID" type="int" />
-            <column name="CHANNEL_ID" type="int" />
-            <column name="URL" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="CHANNEL_ID" type="int" >
+                <constraints nullable="false" foreignKeyName="pe_pc_fk" referencedTableName="PODCAST_CHANNEL" referencedColumnNames="ID" deleteCascade="true" />
+            </column>
+            <column name="URL" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="PATH" type="${varchar_type}" />
             <column name="TITLE" type="${varchar_type}" />
             <column name="DESCRIPTION" type="${varchar_type}" />
@@ -77,21 +86,11 @@
             <column name="DURATION" type="${varchar_type}" />
             <column name="BYTES_TOTAL" type="bigint" />
             <column name="BYTES_DOWNLOADED" type="bigint" />
-            <column name="STATUS" type="${varchar_type}" />
+            <column name="STATUS" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="ERROR_MESSAGE" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="ID"  columnDataType="int"/>
-        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="CHANNEL_ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="URL" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="PODCAST_EPISODE" columnName="STATUS" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="PODCAST_EPISODE" columnNames="ID" />
-        <addAutoIncrement tableName="PODCAST_EPISODE" columnName="ID" columnDataType="int"/>
-        <addForeignKeyConstraint baseTableName="PODCAST_EPISODE"
-                                 baseColumnNames="CHANNEL_ID"
-                                 constraintName="pe_pc_fk"
-                                 referencedTableName="PODCAST_CHANNEL"
-                                 referencedColumnNames="ID"
-                                 onDelete="CASCADE"/>
         <rollback>
             <dropTable tableName="PODCAST_EPISODE" />
         </rollback>

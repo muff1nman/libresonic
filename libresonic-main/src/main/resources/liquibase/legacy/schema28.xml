@@ -22,62 +22,78 @@
             </not>
         </preConditions>
         <createTable tableName="USER_SETTINGS">
-            <column name="USERNAME" type="${varchar_type}"/>
+            <column name="USERNAME" type="${varchar_type}">
+                <constraints primaryKey="true" foreignKeyName="us_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true"/>
+            </column>
             <column name="LOCALE" type="${varchar_type}" />
             <column name="THEME_ID" type="${varchar_type}" />
-            <column name="FINAL_VERSION_NOTIFICATION" type="boolean" defaultValueBoolean="true" />
-            <column name="BETA_VERSION_NOTIFICATION" type="boolean" defaultValueBoolean="false" />
-            <column name="MAIN_CAPTION_CUTOFF" type="int" defaultValueNumeric="35" />
-            <column name="MAIN_TRACK_NUMBER" type="boolean" defaultValueBoolean="true" />
-            <column name="MAIN_ARTIST" type="boolean" defaultValueBoolean="true" />
-            <column name="MAIN_ALBUM" type="boolean" defaultValueBoolean="false" />
-            <column name="MAIN_GENRE" type="boolean" defaultValueBoolean="false" />
-            <column name="MAIN_YEAR" type="boolean" defaultValueBoolean="false" />
-            <column name="MAIN_BIT_RATE" type="boolean" defaultValueBoolean="false" />
-            <column name="MAIN_DURATION" type="boolean" defaultValueBoolean="true" />
-            <column name="MAIN_FORMAT" type="boolean" defaultValueBoolean="false" />
-            <column name="MAIN_FILE_SIZE" type="boolean" defaultValueBoolean="false" />
-            <column name="PLAYLIST_CAPTION_CUTOFF" type="int" defaultValueNumeric="35" />
-            <column name="PLAYLIST_TRACK_NUMBER" type="boolean" defaultValueBoolean="false" />
-            <column name="PLAYLIST_ARTIST" type="boolean" defaultValueBoolean="true" />
-            <column name="PLAYLIST_ALBUM" type="boolean" defaultValueBoolean="true" />
-            <column name="PLAYLIST_GENRE" type="boolean" defaultValueBoolean="false" />
-            <column name="PLAYLIST_YEAR" type="boolean" defaultValueBoolean="true" />
-            <column name="PLAYLIST_BIT_RATE" type="boolean" defaultValueBoolean="false" />
-            <column name="PLAYLIST_DURATION" type="boolean" defaultValueBoolean="true" />
-            <column name="PLAYLIST_FORMAT" type="boolean" defaultValueBoolean="true" />
-            <column name="PLAYLIST_FILE_SIZE" type="boolean" defaultValueBoolean="true" />
+            <column name="FINAL_VERSION_NOTIFICATION" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="BETA_VERSION_NOTIFICATION" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_CAPTION_CUTOFF" type="int" defaultValueNumeric="35" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_TRACK_NUMBER" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_ARTIST" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_ALBUM" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_GENRE" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_YEAR" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_BIT_RATE" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_DURATION" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_FORMAT" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="MAIN_FILE_SIZE" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_CAPTION_CUTOFF" type="int" defaultValueNumeric="35" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_TRACK_NUMBER" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_ARTIST" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_ALBUM" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_GENRE" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_YEAR" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_BIT_RATE" type="boolean" defaultValueBoolean="false" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_DURATION" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_FORMAT" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
+            <column name="PLAYLIST_FILE_SIZE" type="boolean" defaultValueBoolean="true" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="USERNAME" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="USER_SETTINGS" columnNames="USERNAME" />
-        <addForeignKeyConstraint baseTableName="USER_SETTINGS"
-                                 baseColumnNames="USERNAME"
-                                 constraintName="us_u_fk"
-                                 referencedTableName="USER"
-                                 referencedColumnNames="USERNAME"
-                                 onDelete="CASCADE"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="FINAL_VERSION_NOTIFICATION" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="BETA_VERSION_NOTIFICATION" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_CAPTION_CUTOFF" columnDataType="int"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_TRACK_NUMBER" columnDataType="int"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_ARTIST" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_ALBUM" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_GENRE" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_YEAR" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_BIT_RATE" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_DURATION" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_FORMAT" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="MAIN_FILE_SIZE" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_CAPTION_CUTOFF" columnDataType="int"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_TRACK_NUMBER" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_ARTIST" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_ALBUM" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_GENRE" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_YEAR" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_BIT_RATE" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_DURATION" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_FORMAT" columnDataType="boolean"/>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="PLAYLIST_FILE_SIZE" columnDataType="boolean"/>
         <rollback>
             <dropTable tableName="USER_SETTINGS" />
         </rollback>
@@ -89,23 +105,27 @@
             </not>
         </preConditions>
         <createTable tableName="TRANSCODING">
-            <column name="ID" type="int"/>
-            <column name="NAME" type="${varchar_type}" />
-            <column name="SOURCE_FORMAT" type="${varchar_type}" />
-            <column name="TARGET_FORMAT" type="${varchar_type}" />
-            <column name="STEP1" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="NAME" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="SOURCE_FORMAT" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="TARGET_FORMAT" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="STEP1" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="STEP2" type="${varchar_type}" />
             <column name="STEP3" type="${varchar_type}" />
-            <column name="ENABLED" type="boolean" />
+            <column name="ENABLED" type="boolean" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="NAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="SOURCE_FORMAT" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="TARGET_FORMAT" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="STEP1" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="ENABLED" columnDataType="boolean"/>
-        <addPrimaryKey tableName="TRANSCODING" columnNames="ID" />
-        <addAutoIncrement tableName="TRANSCODING" columnName="ID" columnDataType="int"/>
         <insert tableName="TRANSCODING">
             <column name="NAME" value="wav > mp3"/>
             <column name="SOURCE_FORMAT" value="wav" />
@@ -197,24 +217,14 @@
             </not>
         </preConditions>
         <createTable tableName="PLAYER_TRANSCODING">
-            <column name="PLAYER_ID" type="int"/>
-            <column name="TRANSCODING_ID" type="int" />
+            <column name="PLAYER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="pt_p_fk" referencedTableName="PLAYER" referencedColumnNames="ID" deleteCascade="true"/>
+            </column>
+            <column name="TRANSCODING_ID" type="int" >
+                <constraints nullable="false" foreignKeyName="pt_t_fk" referencedTableName="TRANSCODING" referencedColumnNames="ID" deleteCascade="true"/>
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="PLAYER_TRANSCODING" columnName="PLAYER_ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="PLAYER_TRANSCODING" columnName="TRANSCODING_ID" columnDataType="int"/>
         <addPrimaryKey tableName="PLAYER_TRANSCODING" columnNames="PLAYER_ID,TRANSCODING_ID" />
-        <addForeignKeyConstraint baseTableName="PLAYER_TRANSCODING"
-                                 baseColumnNames="PLAYER_ID"
-                                 constraintName="pt_p_fk"
-                                 referencedTableName="PLAYER"
-                                 referencedColumnNames="ID"
-                                 onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="PLAYER_TRANSCODING"
-                                 baseColumnNames="TRANSCODING_ID"
-                                 constraintName="pt_t_fk"
-                                 referencedTableName="TRANSCODING"
-                                 referencedColumnNames="ID"
-                                 onDelete="CASCADE"/>
         <rollback>
             <dropTable tableName="PLAYER_TRANSCODING" />
         </rollback>

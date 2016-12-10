@@ -22,9 +22,10 @@
             </not>
         </preConditions>
         <addColumn tableName="MUSIC_FILE_INFO">
-            <column name="ENABLED" type="boolean" defaultValueBoolean="true"/>
+            <column name="ENABLED" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="MUSIC_FILE_INFO" columnName="ENABLED" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema31_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -33,8 +34,9 @@
             </not>
         </preConditions>
         <addColumn tableName="TRANSCODING">
-            <column name="DEFAULT_ACTIVE" type="boolean" defaultValueBoolean="true"/>
+            <column name="DEFAULT_ACTIVE" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="TRANSCODING" columnName="DEFAULT_ACTIVE" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

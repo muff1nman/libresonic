@@ -22,9 +22,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="SHOW_ARTIST_INFO" type="boolean" defaultValueBoolean="true"/>
+            <column name="SHOW_ARTIST_INFO" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SHOW_ARTIST_INFO" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema51_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -33,9 +34,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="AUTO_HIDE_PLAY_QUEUE" type="boolean" defaultValueBoolean="true"/>
+            <column name="AUTO_HIDE_PLAY_QUEUE" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="AUTO_HIDE_PLAY_QUEUE" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema51_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -44,8 +46,9 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="VIEW_AS_LIST" type="boolean" defaultValueBoolean="false"/>
+            <column name="VIEW_AS_LIST" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="VIEW_AS_LIST"  columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

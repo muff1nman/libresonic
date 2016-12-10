@@ -42,11 +42,13 @@
             </not>
         </preConditions>
         <createTable tableName="GENRE">
-            <column name="NAME" type="${varchar_type}"/>
-            <column name="SONG_COUNT" type="int" />
+            <column name="NAME" type="${varchar_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SONG_COUNT" type="int" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="GENRE" columnName="NAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="GENRE" columnName="SONG_COUNT" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema49_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -55,8 +57,9 @@
             </not>
         </preConditions>
         <addColumn tableName="GENRE">
-            <column name="ALBUM_COUNT" type="int" defaultValueNumeric="0"/>
+            <column name="ALBUM_COUNT" type="int" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="GENRE" columnName="ALBUM_COUNT" columnDataType="int"/>
     </changeSet>
 </databaseChangeLog>

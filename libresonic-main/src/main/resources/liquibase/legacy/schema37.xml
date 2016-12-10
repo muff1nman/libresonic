@@ -49,9 +49,10 @@
             </not>
         </preConditions>
         <addColumn tableName="MUSIC_FOLDER">
-            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}"/>
+            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="MUSIC_FOLDER" columnName="CHANGED" columnDataType="datetime"/>
     </changeSet>
     <changeSet id="schema37_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -60,9 +61,10 @@
             </not>
         </preConditions>
         <addColumn tableName="INTERNET_RADIO">
-            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}"/>
+            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="INTERNET_RADIO" columnName="CHANGED" columnDataType="datetime"/>
     </changeSet>
     <changeSet id="schema37_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -71,8 +73,9 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}"/>
+            <column name="CHANGED" type="datetime" defaultValueComputed="${curr_date_expr}">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="CHANGED" columnDataType="datetime"/>
     </changeSet>
 </databaseChangeLog>

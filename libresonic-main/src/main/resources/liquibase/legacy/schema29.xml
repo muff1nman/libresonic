@@ -22,20 +22,17 @@
             </not>
         </preConditions>
         <createTable tableName="USER_RATING">
-            <column name="USERNAME" type="${varchar_type}"/>
-            <column name="PATH" type="${varchar_type}" />
-            <column name="RATING" type="double" />
+            <column name="USERNAME" type="${varchar_type}">
+                <constraints nullable="false" foreignKeyName="ura_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" deleteCascade="true"/>
+            </column>
+            <column name="PATH" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="RATING" type="double" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="USER_RATING" columnName="USERNAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="USER_RATING" columnName="PATH" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="USER_RATING" columnName="RATING" columnDataType="double"/>
         <addPrimaryKey tableName="USER_RATING" columnNames="USERNAME,PATH" />
-        <addForeignKeyConstraint baseTableName="USER_RATING"
-                                 baseColumnNames="USERNAME"
-                                 constraintName="ura_u_fk"
-                                 referencedTableName="USER"
-                                 referencedColumnNames="USERNAME"
-                                 onDelete="CASCADE" />
         <sql>
             insert into "USER_RATING" select 'admin', PATH, RATING from "MUSIC_FILE_INFO"
             where RATING is not null and RATING > 0

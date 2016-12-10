@@ -22,9 +22,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="LIST_RELOAD_DELAY" type="int" defaultValueNumeric="60"/>
+            <column name="LIST_RELOAD_DELAY" type="int" defaultValueNumeric="60">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="LIST_RELOAD_DELAY" columnDataType="int"/>
     </changeSet>
     <changeSet id="schema61_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -33,8 +34,9 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="KEYBOARD_SHORTCUTS_ENABLED" type="boolean" defaultValueBoolean="false"/>
+            <column name="KEYBOARD_SHORTCUTS_ENABLED" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="KEYBOARD_SHORTCUTS_ENABLED" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

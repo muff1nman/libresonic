@@ -18,9 +18,10 @@
             </not>
         </preConditions>
         <createTable tableName="VERSION">
-            <column name="VERSION" type="int"/>
+            <column name="VERSION" type="int">
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="VERSION" columnName="VERSION" columnDataType="int" />
         <insert tableName="VERSION" >
             <column name="VERSION" valueNumeric="1" />
         </insert>
@@ -35,12 +36,13 @@
             </not>
         </preConditions>
         <createTable tableName="ROLE">
-            <column name="ID" type="int"/>
-            <column name="NAME" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="NAME" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addPrimaryKey tableName="ROLE" columnNames="ID" />
-        <addNotNullConstraint tableName="ROLE" columnName="ID" columnDataType="int" />
-        <addNotNullConstraint tableName="ROLE" columnName="NAME" columnDataType="${varchar_type}"/>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="1" />
             <column name="NAME" value="admin"/>
@@ -72,12 +74,13 @@
             </not>
         </preConditions>
         <createTable tableName="USER">
-            <column name="USERNAME" type="${varchar_type}"/>
-            <column name="PASSWORD" type="${varchar_type}" />
+            <column name="USERNAME" type="${varchar_type}" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="PASSWORD" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addPrimaryKey tableName="USER" columnNames="USERNAME" />
-        <addNotNullConstraint tableName="USER" columnName="USERNAME" columnDataType="${varchar_type}" />
-        <addNotNullConstraint tableName="USER" columnName="PASSWORD" columnDataType="${varchar_type}" />
         <insert tableName="USER">
             <column name="USERNAME" value="admin"/>
             <column name="PASSWORD" value="admin"/>
@@ -93,22 +96,14 @@
             </not>
         </preConditions>
         <createTable tableName="USER_ROLE">
-            <column name="USERNAME" type="${varchar_type}"/>
-            <column name="ROLE_ID" type="int" />
+            <column name="USERNAME" type="${varchar_type}">
+                <constraints nullable="false" foreignKeyName="ur_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME"/>
+            </column>
+            <column name="ROLE_ID" type="int" >
+                <constraints nullable="false" foreignKeyName="ur_r_fk" referencedTableName="ROLE" referencedColumnNames="ID"/>
+            </column>
         </createTable>
         <addPrimaryKey tableName="USER_ROLE" columnNames="USERNAME,ROLE_ID" />
-        <addNotNullConstraint tableName="USER_ROLE" columnName="USERNAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="USER_ROLE" columnName="ROLE_ID"  columnDataType="int"/>
-        <addForeignKeyConstraint baseTableName="USER_ROLE"
-                                 baseColumnNames="USERNAME"
-                                 constraintName="ur_u_fk"
-                                 referencedTableName="USER"
-                                 referencedColumnNames="USERNAME"/>
-        <addForeignKeyConstraint baseTableName="USER_ROLE"
-                                 baseColumnNames="ROLE_ID"
-                                 constraintName="ur_r_fk"
-                                 referencedTableName="ROLE"
-                                 referencedColumnNames="ID"/>
         <rollback>
             <dropTable tableName="USER_ROLE" />
         </rollback>

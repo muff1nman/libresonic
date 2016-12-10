@@ -22,8 +22,9 @@
             </not>
         </preConditions>
         <addColumn tableName="PLAYER">
-            <column name="TECHNOLOGY" type="${varchar_type}" defaultValue="WEB"/>
+            <column name="TECHNOLOGY" type="${varchar_type}" defaultValue="WEB">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="PLAYER" columnName="TECHNOLOGY" columnDataType="${varchar_type}"/>
     </changeSet>
 </databaseChangeLog>

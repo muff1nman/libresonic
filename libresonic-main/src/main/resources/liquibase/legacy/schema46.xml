@@ -22,21 +22,24 @@
             </not>
         </preConditions>
         <createTable tableName="TRANSCODING2">
-            <column name="ID" type="int"/>
-            <column name="NAME" type="${varchar_type}" />
-            <column name="SOURCE_FORMATS" type="${varchar_type}" />
-            <column name="TARGET_FORMAT" type="${varchar_type}" />
-            <column name="STEP1" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="NAME" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="SOURCE_FORMATS" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="TARGET_FORMAT" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="STEP1" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
             <column name="STEP2" type="${varchar_type}" />
             <column name="STEP3" type="${varchar_type}" />
         </createTable>
-        <addNotNullConstraint tableName="TRANSCODING2" columnName="STEP1" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING2" columnName="TARGET_FORMAT" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING2" columnName="SOURCE_FORMATS" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING2" columnName="NAME" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="TRANSCODING2" columnName="ID" columnDataType="int"/>
-        <addPrimaryKey tableName="TRANSCODING2" columnNames="ID" />
-        <addAutoIncrement tableName="TRANSCODING2" columnName="ID" columnDataType="int"/>
         <insert tableName="TRANSCODING2">
             <column name="NAME" value="mp3 audio" />
             <column name="SOURCE_FORMATS" value="ogg oga aac m4a flac wav wma aif aiff ape mpc shn" />
@@ -60,22 +63,14 @@
             </not>
         </preConditions>
         <createTable tableName="PLAYER_TRANSCODING2">
-            <column name="PLAYER_ID" type="int"/>
-            <column name="TRANSCODING_ID" type="int" />
+            <column name="PLAYER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="pt2_p_fk" referencedTableName="PLAYER" referencedColumnNames="ID" deleteCascade="true"/>
+            </column>
+            <column name="TRANSCODING_ID" type="int" >
+                <constraints nullable="false" foreignKeyName="pt2_t_fk" referencedTableName="TRANSCODING2" referencedColumnNames="ID" deleteCascade="true"/>
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="PLAYER_TRANSCODING2" columnName="PLAYER_ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="PLAYER_TRANSCODING2" columnName="TRANSCODING_ID" columnDataType="int"/>
         <addPrimaryKey tableName="PLAYER_TRANSCODING2" columnNames="PLAYER_ID,TRANSCODING_ID" />
-        <addForeignKeyConstraint baseTableName="PLAYER_TRANSCODING2" baseColumnNames="PLAYER_ID"
-                                 constraintName="pt2_p_fk"
-                                 referencedTableName="PLAYER"
-                                 referencedColumnNames="ID"
-                                 onDelete="CASCADE" />
-        <addForeignKeyConstraint baseTableName="PLAYER_TRANSCODING2" baseColumnNames="TRANSCODING_ID"
-                                 constraintName="pt2_t_fk"
-                                 referencedTableName="TRANSCODING2"
-                                 referencedColumnNames="ID"
-                                 onDelete="CASCADE" />
         <sql>
             insert into "PLAYER_TRANSCODING2"(PLAYER_ID, TRANSCODING_ID)
             select distinct p.ID, t.ID from "PLAYER" p, "TRANSCODING2" t
@@ -91,8 +86,9 @@
             </not>
         </preConditions>
         <addColumn tableName="TRANSCODING2">
-            <column name="DEFAULT_ACTIVE" type="boolean" defaultValueBoolean="true"/>
+            <column name="DEFAULT_ACTIVE" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="TRANSCODING2" columnName="DEFAULT_ACTIVE" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

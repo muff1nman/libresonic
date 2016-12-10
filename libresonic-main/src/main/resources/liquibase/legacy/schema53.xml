@@ -32,9 +32,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="DEFAULT_ALBUM_LIST" type="${varchar_type}" defaultValue="random"/>
+            <column name="DEFAULT_ALBUM_LIST" type="${varchar_type}" defaultValue="random">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="DEFAULT_ALBUM_LIST" columnDataType="${varchar_type}"/>
     </changeSet>
     <changeSet id="schema53_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -43,9 +44,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="QUEUE_FOLLOWING_SONGS" type="boolean" defaultValueBoolean="true"/>
+            <column name="QUEUE_FOLLOWING_SONGS" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="QUEUE_FOLLOWING_SONGS" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema53_005" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -64,9 +66,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="SHOW_SIDE_BAR" type="boolean" defaultValueBoolean="true"/>
+            <column name="SHOW_SIDE_BAR" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SHOW_SIDE_BAR" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema53_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">

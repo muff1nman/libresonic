@@ -22,8 +22,9 @@
             </not>
         </preConditions>
         <addColumn tableName="PLAYER">
-            <column name="M3U_BOM_ENABLED" type="boolean" defaultValueBoolean="false"/>
+            <column name="M3U_BOM_ENABLED" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="PLAYER" columnName="M3U_BOM_ENABLED" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

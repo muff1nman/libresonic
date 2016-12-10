@@ -32,8 +32,9 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="SHOW_CHAT" type="boolean" defaultValueBoolean="true"/>
+            <column name="SHOW_CHAT" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="SHOW_CHAT" columnDataType="boolean"/>
     </changeSet>
 </databaseChangeLog>

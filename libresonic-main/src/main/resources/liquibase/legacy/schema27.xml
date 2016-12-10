@@ -23,12 +23,15 @@
             </not>
         </preConditions>
         <addColumn tableName="USER">
-            <column name="BYTES_STREAMED" type="bigint" defaultValueNumeric="0"/>
-            <column name="BYTES_DOWNLOADED" type="bigint" defaultValueNumeric="0"/>
-            <column name="BYTES_UPLOADED" type="bigint" defaultValueNumeric="0"/>
+            <column name="BYTES_STREAMED" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="BYTES_DOWNLOADED" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="BYTES_UPLOADED" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER" columnName="BYTES_STREAMED" columnDataType="bigint"/>
-        <addNotNullConstraint tableName="USER" columnName="BYTES_DOWNLOADED" columnDataType="bigint"/>
-        <addNotNullConstraint tableName="USER" columnName="BYTES_UPLOADED" columnDataType="bigint"/>
     </changeSet>
 </databaseChangeLog>

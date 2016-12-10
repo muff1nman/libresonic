@@ -22,9 +22,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="NOW_PLAYING_ALLOWED" type="boolean" defaultValueBoolean="true"/>
+            <column name="NOW_PLAYING_ALLOWED" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="NOW_PLAYING_ALLOWED" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema35_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -33,9 +34,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="WEB_PLAYER_DEFAULT" type="boolean" defaultValueBoolean="false"/>
+            <column name="WEB_PLAYER_DEFAULT" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="WEB_PLAYER_DEFAULT" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema35_004" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -64,22 +66,28 @@
             </not>
         </preConditions>
         <createTable tableName="SYSTEM_AVATAR">
-            <column name="ID" type="int"/>
-            <column name="NAME" type="${varchar_type}" />
-            <column name="CREATED_DATE" type="datetime" defaultValueComputed="${curr_date_expr}"/>
-            <column name="MIME_TYPE" type="${varchar_type}" />
-            <column name="WIDTH" type="int" />
-            <column name="HEIGHT" type="int" />
-            <column name="DATA" type="${binary_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="NAME" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="CREATED_DATE" type="datetime" defaultValueComputed="${curr_date_expr}">
+                <constraints nullable="false" />
+            </column>
+            <column name="MIME_TYPE" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="WIDTH" type="int" >
+                <constraints nullable="false" />
+            </column>
+            <column name="HEIGHT" type="int" >
+                <constraints nullable="false" />
+            </column>
+            <column name="DATA" type="${binary_type}" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="SYSTEM_AVATAR" columnName="ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="SYSTEM_AVATAR" columnName="CREATED_DATE" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="SYSTEM_AVATAR" columnName="MIME_TYPE" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="SYSTEM_AVATAR" columnName="WIDTH" columnDataType="int"/>
-        <addNotNullConstraint tableName="SYSTEM_AVATAR" columnName="HEIGHT" columnDataType="int"/>
-        <addNotNullConstraint tableName="SYSTEM_AVATAR" columnName="DATA" columnDataType="${binary_type}"/>
-        <addPrimaryKey tableName="SYSTEM_AVATAR" columnNames="ID" />
-        <addAutoIncrement tableName="SYSTEM_AVATAR" columnName="ID" columnDataType="int"/>
         <rollback>
             <dropTable tableName="SYSTEM_AVATAR" />
         </rollback>
@@ -91,30 +99,29 @@
             </not>
         </preConditions>
         <createTable tableName="CUSTOM_AVATAR">
-            <column name="ID" type="int" />
-            <column name="NAME" type="${varchar_type}" />
-            <column name="CREATED_DATE" type="datetime" defaultValueComputed="${curr_date_expr}"/>
-            <column name="MIME_TYPE" type="${varchar_type}" />
-            <column name="WIDTH" type="int" />
-            <column name="HEIGHT" type="int" />
-            <column name="DATA" type="${binary_type}" />
-            <column name="USERNAME" type="${varchar_type}" />
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="NAME" type="${varchar_type}"/>
+            <column name="CREATED_DATE" type="datetime" defaultValueComputed="${curr_date_expr}">
+                <constraints nullable="false" />
+            </column>
+            <column name="MIME_TYPE" type="${varchar_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="WIDTH" type="int" >
+                <constraints nullable="false" />
+            </column>
+            <column name="HEIGHT" type="int" >
+                <constraints nullable="false" />
+            </column>
+            <column name="DATA" type="${binary_type}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="USERNAME" type="${varchar_type}" >
+                <constraints nullable="false" deleteCascade="true" foreignKeyName="ca_u_fk" referencedTableName="USER" referencedColumnNames="USERNAME" />
+            </column>
         </createTable>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="ID" columnDataType="int"/>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="CREATED_DATE" columnDataType="datetime"/>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="MIME_TYPE" columnDataType="${varchar_type}"/>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="WIDTH" columnDataType="int"/>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="HEIGHT" columnDataType="int"/>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="DATA" columnDataType="${binary_type}"/>
-        <addNotNullConstraint tableName="CUSTOM_AVATAR" columnName="USERNAME" columnDataType="${varchar_type}"/>
-        <addPrimaryKey tableName="CUSTOM_AVATAR" columnNames="ID" />
-        <addAutoIncrement tableName="CUSTOM_AVATAR" columnName="ID" columnDataType="int"/>
-        <addForeignKeyConstraint baseTableName="CUSTOM_AVATAR"
-                                 baseColumnNames="USERNAME"
-                                 constraintName="ca_u_fk"
-                                 referencedTableName="USER"
-                                 referencedColumnNames="USERNAME"
-                                 onDelete="CASCADE"/>
         <rollback>
             <dropTable tableName="CUSTOM_AVATAR" />
         </rollback>
@@ -126,9 +133,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="AVATAR_SCHEME" type="${varchar_type}" defaultValue="NONE"/>
+            <column name="AVATAR_SCHEME" type="${varchar_type}" defaultValue="NONE">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="USER_SETTINGS" columnName="AVATAR_SCHEME" columnDataType="${varchar_type}"/>
     </changeSet>
     <changeSet id="schema35_008" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -137,12 +145,10 @@
             </not>
         </preConditions>
         <addColumn tableName="USER_SETTINGS">
-            <column name="SYSTEM_AVATAR_ID" type="int"/>
+            <column name="SYSTEM_AVATAR_ID" type="int">
+                <constraints foreignKeyName="us_sai_fk" referencedTableName="SYSTEM_AVATAR" referencedColumnNames="ID" />
+            </column>
         </addColumn>
-        <addForeignKeyConstraint baseTableName="USER_SETTINGS" baseColumnNames="SYSTEM_AVATAR_ID"
-                                 constraintName="us_sai_fk"
-                                 referencedTableName="SYSTEM_AVATAR"
-                                 referencedColumnNames="ID" />
     </changeSet>
     <changeSet id="schema35_009" author="muff1nman">
         <preConditions onFail="MARK_RAN">
@@ -151,9 +157,10 @@
             </not>
         </preConditions>
         <addColumn tableName="PLAYER">
-            <column name="JUKEBOX" type="boolean" defaultValueBoolean="false"/>
+            <column name="JUKEBOX" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
         </addColumn>
-        <addNotNullConstraint tableName="PLAYER" columnName="JUKEBOX" columnDataType="boolean"/>
     </changeSet>
     <changeSet id="schema35_010_Formal" author="muff1nman">
         <preConditions onFail="MARK_RAN">
