@@ -60,6 +60,12 @@ public abstract class DaoTestCaseBase extends TestCase {
         ratingDao.setDaoHelper(daoHelper);
         musicFolderDao.setDaoHelper(daoHelper);
         userDao.setDaoHelper(daoHelper);
+        userDao.setSettingsService(new SettingsService() {
+            @Override
+            public String getUserTable() {
+                return "user";
+            }
+        });
         transcodingDao.setDaoHelper(daoHelper);
         podcastDao.setDaoHelper(daoHelper);
     }

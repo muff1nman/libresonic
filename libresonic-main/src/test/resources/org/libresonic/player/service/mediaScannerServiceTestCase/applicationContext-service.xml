@@ -45,6 +45,7 @@
 
     <bean id="userDao" class="org.libresonic.player.dao.UserDao">
         <property name="daoHelper" ref="daoHelper"/>
+        <property name="settingsService" ref="settingsService" />
     </bean>
 
     <bean id="transcodingDao" class="org.libresonic.player.dao.TranscodingDao">
