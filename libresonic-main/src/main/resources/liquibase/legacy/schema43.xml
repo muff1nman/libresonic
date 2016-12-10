@@ -4,20 +4,20 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="schema43_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from version where version = 16</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from VERSION where VERSION = 16</sqlCheck>
         </preConditions>
         <insert tableName="VERSION">
             <column name="VERSION" valueNumeric="16" />
         </insert>
         <rollback>
             <delete tableName="VERSION" >
-                <where>version = 16</where>
+                <where>VERSION = 16</where>
             </delete>
         </rollback>
     </changeSet>
     <changeSet id="schema43_002" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from version where version = 17</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from VERSION where VERSION = 17</sqlCheck>
         </preConditions>
         <insert tableName="VERSION">
             <column name="VERSION" valueNumeric="17" />

@@ -5,14 +5,14 @@
     <property name="curr_date_expr" value="current_timestamp" />
     <changeSet id="schema37_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from version where version = 13</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from VERSION where VERSION = 13</sqlCheck>
         </preConditions>
         <insert tableName="VERSION">
             <column name="VERSION" valueNumeric="13" />
         </insert>
         <rollback>
             <delete tableName="VERSION" >
-                <where>version = 13</where>
+                <where>VERSION = 13</where>
             </delete>
         </rollback>
     </changeSet>
