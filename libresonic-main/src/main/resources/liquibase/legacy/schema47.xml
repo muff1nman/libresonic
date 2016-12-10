@@ -227,7 +227,7 @@
         </preConditions>
         <createTable tableName="STARRED_MEDIA_FILE">
             <column name="ID" type="int" autoIncrement="true">
-                <constraints nullable="false" />
+                <constraints primaryKey="true" />
             </column>
             <column name="MEDIA_FILE_ID" type="int" >
                 <constraints nullable="false" foreignKeyName="smf_mf_fk" referencedTableName="MEDIA_FILE" referencedColumnNames="ID" deleteCascade="true" />
