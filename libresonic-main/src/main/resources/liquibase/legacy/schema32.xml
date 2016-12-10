@@ -98,23 +98,23 @@
     </changeSet>
     <changeSet id="schema32_006" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from role where id = 7</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from ROLE where ID = 7</sqlCheck>
         </preConditions>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="7"/>
             <column name="NAME" value="podcast" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(username, role_id)
-            select distinct u.username, 7 from "USER" u, "USER_ROLE" ur
-            where u.username = ur.username and ur.role_id = 1
+            insert into "USER_ROLE"(USERNAME, ROLE_ID)
+            select distinct u.USERNAME, 7 from "USER" u, "USER_ROLE" ur
+            where u.USERNAME = ur.USERNAME and ur.ROLE_ID = 1
         </sql>
         <rollback>
             <delete tableName="USER_ROLE">
-                <where>role_id = 7</where>
+                <where>ROLE_ID = 7</where>
             </delete>
             <delete tableName="ROLE">
-                <where>id = 7</where>
+                <where>ID = 7</where>
             </delete>
         </rollback>
     </changeSet>

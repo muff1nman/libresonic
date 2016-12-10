@@ -77,8 +77,8 @@
                                  referencedColumnNames="ID"
                                  onDelete="CASCADE" />
         <sql>
-            insert into "PLAYER_TRANSCODING2"(player_id, transcoding_id)
-            select distinct p.id, t.id from "PLAYER" p, "TRANSCODING2" t
+            insert into "PLAYER_TRANSCODING2"(PLAYER_ID, TRANSCODING_ID)
+            select distinct p.ID, t.ID from "PLAYER" p, "TRANSCODING2" t
         </sql>
         <rollback>
             <dropTable tableName="PLAYER_TRANSCODING2" />

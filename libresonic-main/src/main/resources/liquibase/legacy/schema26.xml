@@ -131,23 +131,23 @@
     </changeSet>
     <changeSet id="schema26_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from role where id = 6</sqlCheck>
+            <sqlCheck expectedResult="1">select count(*) from ROLE where ID = 6</sqlCheck>
         </preConditions>
         <insert tableName="ROLE">
             <column name="ID" valueNumeric="6"/>
             <column name="NAME" value="comment" />
         </insert>
         <sql>
-            insert into "USER_ROLE"(username, role_id)
-            select distinct u.username, 6 from "USER" u, "USER_ROLE" ur
-            where u.username = ur.username and ur.role_id in (1, 5)
+            insert into "USER_ROLE"(USERNAME, ROLE_ID)
+            select distinct u.USERNAME, 6 from "USER" u, "USER_ROLE" ur
+            where u.USERNAME = ur.USERNAME and ur.ROLE_ID in (1, 5)
         </sql>
         <rollback>
             <delete tableName="USER_ROLE" >
-                <where>role_id = 6</where>
+                <where>ROLE_ID = 6</where>
             </delete>
             <delete tableName="ROLE">
-                <where>id = 6</where>
+                <where>ID = 6</where>
             </delete>
         </rollback>
     </changeSet>
