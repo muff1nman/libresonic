@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="schema50_001" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from version where version = 22</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from version where version = 22</sqlCheck>
         </preConditions>
         <insert tableName="version">
             <column name="version" valueNumeric="22" />
@@ -46,7 +46,7 @@
     </changeSet>
     <changeSet id="schema50_003" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from version where version = 23</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from version where version = 23</sqlCheck>
         </preConditions>
         <insert tableName="version">
             <column name="version" valueNumeric="23" />
