@@ -49,7 +49,7 @@
 
     <bean id="userDao" class="org.libresonic.player.dao.UserDao">
         <property name="daoHelper" ref="daoHelper"/>
-        <property name="userTableQuote" value="${database.usertable.quote:''}" />
+        <property name="userTableQuote" ref="userTableQuote"/>
     </bean>
 
     <bean id="transcodingDao" class="org.libresonic.player.dao.TranscodingDao">

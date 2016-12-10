@@ -102,7 +102,7 @@
             <map>
                 <entry key="defaultMusicFolder" value="#{T(org.libresonic.player.util.Util).getDefaultMusicFolder()}" />
                 <entry key="varcharLimit" value="${database.varchar.maxlength:512}" />
-                <entry key="userTableQuote" value="${database.usertable.quote:''}" />
+                <entry key="userTableQuote" value="" />
             </map>
         </property>
     </bean>
