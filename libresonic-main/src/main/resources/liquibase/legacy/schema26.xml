@@ -140,7 +140,7 @@
     </changeSet>
     <changeSet id="schema26_007" author="muff1nman">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">select count(*) from role where id = 6</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from role where id = 6</sqlCheck>
         </preConditions>
         <insert tableName="role">
             <column name="id" valueNumeric="6"/>
