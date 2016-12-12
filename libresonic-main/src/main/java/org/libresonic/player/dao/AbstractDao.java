@@ -19,15 +19,24 @@
  */
 package org.libresonic.player.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import org.libresonic.player.Logger;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.util.Assert;
 
 /**
  * Abstract superclass for all DAO's.
@@ -82,6 +91,21 @@ public class AbstractDao {
         int result = getJdbcTemplate().update(sql, args);
         log(sql, t);
         return result;
+    }
+
+    protected int updateAndReturnKey(
+            String sql,
+            Object... args
+    ) {
+        long t = System.nanoTime();
+        PreparedStatementCreator psc = new AutoIncrementIdPreparedStatementCreator(sql);
+        PreparedStatementSetter pss = new ArgumentPreparedStatementSetter(args);
+        KeyHolder holder = new GeneratedKeyHolder();
+        PreparedStatementCallback<Integer> callback =
+                new AutoIncrementAndArgSetterPreparedStatementCallback(pss, holder);
+        getJdbcTemplate().execute(psc, callback);
+        log(sql, t);
+        return holder.getKey().intValue();
     }
 
     private void log(String sql, long startTimeNano) {
@@ -172,5 +196,61 @@ public class AbstractDao {
 
     public void setDaoHelper(DaoHelper daoHelper) {
         this.daoHelper = daoHelper;
+    }
+
+    private static class AutoIncrementIdPreparedStatementCreator implements PreparedStatementCreator, SqlProvider {
+
+        private final String sql;
+
+        public AutoIncrementIdPreparedStatementCreator(String sql) {
+            Assert.notNull(sql, "SQL must not be null");
+            this.sql = sql;
+        }
+
+        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+            return con.prepareStatement(this.sql, new String[] { "ID" });
+        }
+
+        public String getSql() {
+            return this.sql;
+        }
+    }
+
+    private static class AutoIncrementAndArgSetterPreparedStatementCallback implements PreparedStatementCallback<Integer> {
+        private final PreparedStatementSetter pss;
+        private final KeyHolder holder;
+
+        public AutoIncrementAndArgSetterPreparedStatementCallback(PreparedStatementSetter pss, KeyHolder holder) {
+            this.pss = pss;
+            this.holder = holder;
+        }
+
+        @Override
+        public Integer doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
+            try {
+                pss.setValues(ps);
+                int rows = ps.executeUpdate();
+                List<Map<String, Object>> generatedKeys = holder.getKeyList();
+                generatedKeys.clear();
+                ResultSet keys = ps.getGeneratedKeys();
+                if (keys != null) {
+                    try {
+                        RowMapperResultSetExtractor<Map<String, Object>> rse =
+                                new RowMapperResultSetExtractor<>(new ColumnMapRowMapper(), 1);
+                        generatedKeys.addAll(rse.extractData(keys));
+                    }
+                    finally {
+                        JdbcUtils.closeResultSet(keys);
+                    }
+                }
+                LOG.debug("SQL update affected " + rows + " rows and returned " + generatedKeys.size() + " keys");
+                return rows;
+            }
+            finally {
+                if (pss instanceof ParameterDisposer) {
+                    ((ParameterDisposer) pss).cleanupParameters();
+                }
+            }
+        }
     }
 }
