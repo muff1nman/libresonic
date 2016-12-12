@@ -90,11 +90,12 @@ public class PlayerDao extends AbstractDao {
      */
     public synchronized void createPlayer(Player player) {
         String sql = "insert into player (" + INSERT_COLUMNS + ") values (" + questionMarks(INSERT_COLUMNS) + ")";
-        update(sql, player.getName(), player.getType(), player.getUsername(),
+        int key = updateAndReturnKey(sql, player.getName(), player.getType(), player.getUsername(),
                player.getIpAddress(), player.isAutoControlEnabled(), player.isM3uBomEnabled(),
                player.getLastSeen(), CoverArtScheme.MEDIUM.name(),
                player.getTranscodeScheme().name(), player.isDynamicIp(),
                player.getTechnology().name(), player.getClientId());
+        player.setId(String.valueOf(key));
         addPlaylist(player);
 
         LOG.info("Created player.");
