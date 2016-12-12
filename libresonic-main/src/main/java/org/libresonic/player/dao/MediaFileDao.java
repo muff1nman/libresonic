@@ -49,7 +49,7 @@ public class MediaFileDao extends AbstractDao {
 
     public static final int VERSION = 4;
 
-    private final RowMapper rowMapper = new MediaFileMapper();
+    private final RowMapper<MediaFile> rowMapper = new MediaFileMapper();
     private final RowMapper musicFileInfoRowMapper = new MusicFileInfoMapper();
     private final RowMapper genreRowMapper = new GenreMapper();
 
@@ -499,7 +499,6 @@ public class MediaFileDao extends AbstractDao {
         Map<String, Object> args = new HashMap<String, Object>() {{
             put("folders", MusicFolder.toPathList(criteria.getMusicFolders()));
             put("username", username);
-            put("count", criteria.getCount());
             put("fromYear", criteria.getFromYear());
             put("toYear", criteria.getToYear());
             put("genre", criteria.getGenre());
@@ -517,7 +516,7 @@ public class MediaFileDao extends AbstractDao {
         boolean joinAlbumRating = (criteria.getMinAlbumRating() != null || criteria.getMaxAlbumRating() != null);
         boolean joinStarred = (criteria.isShowStarredSongs() ^ criteria.isShowUnstarredSongs());
 
-        String query = "select top :count " + prefix(QUERY_COLUMNS, "media_file") + " from media_file ";
+        String query = "select " + prefix(QUERY_COLUMNS, "media_file") + " from media_file ";
 
         if (joinStarred) {
             query += "left outer join starred_media_file on media_file.id = starred_media_file.media_file_id and starred_media_file.username = :username ";
@@ -596,7 +595,7 @@ public class MediaFileDao extends AbstractDao {
 
         query += " order by rand()";
 
-        return namedQuery(query, rowMapper, args);
+        return namedQueryWithLimit(query, rowMapper, args, criteria.getCount());
     }
 
     public int getAlbumCount(final List<MusicFolder> musicFolders) {
@@ -658,7 +657,7 @@ public class MediaFileDao extends AbstractDao {
     }
 
     public void markNonPresent(Date lastScanned) {
-        int minId = queryForInt("select top 1 id from media_file where last_scanned != ? and present", 0, lastScanned);
+        int minId = queryForInt("select min(id) from media_file where last_scanned != ? and present", 0, lastScanned);
         int maxId = queryForInt("select max(id) from media_file where last_scanned != ? and present", 0, lastScanned);
 
         final int batchSize = 1000;
@@ -670,7 +669,7 @@ public class MediaFileDao extends AbstractDao {
     }
 
     public void expunge() {
-        int minId = queryForInt("select top 1 id from media_file where not present", 0);
+        int minId = queryForInt("select min(id) from media_file where not present", 0);
         int maxId = queryForInt("select max(id) from media_file where not present", 0);
 
         final int batchSize = 1000;
