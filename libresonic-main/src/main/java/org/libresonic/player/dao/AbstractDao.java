@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.dao.DataAccessException;
@@ -105,7 +106,22 @@ public class AbstractDao {
                 new AutoIncrementAndArgSetterPreparedStatementCallback(pss, holder);
         getJdbcTemplate().execute(psc, callback);
         log(sql, t);
-        return holder.getKey().intValue();
+        List<Map<String, Object>> keyList = holder.getKeyList();
+        if(keyList.size() != 1) {
+            throw new RuntimeException("Unxpected number of key result rows");
+        }
+        Map<String, Object> generated = keyList.iterator().next();
+        Object value = getCaseInsensitive(generated, "Id");
+        if (value == null || !(value instanceof Number)) {
+            throw new RuntimeException("Unexpected non-numerical key type");
+        }
+        return ((Number) value).intValue();
+    }
+
+    private Object getCaseInsensitive(Map<String, Object> map, String key) {
+        Map<String,Object> caseIns = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        caseIns.putAll(map);
+        return caseIns.get(key);
     }
 
     private void log(String sql, long startTimeNano) {
@@ -208,7 +224,7 @@ public class AbstractDao {
         }
 
         public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-            return con.prepareStatement(this.sql, new String[] { "ID" });
+            return con.prepareStatement(this.sql, PreparedStatement.RETURN_GENERATED_KEYS);
         }
 
         public String getSql() {
