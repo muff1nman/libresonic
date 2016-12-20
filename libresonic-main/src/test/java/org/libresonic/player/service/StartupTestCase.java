@@ -22,11 +22,11 @@ public class StartupTestCase extends TestCase {
         TestCaseUtils.cleanLibresonicHomeForTest();
         File dbDirectory = new File(homeParent, "/db");
         FileUtils.forceMkdir(dbDirectory);
-        org.libresonic.player.util.FileUtils.copyResourcesRecursively(getClass().getResource("/db/pre-liquibase/db"), new File(homeParent));
+        assertTrue(org.libresonic.player.util.FileUtils.copyResourcesRecursively(getClass().getResource("/db/pre-liquibase/db"), new File(homeParent)));
 
         // load spring context
         ApplicationContext context = TestCaseUtils.loadSpringApplicationContext(baseResources);
-
+        assertNotNull(context);
     }
 
 }
