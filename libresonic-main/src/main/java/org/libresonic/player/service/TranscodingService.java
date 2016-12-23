@@ -45,6 +45,8 @@ import org.libresonic.player.io.TranscodeInputStream;
 import org.libresonic.player.util.StringUtil;
 import org.libresonic.player.util.Util;
 
+import static javax.swing.UIManager.get;
+
 /**
  * Provides services for transcoding media. Transcoding is the process of
  * converting an audio stream to a different format and/or bit rate. The latter is
@@ -330,7 +332,8 @@ public class TranscodingService {
         }
 
         List<String> result = new LinkedList<>(Arrays.asList(StringUtil.split(command)));
-        result.set(0, getExecutableName(result));
+        String executableName = result.get(0);
+        result.set(0, getPATHNormalizedExecutable(executableName));
 
         File tmpFile = null;
 
@@ -381,8 +384,7 @@ public class TranscodingService {
         return new TranscodeInputStream(new ProcessBuilder(result), in, tmpFile);
     }
 
-    private String getExecutableName(List<String> transcodeTokens) {
-        String executableName = transcodeTokens.get(0);
+    public String getPATHNormalizedExecutable(String executableName) {
         String transcodeDirectoryPath = getTranscodeDirectory().getPath() + File.separatorChar + executableName;
         File file = new File(transcodeDirectoryPath);
         if(file.exists()) {
@@ -476,14 +478,31 @@ public class TranscodingService {
             return true;
         }
         String executable = StringUtil.split(step)[0];
+        return isExecutableAvailable(executable);
+    }
+
+    private boolean isExecutableAvailable(String executable) {
+        boolean available = false;
         PrefixFileFilter filter = new PrefixFileFilter(executable);
-        String[] matches = getTranscodeDirectory().list(filter);
-        return matches != null && matches.length > 0;
+        File transcodeDirectory = getTranscodeDirectory();
+        if(transcodeDirectory.exists()) {
+            String[] matches = transcodeDirectory.list(filter);
+            available = matches != null && matches.length > 0;
+        }
+        if(file.exists()) {
+            if(!file.canExecute()) {
+                throw new RuntimeException("Transcoder is not executable at " + transcodeDirectoryPath);
+            }
+            return transcodeDirectoryPath;
+        } else {
+            return executableName;
+        }
     }
 
     /**
      * Returns the directory in which all transcoders are installed.
      */
+    @Deprecated
     public File getTranscodeDirectory() {
         File dir = new File(SettingsService.getLibresonicHome(), "transcode");
         if (!dir.exists()) {

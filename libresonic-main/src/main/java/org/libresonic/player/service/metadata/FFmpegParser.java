@@ -63,9 +63,9 @@ public class FFmpegParser extends MetaDataParser {
 
         try {
 
-            File ffmpeg = new File(transcodingService.getTranscodeDirectory(), "ffmpeg");
+            String ffmpeg = transcodingService.getPATHNormalizedExecutable("ffmpeg");
 
-            String[] command = new String[]{ffmpeg.getAbsolutePath(), "-i", file.getAbsolutePath()};
+            String[] command = new String[]{ffmpeg, "-i", file.getAbsolutePath()};
             Process process = Runtime.getRuntime().exec(command);
             InputStream stdout = process.getInputStream();
             InputStream stderr = process.getErrorStream();
