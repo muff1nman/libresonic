@@ -33,7 +33,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PlaylistServiceTest {
+public class PlaylistServiceTestExport {
 
     @InjectMocks
     PlaylistService playlistService;
@@ -89,63 +89,5 @@ public class PlaylistServiceTest {
         mediaFiles.add(mf3);
 
         return mediaFiles;
-    }
-
-    @Test
-    public void testImportFromM3U() throws Exception {
-        String username = "testUser";
-        String playlistName = "test-playlist";
-        StringBuilder builder = new StringBuilder();
-        builder.append("#EXTM3U\n");
-        File mf1 = folder.newFile();
-        FileUtils.touch(mf1);
-        File mf2 = folder.newFile();
-        FileUtils.touch(mf2);
-        File mf3 = folder.newFile();
-        FileUtils.touch(mf3);
-        builder.append(mf1.getAbsolutePath() + "\n");
-        builder.append(mf2.getAbsolutePath() + "\n");
-        builder.append(mf3.getAbsolutePath() + "\n");
-        doAnswer(new PersistPlayList(23)).when(playlistDao).createPlaylist(any());
-        doAnswer(new MediaFileHasEverything()).when(mediaFileService).getMediaFile(any(File.class));
-        InputStream inputStream = new ByteArrayInputStream(builder.toString().getBytes("UTF-8"));
-        String path = "/path/to/"+playlistName+".m3u";
-        playlistService.importPlaylist(username, playlistName, path, "m3u", inputStream, null);
-        verify(playlistDao).createPlaylist(actual.capture());
-        verify(playlistDao).setFilesInPlaylist(eq(23), medias.capture());
-        Playlist expected = new Playlist();
-        expected.setUsername(username);
-        expected.setName(playlistName);
-        expected.setComment("Auto-imported from " + path);
-        expected.setImportedFrom(path);
-        expected.setShared(true);
-        expected.setId(23);
-        assertTrue("\n" + ToStringBuilder.reflectionToString(actual.getValue()) + "\n\n did not equal \n\n" + ToStringBuilder.reflectionToString(expected), EqualsBuilder.reflectionEquals(actual.getValue(), expected, "created", "changed"));
-        System.out.println(medias.getValue());
-    }
-
-    private class PersistPlayList implements Answer {
-        private final int id;
-        public PersistPlayList(int id) {
-            this.id = id;
-        }
-
-        @Override
-        public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-            Playlist playlist = invocationOnMock.getArgument(0);
-            playlist.setId(id);
-            return null;
-        }
-    }
-
-    private class MediaFileHasEverything implements Answer {
-
-        @Override
-        public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-            File file = invocationOnMock.getArgument(0);
-            MediaFile mediaFile = new MediaFile();
-            mediaFile.setPath(file.getPath());
-            return mediaFile;
-        }
     }
 }
