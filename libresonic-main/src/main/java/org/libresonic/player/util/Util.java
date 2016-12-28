@@ -21,6 +21,7 @@ package org.libresonic.player.util;
 
 import org.libresonic.player.Logger;
 
+import com.google.common.hash.HashCode;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
@@ -101,5 +102,9 @@ public final class Util {
             result[i] = values.get(i);
         }
         return result;
+    }
+
+    public static String toSha1URI(HashCode hash) {
+        return "sha1:" + hash.toString().toUpperCase();
     }
 }

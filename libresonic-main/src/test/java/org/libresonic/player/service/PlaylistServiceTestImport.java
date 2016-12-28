@@ -1,11 +1,10 @@
 package org.libresonic.player.service;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -14,6 +13,8 @@ import org.libresonic.player.dao.MediaFileDao;
 import org.libresonic.player.dao.PlaylistDao;
 import org.libresonic.player.domain.MediaFile;
 import org.libresonic.player.domain.Playlist;
+import org.libresonic.player.service.playlist.DefaultPlaylistExportHandler;
+import org.libresonic.player.service.playlist.DefaultPlaylistImportHandler;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
@@ -25,20 +26,21 @@ import org.mockito.stubbing.Answer;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.seamless.xhtml.XHTML.ELEMENT.a;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlaylistServiceTestImport {
 
-    @InjectMocks
     PlaylistService playlistService;
+
+    @InjectMocks
+    DefaultPlaylistImportHandler defaultPlaylistImportHandler;
 
     @Mock
     MediaFileDao mediaFileDao;
@@ -49,6 +51,12 @@ public class PlaylistServiceTestImport {
     @Mock
     MediaFileService mediaFileService;
 
+    @Mock
+    SettingsService settingsService;
+
+    @Mock
+    SecurityService securityService;
+
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -57,6 +65,18 @@ public class PlaylistServiceTestImport {
 
     @Captor
     ArgumentCaptor<List<MediaFile>> medias;
+
+    @Before
+    public void setup() {
+        playlistService = new PlaylistService(
+                mediaFileDao,
+                playlistDao,
+                securityService,
+                settingsService,
+                Collections.emptyList(),
+                Lists.newArrayList(defaultPlaylistImportHandler));
+
+    }
 
     @Test
     public void testImportFromM3U() throws Exception {
@@ -77,7 +97,7 @@ public class PlaylistServiceTestImport {
         doAnswer(new MediaFileHasEverything()).when(mediaFileService).getMediaFile(any(File.class));
         InputStream inputStream = new ByteArrayInputStream(builder.toString().getBytes("UTF-8"));
         String path = "/path/to/"+playlistName+".m3u";
-        playlistService.importPlaylist(username, playlistName, path, "m3u", inputStream, null);
+        playlistService.importPlaylist(username, playlistName, path, inputStream, null);
         verify(playlistDao).createPlaylist(actual.capture());
         verify(playlistDao).setFilesInPlaylist(eq(23), medias.capture());
         Playlist expected = new Playlist();
@@ -111,7 +131,7 @@ public class PlaylistServiceTestImport {
         doAnswer(new MediaFileHasEverything()).when(mediaFileService).getMediaFile(any(File.class));
         InputStream inputStream = new ByteArrayInputStream(builder.toString().getBytes("UTF-8"));
         String path = "/path/to/"+playlistName+".pls";
-        playlistService.importPlaylist(username, playlistName, path, "pls", inputStream, null);
+        playlistService.importPlaylist(username, playlistName, path, inputStream, null);
         verify(playlistDao).createPlaylist(actual.capture());
         verify(playlistDao).setFilesInPlaylist(eq(23), medias.capture());
         Playlist expected = new Playlist();
@@ -148,7 +168,7 @@ public class PlaylistServiceTestImport {
         doAnswer(new MediaFileHasEverything()).when(mediaFileService).getMediaFile(any(File.class));
         InputStream inputStream = new ByteArrayInputStream(builder.toString().getBytes("UTF-8"));
         String path = "/path/to/"+playlistName+".xspf";
-        playlistService.importPlaylist(username, playlistName, path, "xspf", inputStream, null);
+        playlistService.importPlaylist(username, playlistName, path, inputStream, null);
         verify(playlistDao).createPlaylist(actual.capture());
         verify(playlistDao).setFilesInPlaylist(eq(23), medias.capture());
         Playlist expected = new Playlist();

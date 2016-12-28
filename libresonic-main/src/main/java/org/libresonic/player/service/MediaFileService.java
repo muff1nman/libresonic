@@ -32,6 +32,7 @@ import org.libresonic.player.service.metadata.MetaData;
 import org.libresonic.player.service.metadata.MetaDataParser;
 import org.libresonic.player.service.metadata.MetaDataParserFactory;
 import org.libresonic.player.util.FileUtil;
+import org.libresonic.player.util.Util;
 
 import java.io.File;
 import java.io.IOException;
@@ -465,6 +466,11 @@ public class MediaFileService {
         mediaFile.setCreated(lastModified);
         mediaFile.setMediaType(DIRECTORY);
         mediaFile.setPresent(true);
+        try {
+            mediaFile.setChecksum(Util.toSha1URI(Files.hash(file, Hashing.sha1())));
+        } catch (IOException e) {
+            LOG.warn("Could not generate checksum for file " + file);
+        }
 
         if (file.isFile()) {
 

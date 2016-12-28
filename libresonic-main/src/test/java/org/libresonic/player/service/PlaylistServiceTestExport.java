@@ -1,11 +1,10 @@
 package org.libresonic.player.service;
 
-import org.apache.commons.io.FileUtils;
+import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -14,29 +13,27 @@ import org.libresonic.player.dao.MediaFileDao;
 import org.libresonic.player.dao.PlaylistDao;
 import org.libresonic.player.domain.MediaFile;
 import org.libresonic.player.domain.Playlist;
+import org.libresonic.player.service.playlist.DefaultPlaylistExportHandler;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlaylistServiceTestExport {
 
-    @InjectMocks
     PlaylistService playlistService;
+
+    @InjectMocks
+    DefaultPlaylistExportHandler defaultPlaylistExportHandler;
 
     @Mock
     MediaFileDao mediaFileDao;
@@ -47,6 +44,12 @@ public class PlaylistServiceTestExport {
     @Mock
     MediaFileService mediaFileService;
 
+    @Mock
+    SettingsService settingsService;
+
+    @Mock
+    SecurityService securityService;
+
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -56,10 +59,22 @@ public class PlaylistServiceTestExport {
     @Captor
     ArgumentCaptor<List<MediaFile>> medias;
 
+    @Before
+    public void setup() {
+        playlistService = new PlaylistService(mediaFileDao,
+                                              playlistDao,
+                                              securityService,
+                                              settingsService,
+                                              Lists.newArrayList(
+                                                      defaultPlaylistExportHandler),
+                                              Collections.emptyList());
+    }
+
     @Test
     public void testExportToM3U() throws Exception {
 
         when(mediaFileDao.getFilesInPlaylist(eq(23))).thenReturn(getPlaylistFiles());
+        when(settingsService.getPlaylistExportFormat()).thenReturn("m3u");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         playlistService.exportPlaylist(23, outputStream);
