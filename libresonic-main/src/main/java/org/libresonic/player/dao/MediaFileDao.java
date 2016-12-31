@@ -645,6 +645,13 @@ public class MediaFileDao extends AbstractDao {
                                 0, args);
     }
 
+    public List<MediaFile> getMatchingChecksum(String checksum) {
+        Map<String, Object> args = new HashMap<String, Object>() {{
+            put("checksum", checksum);
+        }};
+        return namedQuery("select " + QUERY_COLUMNS + " from media_file where checksum = :checksum ", rowMapper, args);
+    }
+
     public void starMediaFile(int id, String username) {
         unstarMediaFile(id, username);
         update("insert into starred_media_file(media_file_id, username, created) values (?,?,?)", id, username, new Date());

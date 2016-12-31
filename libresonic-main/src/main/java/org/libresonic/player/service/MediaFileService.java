@@ -466,11 +466,6 @@ public class MediaFileService {
         mediaFile.setCreated(lastModified);
         mediaFile.setMediaType(DIRECTORY);
         mediaFile.setPresent(true);
-        try {
-            mediaFile.setChecksum(Util.toSha1URI(Files.hash(file, Hashing.sha1())));
-        } catch (IOException e) {
-            LOG.warn("Could not generate checksum for file " + file);
-        }
 
         if (file.isFile()) {
 
@@ -495,6 +490,11 @@ public class MediaFileService {
             mediaFile.setFormat(format);
             mediaFile.setFileSize(FileUtil.length(file));
             mediaFile.setMediaType(getMediaType(mediaFile));
+            try {
+                mediaFile.setChecksum(Util.toSha1URI(Files.hash(file, Hashing.sha1())));
+            } catch (IOException e) {
+                LOG.warn("Could not generate checksum for file " + file);
+            }
 
         } else {
 
@@ -712,5 +712,9 @@ public class MediaFileService {
 
     public void setAlbumDao(AlbumDao albumDao) {
         this.albumDao = albumDao;
+    }
+
+    public List<MediaFile> getMatchingChecksum(String checksum) {
+        return mediaFileDao.getMatchingChecksum(checksum);
     }
 }

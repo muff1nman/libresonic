@@ -24,5 +24,8 @@
         <addColumn tableName="media_file">
             <column name="checksum" type="varchar(256)"/>
         </addColumn>
+        <createIndex tableName="media_file" indexName="idx_media_file_checksum">
+            <column name="checksum"/>
+        </createIndex>
     </changeSet>
 </databaseChangeLog>

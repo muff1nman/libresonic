@@ -69,6 +69,6 @@ public class XspfPlaylistExportHandler implements PlaylistExportHandler {
 
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return 0;
     }
 }

@@ -30,6 +30,7 @@ import org.jdom.input.SAXBuilder;
 import chameleon.playlist.SpecificPlaylist;
 import chameleon.playlist.SpecificPlaylistFactory;
 import chameleon.playlist.SpecificPlaylistProvider;
+import javax.swing.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.libresonic.player.Logger;
@@ -42,6 +43,7 @@ import org.libresonic.player.service.playlist.PlaylistExportHandler;
 import org.libresonic.player.service.playlist.PlaylistImportHandler;
 import org.libresonic.player.util.Pair;
 import org.libresonic.player.util.StringUtil;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.util.Assert;
 
 import java.io.File;
@@ -226,8 +228,15 @@ public class PlaylistService {
         return playlist;
     }
 
+    public String getExportPlaylistExtension() {
+        String format = settingsService.getPlaylistExportFormat();
+        SpecificPlaylistProvider provider = SpecificPlaylistFactory.getInstance().findProviderById(format);
+        return provider.getContentTypes()[0].getExtensions()[0];
+    }
+
     public void exportPlaylist(int id, OutputStream out) throws Exception {
-        SpecificPlaylistProvider provider = SpecificPlaylistFactory.getInstance().findProviderById(settingsService.getPlaylistExportFormat());
+        String format = settingsService.getPlaylistExportFormat();
+        SpecificPlaylistProvider provider = SpecificPlaylistFactory.getInstance().findProviderById(format);
         PlaylistExportHandler handler = getExportHandler(provider);
         SpecificPlaylist specificPlaylist = handler.handle(id, provider);
         specificPlaylist.writeTo(out, StringUtil.ENCODING_UTF8);
