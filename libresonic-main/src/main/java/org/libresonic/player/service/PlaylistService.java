@@ -197,6 +197,7 @@ public class PlaylistService {
             throw new Exception("Unsupported playlist " + fileName);
         }
         PlaylistImportHandler importHandler = getImportHandler(inputSpecificPlaylist);
+        LOG.debug("Using "+importHandler.getClass().getSimpleName()+" playlist import handler");
 
         Pair<List<MediaFile>, List<String>> result = importHandler.handle(inputSpecificPlaylist);
 

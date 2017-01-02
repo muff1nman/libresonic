@@ -6,6 +6,7 @@ import chameleon.playlist.xspf.Location;
 import chameleon.playlist.xspf.Playlist;
 import chameleon.playlist.xspf.StringContainer;
 import org.apache.commons.lang3.StringUtils;
+import org.libresonic.player.Logger;
 import org.libresonic.player.domain.MediaFile;
 import org.libresonic.player.service.MediaFileService;
 import org.libresonic.player.util.Pair;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class XspfPlaylistImportHandler implements PlaylistImportHandler {
+
+    private static final Logger LOG = Logger.getLogger(XspfPlaylistImportHandler.class);
 
     @Autowired
     MediaFileService mediaFileService;
@@ -56,7 +59,7 @@ public class XspfPlaylistImportHandler implements PlaylistImportHandler {
                     try {
                         if(StringUtils.isNotBlank(sc.getText())) {
                             List<MediaFile> matchingChecksum = mediaFileService.getMatchingChecksum(sc.getText());
-                            if(matchingChecksum != null && matchingChecksum.size() > 1) {
+                            if(matchingChecksum != null && matchingChecksum.size() >= 1) {
                                 mediaFile = matchingChecksum.iterator().next();
                             }
                         }
@@ -68,7 +71,7 @@ public class XspfPlaylistImportHandler implements PlaylistImportHandler {
             } else {
                 String errorMsg = "Could not find media file matching ";
                 try {
-                    errorMsg += track.getStringContainers().stream().map(StringContainer::toString).collect(Collectors.joining(","));
+                    errorMsg += track.getStringContainers().stream().map(StringContainer::getText).collect(Collectors.joining(","));
                 } catch (Exception ignored) {}
                 errors.add(errorMsg);
             }
