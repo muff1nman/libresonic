@@ -30,6 +30,7 @@ import org.libresonic.player.service.PlaylistService;
 import org.libresonic.player.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,6 +41,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.libresonic.player.domain.Playlist;
+import org.libresonic.player.service.PlaylistService;
+import org.libresonic.player.service.SecurityService;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Sindre Mehus
@@ -56,7 +62,13 @@ public class ImportPlaylistController {
     private PlaylistService playlistService;
 
     @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String doGet() throws Exception {
+        return "importPlaylist";
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String doPost(HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
 
         try {
@@ -86,7 +98,8 @@ public class ImportPlaylistController {
             map.put("error", e.getMessage());
         }
 
-        return new ModelAndView("importPlaylist","model",map);
+        redirectAttributes.addFlashAttribute("model", map);
+        return "redirect:importPlaylist.view";
     }
 
 
