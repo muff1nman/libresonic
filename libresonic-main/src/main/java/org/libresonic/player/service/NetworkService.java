@@ -68,9 +68,9 @@ public class NetworkService {
     private SettingsService settingsService;
     private UPnPService upnpService;
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(4);
-    private final PortForwardingTask portForwardingTask = new PortForwardingTask();
+//    private final PortForwardingTask portForwardingTask = new PortForwardingTask();
     private final URLRedirectionTask urlRedirectionTask = new URLRedirectionTask();
-    private Future<?> portForwardingFuture;
+//    private Future<?> portForwardingFuture;
     private Future<?> urlRedirectionFuture;
 
     private final Status portForwardingStatus = new Status();
@@ -78,20 +78,20 @@ public class NetworkService {
     private boolean testUrlRedirection;
 
     public void init() {
-        initPortForwarding(10);
+//        initPortForwarding(10);
         initUrlRedirection(false);
     }
 
     /**
      * Configures UPnP port forwarding.
      */
-    public synchronized void initPortForwarding(int initialDelaySeconds) {
-        portForwardingStatus.setText("Idle");
-        if (portForwardingFuture != null) {
-            portForwardingFuture.cancel(true);
-        }
-        portForwardingFuture = executor.scheduleWithFixedDelay(portForwardingTask, initialDelaySeconds, PORT_FORWARDING_DELAY, TimeUnit.SECONDS);
-    }
+//    public synchronized void initPortForwarding(int initialDelaySeconds) {
+//        portForwardingStatus.setText("Idle");
+//        if (portForwardingFuture != null) {
+//            portForwardingFuture.cancel(true);
+//        }
+//        portForwardingFuture = executor.scheduleWithFixedDelay(portForwardingTask, initialDelaySeconds, PORT_FORWARDING_DELAY, TimeUnit.SECONDS);
+//    }
 
     /**
      * Configures URL redirection.
@@ -194,9 +194,9 @@ public class NetworkService {
             }
 
             //  Don't do it again if disabled.
-            if (!enabled && portForwardingFuture != null) {
-                portForwardingFuture.cancel(false);
-            }
+//            if (!enabled && portForwardingFuture != null) {
+//                portForwardingFuture.cancel(false);
+//            }
         }
 
         private Router findRouter() {

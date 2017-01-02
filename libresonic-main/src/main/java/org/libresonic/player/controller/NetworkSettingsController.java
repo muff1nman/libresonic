@@ -80,7 +80,7 @@ public class NetworkSettingsController {
         }
 
         settingsService.save();
-        networkService.initPortForwarding(0);
+//        networkService.initPortForwarding(0);
         networkService.initUrlRedirection(true);
 
         redirectAttributes.addFlashAttribute("settings_toast", true);

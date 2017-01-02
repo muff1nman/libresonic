@@ -2,6 +2,7 @@ package org.libresonic.player.boot;
 
 import org.directwebremoting.servlet.DwrServlet;
 import org.libresonic.player.spring.AdditionalPropertySourceConfigurer;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,6 +11,8 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+
+import static org.eclipse.persistence.expressions.ExpressionOperator.Add;
 
 @SpringBootApplication
 @Configuration
@@ -37,13 +40,14 @@ public class Application extends SpringBootServletInitializer {
         // Customize the application or call application.sources(...) to add sources
         // Since our example is itself a @Configuration class (via @SpringBootApplication)
         // we actually don't need to override this method.
-        return application;
+        return application.sources(Application.class);
     }
 
     public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(Application.class);
-        springApplication.addInitializers(new AdditionalPropertySourceConfigurer());
-        springApplication.run(args);
+        new Application().configure(new SpringApplicationBuilder(Application.class))
+                         .web(true)
+                         .initializers(new AdditionalPropertySourceConfigurer())
+                         .run(args);
     }
 
 }
