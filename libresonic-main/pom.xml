@@ -3,8 +3,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>libresonic-main</artifactId>
-    <name>Libresonic Main</name>
     <packaging>war</packaging>
+    <name>Libresonic Main</name>
 
     <parent>
         <groupId>org.libresonic.player</groupId>
@@ -14,8 +14,6 @@
 
     <properties>
         <metrics.version>3.1.0</metrics.version>
-        <!--<start-class>org.libresonic.player.boot.Application</start-class>-->
-        <!--<tomcat.version>8.0.30</tomcat.version>-->
     </properties>
 
     <dependencies>
@@ -66,6 +64,19 @@
             <artifactId>spring-security-taglibs</artifactId>
         </dependency>
         <!-- END Spring -->
+
+        <!-- taglibs -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>string</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <!-- END taglibs -->
 
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -141,19 +152,6 @@
             <version>1.0-b2</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>log4j</groupId>-->
-            <!--<artifactId>log4j</artifactId>-->
-            <!--<version>1.2.16</version>-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-log4j12</artifactId>-->
-            <!--<version>1.6.1</version>-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.directwebremoting</groupId>
@@ -240,21 +238,6 @@
             <artifactId>javax.mail-api</artifactId>
             <version>1.5.5</version>
         </dependency>
-
-        <!-- taglibs -->
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>string</artifactId>
-            <version>1.1.0</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- END taglibs -->
-
 
         <dependency>
             <groupId>com.hoodcomputing</groupId>
