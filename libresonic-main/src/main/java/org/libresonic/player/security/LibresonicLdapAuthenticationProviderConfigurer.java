@@ -13,13 +13,11 @@ public class LibresonicLdapAuthenticationProviderConfigurer<B extends ProviderMa
     public LibresonicLdapAuthenticationProviderConfigurer(SettingsService settingsService, SecurityService securityService) {
         this.settingsService = settingsService;
         this.securityService = securityService;
-//        this.userDnPatterns(settingsService.getLdapManagerDn());
         this.contextSource()
                 .managerDn(settingsService.getLdapManagerDn())
                 .managerPassword(settingsService.getLdapManagerPassword())
                 .url(settingsService.getLdapUrl());
         this.userSearchFilter(settingsService.getLdapSearchFilter());
-
     }
 
     @SuppressWarnings("unchecked")
@@ -30,15 +28,6 @@ public class LibresonicLdapAuthenticationProviderConfigurer<B extends ProviderMa
                     (AbstractLdapAuthenticator) object,
                     settingsService,
                     securityService);
-
-//            libresonicLdapAuthenticator.setUserSearch(new FilterBasedLdapUserSearch("", settingsService
-//                    .getLdapSearchFilter(), libresonicLdapAuthenticator.));
-
-//            if (userSearchFilter == null) {
-//                return null;
-//            }
-//            return new FilterBasedLdapUserSearch(userSearchBase, userSearchFilter,
-//                    contextSource);
             return super.postProcess((T) libresonicLdapAuthenticator);
         } else {
             return super.postProcess(object);
