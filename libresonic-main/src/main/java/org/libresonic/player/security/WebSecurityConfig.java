@@ -1,6 +1,7 @@
 package org.libresonic.player.security;
 
 import org.libresonic.player.service.SecurityService;
+import org.libresonic.player.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +19,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityService securityService;
+
     @Autowired
     private CsrfSecurityRequestMatcher csrfSecurityRequestMatcher;
+
     @Autowired
     LoginFailureLogger loginFailureLogger;
+
+    @Autowired
+    SettingsService settingsService;
 
     @Override
     @Bean(name = "authenticationManager")
@@ -32,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.ldapAuthentication().au
+        auth.apply(new LibresonicLdapAuthenticationProviderConfigurer<>(settingsService, securityService));
         auth.userDetailsService(securityService);
     }
 
@@ -89,7 +97,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordParameter("j_password")
             // see http://docs.spring.io/spring-security/site/docs/3.2.4.RELEASE/reference/htmlsingle/#csrf-logout
             .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/login?logout")
-            .and().rememberMe().userDetailsService(securityService).key("libresonic");
-
+            .and().rememberMe().key("libresonic");
     }
 }
