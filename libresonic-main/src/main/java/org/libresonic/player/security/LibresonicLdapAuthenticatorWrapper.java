@@ -1,5 +1,6 @@
 package org.libresonic.player.security;
 
+import org.libresonic.player.Logger;
 import org.libresonic.player.domain.User;
 import org.libresonic.player.service.SecurityService;
 import org.libresonic.player.service.SettingsService;
@@ -8,9 +9,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.ldap.authentication.LdapAuthenticator;
 
-import static org.apache.cxf.common.jaxb.JAXBUtils.LOG;
-
 public class LibresonicLdapAuthenticatorWrapper implements LdapAuthenticator {
+
+    private static final Logger LOG = Logger.getLogger(LibresonicLdapAuthenticatorWrapper.class);
+
     private final LdapAuthenticator parent;
     private final SettingsService settingsService;
     private final SecurityService securityService;
