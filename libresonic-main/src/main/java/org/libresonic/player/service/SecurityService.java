@@ -72,6 +72,12 @@ public class SecurityService implements UserDetailsService {
             throw new UsernameNotFoundException("User \"" + username + "\" was not found.");
         }
 
+        List<GrantedAuthority> authorities = getGrantedAuthorities(username);
+
+        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+    }
+
+    public List<GrantedAuthority> getGrantedAuthorities(String username) {
         String[] roles = userDao.getRolesForUser(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_ANONYMOUSLY"));
@@ -79,8 +85,7 @@ public class SecurityService implements UserDetailsService {
         for (int i = 0; i < roles.length; i++) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + roles[i].toUpperCase()));
         }
-
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+        return authorities;
     }
 
     /**

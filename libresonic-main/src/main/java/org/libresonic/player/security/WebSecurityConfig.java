@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     SettingsService settingsService;
 
     @Autowired
-    UserDetailsServiceBasedAuthoritiesPopulator userDetailsServiceBasedAuthoritiesPopulator;
+    LibresonicUserDetailsContextMapper libresonicUserDetailsContextMapper;
 
     @Override
     @Bean(name = "authenticationManager")
@@ -38,13 +38,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.apply(new LibresonicLdapAuthenticationProviderConfigurer<AuthenticationManagerBuilder>(
-                settingsService,
-                securityService)
-                .ldapAuthoritiesPopulator(userDetailsServiceBasedAuthoritiesPopulator));
+        if (!settingsService.isLdapEnabled()) {
+            auth.ldapAuthentication()
+                    .contextSource()
+                        .managerDn(settingsService.getLdapManagerDn())
+                        .managerPassword(settingsService.getLdapManagerPassword())
+                        .url(settingsService.getLdapUrl())
+                    .and()
+                    .userSearchFilter(settingsService.getLdapSearchFilter())
+                    .userDetailsContextMapper(libresonicUserDetailsContextMapper);
+        }
         auth.userDetailsService(securityService);
     }
 
