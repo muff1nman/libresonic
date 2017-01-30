@@ -49,21 +49,6 @@
 <p style="padding-top:1em"><fmt:message key="networksettings.text"/></p>
 
 <form:form commandName="command" action="networkSettings.view" method="post">
-    <p style="padding-top:1em">
-        <form:checkbox id="portForwardingEnabled" path="portForwardingEnabled"/>
-        <label for="portForwardingEnabled"><fmt:message key="networksettings.portforwardingenabled"/></label>
-    </p>
-
-    <div style="padding-left:2em;max-width:60em">
-        <p>
-            <fmt:message key="networksettings.portforwardinghelp"><fmt:param>${command.port}</fmt:param></fmt:message>
-        </p>
-
-        <p class="detail">
-            <fmt:message key="networksettings.status"/>
-            <span id="portForwardingStatus" style="margin-left:0.25em"></span>
-        </p>
-    </div>
 
     <p style="padding-top:1em"><form:checkbox id="urlRedirectionEnabled" path="urlRedirectionEnabled"
                                               onclick="enableUrlRedirectionFields()"/>
