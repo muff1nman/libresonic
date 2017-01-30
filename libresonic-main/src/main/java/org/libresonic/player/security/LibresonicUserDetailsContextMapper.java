@@ -30,9 +30,11 @@ import org.springframework.security.ldap.ppolicy.PasswordPolicyControl;
 import org.springframework.security.ldap.ppolicy.PasswordPolicyResponseControl;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+@Component
 public class LibresonicUserDetailsContextMapper implements UserDetailsContextMapper {
     // ~ Instance fields
     // ================================================================================================
