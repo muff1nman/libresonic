@@ -41,7 +41,7 @@ public class LibresonicLdapAuthenticatorWrapper implements LdapAuthenticator {
         String username = authentication.getName();
         authentication.getPrincipal();
         LOG.info("User '" + username + "' successfully authenticated in LDAP. DN: " + result.getDn());
-        User user = securityService.getUserByName(username);
+        User user = securityService.getUserByName(username, false);
         if (user == null) {
             User newUser = new User(username, "", null, true, 0L, 0L, 0L);
             newUser.setStreamRole(true);
@@ -59,7 +59,7 @@ public class LibresonicLdapAuthenticatorWrapper implements LdapAuthenticator {
         }
 
         // User must be defined in Libresonic, unless auto-shadowing is enabled.
-        User user = securityService.getUserByName(authentication.getName());
+        User user = securityService.getUserByName(authentication.getName(), false);
         if (user == null && !settingsService.isLdapAutoShadowing()) {
             throw new BadCredentialsException("User does not exist.");
         }

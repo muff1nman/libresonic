@@ -19,6 +19,7 @@
  */
 package org.libresonic.player.security;
 
+import org.libresonic.player.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,15 +44,11 @@ import java.util.Collection;
 public class UserDetailsServiceBasedAuthoritiesPopulator implements LdapAuthoritiesPopulator {
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private SecurityService securityService;
 
     @Override
     public Collection<? extends GrantedAuthority> getGrantedAuthorities(DirContextOperations userData, String username) {
-        UserDetails details = userDetailsService.loadUserByUsername(username);
+        UserDetails details = securityService.loadUserByUsername(username, false);
         return details.getAuthorities();
     }
 }
