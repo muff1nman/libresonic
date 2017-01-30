@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        if (!settingsService.isLdapEnabled()) {
+        if (settingsService.isLdapEnabled()) {
             auth.ldapAuthentication()
                     .contextSource()
                         .managerDn(settingsService.getLdapManagerDn())
