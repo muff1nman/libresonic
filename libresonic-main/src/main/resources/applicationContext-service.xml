@@ -119,7 +119,6 @@
 
     <bean id="networkService" class="org.libresonic.player.service.NetworkService" init-method="init">
         <property name="settingsService" ref="settingsService"/>
-        <property name="upnpService" ref="upnpService"/>
     </bean>
 
     <bean id="playerService" class="org.libresonic.player.service.PlayerService" init-method="init">
