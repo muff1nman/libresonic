@@ -19,6 +19,7 @@
 
 package org.libresonic.player.security;
 
+import org.libresonic.player.Logger;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -32,10 +33,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 public class LibresonicApplicationEventListener implements ApplicationListener {
 
     private LoginFailureLogger loginFailureLogger;
+    private static final Logger LOG = Logger.getLogger(LibresonicApplicationEventListener.class);
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof AbstractAuthenticationFailureEvent) {
+            LOG.debug("Found auth failure", ((AbstractAuthenticationFailureEvent) event).getException());
             if (event.getSource() instanceof AbstractAuthenticationToken) {
                 AbstractAuthenticationToken token = (AbstractAuthenticationToken) event.getSource();
                 Object details = token.getDetails();
