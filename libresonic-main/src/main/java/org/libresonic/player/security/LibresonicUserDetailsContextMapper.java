@@ -89,9 +89,7 @@ public class LibresonicUserDetailsContextMapper implements UserDetailsContextMap
         essence.setUsername(user.getUsername());
 
         // Add the supplied authorities
-        securityService.getGrantedAuthorities(user.getUsername());
-
-        for (GrantedAuthority authority : authorities) {
+        for (GrantedAuthority authority : securityService.getGrantedAuthorities(user.getUsername())) {
             essence.addAuthority(authority);
         }
 
