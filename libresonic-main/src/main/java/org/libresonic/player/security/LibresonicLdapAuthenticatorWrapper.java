@@ -27,9 +27,14 @@ public class LibresonicLdapAuthenticatorWrapper implements LdapAuthenticator {
 
     @Override
     public DirContextOperations authenticate(Authentication authentication) {
-        preLdapAuth(authentication);
-        DirContextOperations result = parent.authenticate(authentication);
-        return postLdapAuth(authentication, result);
+        try {
+            preLdapAuth(authentication);
+            DirContextOperations result = parent.authenticate(authentication);
+            return postLdapAuth(authentication, result);
+        } catch(Exception e) {
+            LOG.debug("Encountered exception", e);
+            throw e;
+        }
     }
 
     DirContextOperations postLdapAuth(Authentication authentication, DirContextOperations result) {
