@@ -105,6 +105,16 @@ public class SettingsService {
     private static final String KEY_SMTP_PASSWORD = "SmtpPassword";
     private static final String KEY_SMTP_FROM = "SmtpFrom";
 
+    // Database Settings
+    private static final String KEY_DATABASE_CONFIG_TYPE = "database.config.type";
+    private static final String KEY_DATABASE_CONFIG_EMBED_DRIVER = "database.config.embed.driver";
+    private static final String KEY_DATABASE_CONFIG_EMBED_URL = "database.config.embed.url";
+    private static final String KEY_DATABASE_CONFIG_EMBED_USERNAME = "database.config.embed.username";
+    private static final String KEY_DATABASE_CONFIG_EMBED_PASSWORD = "database.config.embed.password";
+    private static final String KEY_DATABASE_CONFIG_JNDI_NAME = "database.config.jndi.name";
+    private static final String KEY_DATABASE_VARCHAR_MAXLENGTH = "database.varchar.maxlength";
+    private static final String KEY_DATABASE_USERTABLE_QUOTE = "database.usertable.quote";
+
     // Default values.
     private static final String DEFAULT_INDEX_STRING = "A B C D E F G H I J K L M N O P Q R S T U V W X-Z(XYZ)";
     private static final String DEFAULT_IGNORED_ARTICLES = "The El La Los Las Le Les";

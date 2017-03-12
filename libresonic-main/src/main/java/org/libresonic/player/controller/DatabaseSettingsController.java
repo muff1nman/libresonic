@@ -20,25 +20,20 @@
 package org.libresonic.player.controller;
 
 import org.libresonic.player.command.DatabaseSettingsCommand;
-import org.libresonic.player.command.MusicFolderSettingsCommand;
 import org.libresonic.player.dao.AlbumDao;
 import org.libresonic.player.dao.ArtistDao;
 import org.libresonic.player.dao.MediaFileDao;
-import org.libresonic.player.domain.MusicFolder;
 import org.libresonic.player.service.MediaScannerService;
 import org.libresonic.player.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/databaseSettings")
@@ -68,16 +63,17 @@ public class DatabaseSettingsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String onSubmit(@ModelAttribute("command") DatabaseSettingsCommand command, RedirectAttributes redirectAttributes) throws Exception {
-        // TODO:AD
+    protected String onSubmit(@ModelAttribute("command") @Validated DatabaseSettingsCommand command, BindingResult bindingResult, RedirectAttributes
+            redirectAttributes) throws Exception {
+        if (!bindingResult.hasErrors()) {
+//            settingsService.
 //        settingsService.setOrganizeByFolderStructure(command.isOrganizeByFolderStructure());
-        settingsService.save();
-
-        redirectAttributes.addFlashAttribute("settings_toast", true);
-        redirectAttributes.addFlashAttribute("settings_reload", true);
-
-        mediaScannerService.schedule();
-        return "redirect:databaseSettings.view";
+            redirectAttributes.addFlashAttribute("settings_toast", true);
+            settingsService.save();
+            return "redirect:databaseSettings.view";
+        } else {
+            return "databaseSettings.view";
+        }
     }
 
 }
