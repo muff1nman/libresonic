@@ -58,16 +58,30 @@ public class DatabaseSettingsController {
     @ModelAttribute
     protected void formBackingObject(Model model) throws Exception {
         DatabaseSettingsCommand command = new DatabaseSettingsCommand();
-        // TODO:AD
+        command.setConfigType(settingsService.getDatabaseConfigType());
+        command.setEmbedDriver(settingsService.getDatabaseConfigEmbedDriver());
+        command.setEmbedPassword(settingsService.getDatabaseConfigEmbedPassword());
+        command.setEmbedUrl(settingsService.getDatabaseConfigEmbedUrl());
+        command.setEmbedUsername(settingsService.getDatabaseConfigEmbedUsername());
+        command.setJNDIName(settingsService.getDatabaseConfigJNDIName());
+        command.setMysqlVarcharMaxlength(settingsService.getDatabaseMysqlVarcharMaxlength());
+        command.setUsertableQuote(settingsService.getDatabaseUsertableQuote());
         model.addAttribute("command", command);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String onSubmit(@ModelAttribute("command") @Validated DatabaseSettingsCommand command, BindingResult bindingResult, RedirectAttributes
-            redirectAttributes) throws Exception {
+    protected String onSubmit(@ModelAttribute("command") @Validated DatabaseSettingsCommand command,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) throws Exception {
         if (!bindingResult.hasErrors()) {
-//            settingsService.
-//        settingsService.setOrganizeByFolderStructure(command.isOrganizeByFolderStructure());
+            settingsService.setDatabaseConfigType(command.getConfigType());
+            settingsService.setDatabaseConfigEmbedDriver(command.getEmbedDriver());
+            settingsService.setDatabaseConfigEmbedPassword(command.getEmbedPassword());
+            settingsService.setDatabaseConfigEmbedUrl(command.getEmbedUrl());
+            settingsService.setDatabaseConfigEmbedUsername(command.getEmbedUsername());
+            settingsService.setDatabaseConfigJNDIName(command.getJNDIName());
+            settingsService.setDatabaseMysqlVarcharMaxlength(command.getMysqlVarcharMaxlength());
+            settingsService.setDatabaseUsertableQuote(command.getUsertableQuote());
             redirectAttributes.addFlashAttribute("settings_toast", true);
             settingsService.save();
             return "redirect:databaseSettings.view";

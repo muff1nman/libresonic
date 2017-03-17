@@ -21,11 +21,11 @@ We will refer to container managed configuration as jndi and libresonic managed 
 In your libresonic.properties file, you will need to add the following settings (this is just an example):
 
 ```
-database.config.type=embed
-database.config.embed.driver=org.hsqldb.jdbcDriver
-database.config.embed.url=jdbc:hsqldb:file:/tmp/libre/db/libresonic
-database.config.embed.username=sa
-database.config.embed.password=
+DatabaseConfigType=embed
+DatabaseConfigEmbedDriver=org.hsqldb.jdbcDriver
+DatabaseConfigEmbedUrl=jdbc:hsqldb:file:/tmp/libre/db/libresonic
+DatabaseConfigEmbedUsername=sa
+DatabaseConfigEmbedPassword=
 ```
 
 In addition, you will need to ensure that a jdbc driver suitable for your
@@ -38,8 +38,8 @@ database is on the
 In your libresonic.properties file, you will need to add the following settings (this is just an example):
 
 ```
-database.config.type=jndi
-database.config.jndi.name=jdbc/libresonicDB
+DatabaseConfigType=jndi
+DatabaseConfigJNDIName=jdbc/libresonicDB
 ```
 
 Then in your context.xml in your tomcat directory, add the jndi config:
@@ -65,5 +65,5 @@ Finally, copy the jdbc driver from the database vendor website to the `lib` dire
 
 `stringtype=unspecified` on your jdbc url string is necessary.
 
-You will also need to add `database.usertable.quote=\"` to your properties
+You will also need to add `DatabaseUsertableQuote=\"` to your properties
 file. This is due to the fact that our `user` table is a keyword for postgres.

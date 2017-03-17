@@ -23,14 +23,14 @@ database. As such it is recommended to backup this folder.
 
 ## Libresonic Properties
 
-#### `database.config.type`
-#### `database.config.embed.driver`
-#### `database.config.embed.url`
-#### `database.config.embed.username`
-#### `database.config.embed.password`
-#### `database.varchar.maxlength`
-#### `database.usertable.quote`
-#### `database.config.jndi.name`
+#### `DatabaseConfigType`
+#### `DatabaseConfigEmbedDriver`
+#### `DatabaseConfigEmbedUrl`
+#### `DatabaseConfigEmbedUsername`
+#### `DatabaseConfigEmbedPassword`
+#### `DatatbaseMysqlMaxlength`
+#### `DatabaseUsertableQuote`
+#### `DatabaseConfigJNDIName`
 
 #### Setting Libresonic Properties on Tomcat
 
