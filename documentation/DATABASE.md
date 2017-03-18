@@ -67,3 +67,8 @@ Finally, copy the jdbc driver from the database vendor website to the `lib` dire
 
 You will also need to add `DatabaseUsertableQuote=\"` to your properties
 file. This is due to the fact that our `user` table is a keyword for postgres.
+
+## Troubleshooting
+
+In the event that you change these settings, restart your server and it fails to start, you can remedy this by reverting
+to the LEGACY config by removing all `Database*` settings from your `libresonic.properties` file.

@@ -1308,7 +1308,7 @@ public class SettingsService {
     }
 
     public void setDatabaseConfigEmbedUsername(String username) {
-        setString(KEY_DATABASE_CONFIG_EMBED_USERNAME, DEFAULT_DATABASE_CONFIG_EMBED_USERNAME);
+        setString(KEY_DATABASE_CONFIG_EMBED_USERNAME, username);
     }
 
     public String getDatabaseConfigEmbedPassword() {

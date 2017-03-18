@@ -25,6 +25,7 @@ import org.libresonic.player.dao.ArtistDao;
 import org.libresonic.player.dao.MediaFileDao;
 import org.libresonic.player.service.MediaScannerService;
 import org.libresonic.player.service.SettingsService;
+import org.libresonic.player.spring.DataSourceConfigType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,13 +76,25 @@ public class DatabaseSettingsController {
                               RedirectAttributes redirectAttributes) throws Exception {
         if (!bindingResult.hasErrors()) {
             settingsService.setDatabaseConfigType(command.getConfigType());
-            settingsService.setDatabaseConfigEmbedDriver(command.getEmbedDriver());
-            settingsService.setDatabaseConfigEmbedPassword(command.getEmbedPassword());
-            settingsService.setDatabaseConfigEmbedUrl(command.getEmbedUrl());
-            settingsService.setDatabaseConfigEmbedUsername(command.getEmbedUsername());
-            settingsService.setDatabaseConfigJNDIName(command.getJNDIName());
-            settingsService.setDatabaseMysqlVarcharMaxlength(command.getMysqlVarcharMaxlength());
-            settingsService.setDatabaseUsertableQuote(command.getUsertableQuote());
+            switch(command.getConfigType()) {
+                case EMBED:
+                    settingsService.setDatabaseConfigEmbedDriver(command.getEmbedDriver());
+                    settingsService.setDatabaseConfigEmbedPassword(command.getEmbedPassword());
+                    settingsService.setDatabaseConfigEmbedUrl(command.getEmbedUrl());
+                    settingsService.setDatabaseConfigEmbedUsername(command.getEmbedUsername());
+                    break;
+                case JNDI:
+                    settingsService.setDatabaseConfigJNDIName(command.getJNDIName());
+                    break;
+                case LEGACY:
+                default:
+                    break;
+            }
+            if(command.getConfigType() != DataSourceConfigType.LEGACY) {
+                settingsService.setDatabaseMysqlVarcharMaxlength(command.getMysqlVarcharMaxlength());
+                System.out.println("Usertable quote is " + command.getUsertableQuote());
+//                settingsService.setDatabaseUsertableQuote(command.getUsertableQuote());
+            }
             redirectAttributes.addFlashAttribute("settings_toast", true);
             settingsService.save();
             return "redirect:databaseSettings.view";
