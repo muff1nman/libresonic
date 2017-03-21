@@ -410,6 +410,12 @@ public final class StringUtil {
         return new String(Hex.decodeHex(s.toCharArray()), ENCODING_UTF8);
     }
 
+    public static void main(String[] args) throws Exception {
+        System.out.println(utf8HexEncode("14erClimber"));
+        System.out.println(utf8HexDecode("736f6466373839303233346a6c736c6a6466332434"));
+        System.out.println(utf8HexDecode("74657374537472696E67"));
+    }
+
     /**
      * Calculates the MD5 digest and returns the value as a 32 character hex string.
      *

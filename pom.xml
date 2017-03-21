@@ -86,7 +86,24 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
+        <!-- [INFO] |  +- org.springframework.boot:spring-boot-starter:jar:1.4.5.RELEASE:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot:jar:1.4.5.RELEASE:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-autoconfigure:jar:1.4.5.RELEASE:compile
+[INFO] |  |  \- org.springframework.boot:spring-boot-starter-logging:jar:1.4.5.RELEASE:compile
+[INFO] |  |     +- org.slf4j:jul-to-slf4j:jar:1.7.24:compile
+[INFO] |  |     \- org.slf4j:log4j-over-slf4j:jar:1.7.24:compile
+-->
     </dependencyManagement>
 
     <build>
