@@ -65,7 +65,7 @@ public class InternetRadioSettingsController {
         String error = handleParameters(request);
         Map<String, Object> map = new HashMap<>();
         if(error == null) {
-            redirectAttributes.addFlashAttribute("settings_toast", true);
+            redirectAttributes.addFlashAttribute("settings_saved_toast", true);
             redirectAttributes.addFlashAttribute("settings_reload", true);
         }
         redirectAttributes.addFlashAttribute("error", error);

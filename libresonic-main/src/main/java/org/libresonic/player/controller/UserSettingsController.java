@@ -141,7 +141,7 @@ public class UserSettingsController {
                 updateUser(command);
             }
             redirectAttributes.addFlashAttribute("settings_reload", true);
-            redirectAttributes.addFlashAttribute("settings_toast", true);
+            redirectAttributes.addFlashAttribute("settings_saved_toast", true);
         } else {
             redirectAttributes.addFlashAttribute("command", command);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.command", bindingResult);

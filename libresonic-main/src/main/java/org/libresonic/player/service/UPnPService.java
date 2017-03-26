@@ -33,6 +33,7 @@ import org.fourthline.cling.support.model.ProtocolInfos;
 import org.fourthline.cling.support.model.dlna.DLNAProfiles;
 import org.fourthline.cling.support.model.dlna.DLNAProtocolInfo;
 import org.libresonic.player.Logger;
+import org.libresonic.player.exception.UpnpDisabledException;
 import org.libresonic.player.service.upnp.ApacheUpnpServiceConfiguration;
 import org.libresonic.player.service.upnp.FolderBasedContentDirectory;
 import org.libresonic.player.service.upnp.MSMediaReceiverRegistrarService;
@@ -40,6 +41,7 @@ import org.libresonic.player.service.upnp.MSMediaReceiverRegistrarService;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sindre Mehus
@@ -91,10 +93,11 @@ public class UPnPService {
         });
     }
 
-    public void setMediaServerEnabled(boolean enabled) {
+    public void setMediaServerEnabled(boolean enabled) throws UpnpDisabledException {
         if (enabled) {
+            UpnpService safeUpnpnService = getSafeUpnpnService();
             try {
-                upnpService.getRegistry().addDevice(createMediaServerDevice());
+                safeUpnpnService.getRegistry().addDevice(createMediaServerDevice());
                 LOG.info("Enabling UPnP/DLNA media server");
             } catch (Exception x) {
                 LOG.error("Failed to start UPnP/DLNA media server: " + x, x);
@@ -155,9 +158,9 @@ public class UPnPService {
         return new LocalDevice(identity, type, details, new Icon[]{icon}, new LocalService[]{contentDirectoryservice, connetionManagerService, receiverService});
     }
 
-    public List<String> getSonosControllerHosts() {
-        List<String> result = new ArrayList<String>();
-        for (Device device : upnpService.getRegistry().getDevices(new DeviceType("schemas-upnp-org", "ZonePlayer"))) {
+    public List<String> getSonosControllerHosts() throws UpnpDisabledException {
+        List<String> result = new ArrayList<>();
+        for (Device device : getSafeUpnpnService().getRegistry().getDevices(new DeviceType("schemas-upnp-org", "ZonePlayer"))) {
             if (device instanceof RemoteDevice) {
                 URL descriptorURL = ((RemoteDevice) device).getIdentity().getDescriptorURL();
                 if (descriptorURL != null) {
@@ -166,6 +169,10 @@ public class UPnPService {
             }
         }
         return result;
+    }
+
+    private UpnpService getSafeUpnpnService() throws UpnpDisabledException {
+        return Optional.ofNullable(getUpnpService()).orElseThrow(UpnpDisabledException::new);
     }
 
     public UpnpService getUpnpService() {

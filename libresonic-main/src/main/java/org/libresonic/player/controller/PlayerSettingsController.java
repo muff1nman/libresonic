@@ -120,7 +120,7 @@ public class PlayerSettingsController  {
         transcodingService.setTranscodingsForPlayer(player, command.getActiveTranscodingIds());
 
         redirectAttributes.addFlashAttribute("settings_reload", true);
-        redirectAttributes.addFlashAttribute("settings_toast", true);
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
         return "redirect:playerSettings.view";
     }
 

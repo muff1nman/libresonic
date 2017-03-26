@@ -18,7 +18,8 @@
  */
 package org.libresonic.player.controller;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.libresonic.player.exception.UpnpDisabledException;
 import org.libresonic.player.service.SettingsService;
 import org.libresonic.player.service.UPnPService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,13 +64,7 @@ public class DLNASettingsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handlePost(HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
-        handleParameters(request);
-        redirectAttributes.addFlashAttribute("settings_toast", true);
-        return "redirect:dlnaSettings.view";
-    }
-
-    private void handleParameters(HttpServletRequest request) {
+    public String handlePost(HttpServletRequest request, RedirectAttributes redirectAttributes) {
         boolean dlnaEnabled = ServletRequestUtils.getBooleanParameter(request, "dlnaEnabled", false);
         String dlnaServerName = StringUtils.trimToNull(request.getParameter("dlnaServerName"));
         String dlnaBaseLANURL = StringUtils.trimToNull(request.getParameter("dlnaBaseLANURL"));
@@ -77,12 +72,19 @@ public class DLNASettingsController {
             dlnaServerName = "Libresonic";
         }
 
-        upnpService.setMediaServerEnabled(false);
-        settingsService.setDlnaEnabled(dlnaEnabled);
-        settingsService.setDlnaServerName(dlnaServerName);
-        settingsService.setDlnaBaseLANURL(dlnaBaseLANURL);
-        settingsService.save();
-        upnpService.setMediaServerEnabled(dlnaEnabled);
+        try {
+            upnpService.setMediaServerEnabled(false);
+            settingsService.setDlnaEnabled(dlnaEnabled);
+            settingsService.setDlnaServerName(dlnaServerName);
+            settingsService.setDlnaBaseLANURL(dlnaBaseLANURL);
+            settingsService.save();
+            upnpService.setMediaServerEnabled(dlnaEnabled);
+        } catch(UpnpDisabledException e) {
+            redirectAttributes.addFlashAttribute("settings_restart_toast", true);
+        }
+
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
+        return "redirect:dlnaSettings.view";
     }
 
     public void setSettingsService(SettingsService settingsService) {

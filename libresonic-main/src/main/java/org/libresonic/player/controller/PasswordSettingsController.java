@@ -74,7 +74,7 @@ public class PasswordSettingsController {
 
             command.setPassword(null);
             command.setConfirmPassword(null);
-            redirectAttributes.addFlashAttribute("settings_toast", true);
+            redirectAttributes.addFlashAttribute("settings_saved_toast", true);
             return "redirect:passwordSettings.view";
         } else {
             return "passwordSettings";

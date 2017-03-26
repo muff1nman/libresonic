@@ -69,7 +69,7 @@ public class AdvancedSettingsController {
     protected String doSubmitAction(@ModelAttribute AdvancedSettingsCommand command, RedirectAttributes redirectAttributes) throws Exception {
 
         redirectAttributes.addFlashAttribute("settings_reload", false);
-        redirectAttributes.addFlashAttribute("settings_toast", true);
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
 
         try {
             settingsService.setDownloadBitrateLimit(Long.parseLong(command.getDownloadLimit()));

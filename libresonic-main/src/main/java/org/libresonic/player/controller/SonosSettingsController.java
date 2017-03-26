@@ -64,7 +64,8 @@ public class SonosSettingsController {
     public String doPost(HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
         handleParameters(request);
 
-        redirectAttributes.addFlashAttribute("settings_toast", true);
+        redirectAttributes.addFlashAttribute("settings_restart_toast", true);
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
 
         return "redirect:sonosSettings.view";
     }

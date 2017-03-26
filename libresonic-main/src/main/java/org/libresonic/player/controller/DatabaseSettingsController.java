@@ -95,7 +95,8 @@ public class DatabaseSettingsController {
                 settingsService.setDatabaseMysqlVarcharMaxlength(command.getMysqlVarcharMaxlength());
                 settingsService.setDatabaseUsertableQuote(command.getUsertableQuote());
             }
-            redirectAttributes.addFlashAttribute("settings_toast", true);
+            redirectAttributes.addFlashAttribute("settings_restart_toast", true);
+            redirectAttributes.addFlashAttribute("settings_saved_toast", true);
             settingsService.save();
             return "redirect:databaseSettings.view";
         } else {

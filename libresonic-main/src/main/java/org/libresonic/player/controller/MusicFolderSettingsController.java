@@ -126,7 +126,7 @@ public class MusicFolderSettingsController {
         settingsService.save();
 
 
-        redirectAttributes.addFlashAttribute("settings_toast", true);
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
         redirectAttributes.addFlashAttribute("settings_reload", true);
 
         mediaScannerService.schedule();

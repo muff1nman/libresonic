@@ -33,6 +33,7 @@ import org.libresonic.player.domain.AlbumListType;
 import org.libresonic.player.domain.MediaFile;
 import org.libresonic.player.domain.Playlist;
 import org.libresonic.player.domain.User;
+import org.libresonic.player.exception.UpnpDisabledException;
 import org.libresonic.player.service.sonos.SonosHelper;
 import org.libresonic.player.service.sonos.SonosServiceRegistration;
 import org.libresonic.player.service.sonos.SonosSoapFault;
@@ -106,7 +107,7 @@ public class SonosService implements SonosSoap {
     @Resource
     private WebServiceContext context;
 
-    public void setMusicServiceEnabled(boolean enabled) {
+    public void setMusicServiceEnabled(boolean enabled) throws UpnpDisabledException {
         List<String> sonosControllers = upnpService.getSonosControllerHosts();
         if (sonosControllers.isEmpty()) {
             LOG.info("No Sonos controller found");

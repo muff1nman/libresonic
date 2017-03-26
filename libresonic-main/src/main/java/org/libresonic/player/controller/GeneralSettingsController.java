@@ -100,7 +100,7 @@ public class GeneralSettingsController  {
         int localeIndex = Integer.parseInt(command.getLocaleIndex());
         Locale locale = settingsService.getAvailableLocales()[localeIndex];
 
-        redirectAttributes.addFlashAttribute("settings_toast", true);
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
         redirectAttributes.addFlashAttribute(
                 "settings_reload",
                    !settingsService.getIndexString().equals(command.getIndex())

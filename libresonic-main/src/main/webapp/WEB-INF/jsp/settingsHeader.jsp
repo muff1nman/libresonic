@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="iso-8859-1" %>
 <%@ include file="include.jsp" %>
 
-<c:if test="${param.toast}">
+<c:if test="${param.saved_toast}">
     <script type="text/javascript">
         $(document).ready(function () {
             $().toastmessage("showSuccessToast", "<fmt:message key="common.settingssaved"/>");
+        });
+    </script>
+</c:if>
+<c:if test="${param.restart_toast}">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $().toastmessage("showWarningToast", "<fmt:message key="common.restartrequired"/>");
         });
     </script>
 </c:if>

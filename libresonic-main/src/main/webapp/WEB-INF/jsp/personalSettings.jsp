@@ -20,7 +20,8 @@
 <c:import url="settingsHeader.jsp">
     <c:param name="cat" value="personal"/>
     <c:param name="restricted" value="${not command.user.adminRole}"/>
-    <c:param name="toast" value="${settings_toast}"/>
+    <c:param name="saved_toast" value="${settings_saved_toast}"/>
+    <c:param name="restart_toast" value="${settings_restart_toast}"/>
 </c:import>
 
 <fmt:message key="personalsettings.title" var="title"><fmt:param>${command.user.username}</fmt:param></fmt:message>

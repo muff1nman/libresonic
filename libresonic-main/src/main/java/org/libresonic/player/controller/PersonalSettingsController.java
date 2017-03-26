@@ -161,7 +161,7 @@ public class PersonalSettingsController  {
         settingsService.updateUserSettings(settings);
 
         redirectAttributes.addFlashAttribute("settings_reload", true);
-        redirectAttributes.addFlashAttribute("settings_toast", true);
+        redirectAttributes.addFlashAttribute("settings_saved_toast", true);
 
         return "redirect:personalSettings.view";
     }
