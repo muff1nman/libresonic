@@ -23,17 +23,13 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.libresonic.player.Logger;
 import org.libresonic.player.dao.ShareDao;
-import org.libresonic.player.domain.MediaFile;
-import org.libresonic.player.domain.MusicFolder;
-import org.libresonic.player.domain.Share;
-import org.libresonic.player.domain.User;
+import org.libresonic.player.domain.*;
+import org.libresonic.player.security.JWTSecurityUtil;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Provides services for sharing media.
@@ -115,12 +111,21 @@ public class ShareService {
         shareDao.deleteShare(id);
     }
 
-    public String getShareBaseUrl(HttpServletRequest request) {
-        return NetworkService.getBaseUrl(request) + "/share/";
+    public String getShareUrl(HttpServletRequest request, Share share) {
+        String sharePath = "/share/" + share.getName();
+        return createJWTUrl(request, sharePath);
     }
 
-    public String getShareUrl(HttpServletRequest request, Share share) {
-        return getShareBaseUrl(request) + share.getName();
+    // TODO find dup code
+    private String createJWTUrl(HttpServletRequest request, String sharePath) {
+        String baseUrl = NetworkService.getBaseUrl(request);
+        String shareUrl = baseUrl + sharePath;
+        String token = JWTSecurityUtil.createToken(settingsService.getJWTKey(), shareUrl);
+        return UriComponentsBuilder
+                .fromUriString(shareUrl)
+                .queryParam(JWTSecurityUtil.JWT_PARAM_NAME, token)
+                .build()
+                .toUriString();
     }
 
     public void setSecurityService(SecurityService securityService) {
@@ -138,4 +143,5 @@ public class ShareService {
     public void setMediaFileService(MediaFileService mediaFileService) {
         this.mediaFileService = mediaFileService;
     }
+
 }

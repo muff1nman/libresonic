@@ -80,7 +80,7 @@ public class SecurityService implements UserDetailsService {
     public List<GrantedAuthority> getGrantedAuthorities(String username) {
         String[] roles = userDao.getRolesForUser(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_ANONYMOUSLY"));
+        authorities.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_FULLY"));
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         for (int i = 0; i < roles.length; i++) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + roles[i].toUpperCase()));
