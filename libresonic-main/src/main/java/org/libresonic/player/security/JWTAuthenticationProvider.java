@@ -44,10 +44,11 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
         Claim path = verifier.verify(token).getClaim(JWTSecurityUtil.CLAIM_PATH);
         authentication.setAuthenticated(true);
 
-        // TODO:AD rough compare (i.e. skip JWT token)
-        if(StringUtils.contains(authentication.getRequestedPath(), "/WEB-INF/")) {
+        // TODO:AD This is super unfortunate, but not sure there is a better way when using JSP
+        if(StringUtils.contains(authentication.getRequestedPath(), "/WEB-INF/jsp/")) {
             logger.warn("BYPASSING AUTH FOR WEB-INF page");
         } else
+
         if(!roughlyEqual(path.asString(), authentication.getRequestedPath())) {
             throw new InsufficientAuthenticationException("Credentials not valid for path " + authentication
                     .getRequestedPath() + ". They are valid for " + path.asString());
