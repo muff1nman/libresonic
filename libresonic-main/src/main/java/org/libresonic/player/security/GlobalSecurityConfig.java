@@ -77,17 +77,9 @@ public class GlobalSecurityConfig extends GlobalAuthenticationConfigurerAdapter 
             super(true);
         }
 
-//        @Bean(name = "extAuthenticationManager")
-//        @Override
-//        public AuthenticationManager authenticationManagerBean() throws Exception {
-//            return super.authenticationManagerBean();
-//        }
-
         @Bean(name = "jwtAuthenticationFilter")
         public JWTRequestParameterProcessingFilter jwtAuthFilter() throws Exception {
-            JWTRequestParameterProcessingFilter filter = new JWTRequestParameterProcessingFilter(authenticationManager(), FAILURE_URL);
-//            filter.setAuthenticationManager(authenticationManagerBean());
-            return filter;
+            return new JWTRequestParameterProcessingFilter(authenticationManager(), FAILURE_URL);
         }
 
         @Override

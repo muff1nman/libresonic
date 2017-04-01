@@ -90,7 +90,6 @@ public class ExternalPlayerController {
 
         map.put("share", share);
         map.put("songs", getSongs(request, share, player));
-//        map.put("player", player.getId());
 
         return new ModelAndView("externalPlayer", "model", map);
     }

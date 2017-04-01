@@ -54,22 +54,10 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
                     .getRequestedPath() + ". They are valid for " + path.asString());
         }
 
-//        JWT decode = JWT.decode(verify.getToken());
-
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_FULLY"));
         authorities.add(new SimpleGrantedAuthority("ROLE_TEMP"));
         return new JWTAuthenticationToken(authorities, token, authentication.getRequestedPath());
-
-//        Jws<Claims> claimsJws = Jwts.parser()
-//                .setSigningKey(jwtSignAndVerifyKey)
-//                .parseClaimsJws(token);
-//        claimsJws.getSignature().
-//                .getBody()
-//                .getSubject();
-//
-//
-//        return authentication;
     }
 
     private static boolean roughlyEqual(String expectedRaw, String requestedPathRaw) {
