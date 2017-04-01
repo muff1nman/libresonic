@@ -112,7 +112,7 @@ public class ShareService {
     }
 
     public String getShareUrl(HttpServletRequest request, Share share) {
-        String sharePath = "/share/" + share.getName();
+        String sharePath = "/ext/share/" + share.getName();
         return createJWTUrl(request, sharePath);
     }
 

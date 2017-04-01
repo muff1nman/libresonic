@@ -45,6 +45,9 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
         authentication.setAuthenticated(true);
 
         // TODO:AD rough compare (i.e. skip JWT token)
+        if(StringUtils.contains(authentication.getRequestedPath(), "/WEB-INF/")) {
+            logger.warn("BYPASSING AUTH FOR WEB-INF page");
+        } else
         if(!roughlyEqual(path.asString(), authentication.getRequestedPath())) {
             throw new InsufficientAuthenticationException("Credentials not valid for path " + authentication
                     .getRequestedPath() + ". They are valid for " + path.asString());

@@ -1,28 +1,40 @@
 package org.libresonic.player.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.Optional;
 
-public class JWTRequestParameterProcessingFilter extends AbstractAuthenticationProcessingFilter {
+//extends AbstractAuthenticationProcessingFilter
+public class JWTRequestParameterProcessingFilter implements Filter {
+    private static final Logger logger = LoggerFactory.getLogger(JWTRequestParameterProcessingFilter.class);
+    private final AuthenticationManager authenticationManager;
+    private final AuthenticationFailureHandler failureHandler;
 
 //    private AuthenticationManager authenticationManager;
-    private final static UrlPathHelper pathHelper = new UrlPathHelper();
+//    private final static UrlPathHelper pathHelper = new UrlPathHelper();
+//
 
-
-    protected JWTRequestParameterProcessingFilter() {
-        super(request -> findToken(request).isPresent());
+    protected JWTRequestParameterProcessingFilter(AuthenticationManager authenticationManager, String failureUrl) {
+        this.authenticationManager = authenticationManager;
+        failureHandler = new SimpleUrlAuthenticationFailureHandler(failureUrl);
+//        super(request -> findToken(request).isPresent());
+//        setContinueChainBeforeSuccessfulAuthentication(true);
     }
 //
 //    public JWTRequestParameterProcessingFilter(AuthenticationManager authenticationManager) {
@@ -50,11 +62,11 @@ public class JWTRequestParameterProcessingFilter extends AbstractAuthenticationP
 //
 //    }
 
-    @Override
+//    @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
             Optional<JWTAuthenticationToken> token = findToken(request);
             if(token.isPresent()) {
-                return getAuthenticationManager().authenticate(token.get());
+                return authenticationManager.authenticate(token.get());
             }
             throw new AuthenticationServiceException("Invalid auth method");
     }
@@ -67,8 +79,79 @@ public class JWTRequestParameterProcessingFilter extends AbstractAuthenticationP
         return Optional.empty();
     }
 
-//    @Override
-//    public void destroy() {
-//
-//    }
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException,
+            ServletException {
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
+
+        if(!findToken(request).isPresent()) {
+            chain.doFilter(req, resp);
+            return;
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Request is to process authentication");
+        }
+
+        Authentication authResult;
+
+        try {
+            authResult = attemptAuthentication(request, response);
+            if (authResult == null) {
+                // return immediately as subclass has indicated that it hasn't completed
+                // authentication
+                return;
+            }
+//            sessionStrategy.onAuthentication(authResult, request, response);
+        }
+        catch (InternalAuthenticationServiceException failed) {
+            logger.error(
+                    "An internal error occurred while trying to authenticate the user.",
+                    failed);
+            unsuccessfulAuthentication(request, response, failed);
+
+            return;
+        }
+        catch (AuthenticationException failed) {
+            // Authentication failed
+            unsuccessfulAuthentication(request, response, failed);
+
+            return;
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Authentication success. Updating SecurityContextHolder to contain: "
+                    + authResult);
+        }
+
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
+        chain.doFilter(request, response);
+    }
+
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response, AuthenticationException failed)
+            throws IOException, ServletException {
+        SecurityContextHolder.clearContext();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Authentication request failed: " + failed.toString(), failed);
+            logger.debug("Updated SecurityContextHolder to contain null Authentication");
+            logger.debug("Delegating to authentication failure handler " + failureHandler);
+        }
+
+        failureHandler.onAuthenticationFailure(request, response, failed);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
 }

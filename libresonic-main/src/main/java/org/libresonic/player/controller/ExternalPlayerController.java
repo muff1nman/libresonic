@@ -20,17 +20,17 @@
 package org.libresonic.player.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.libresonic.player.Logger;
 import org.libresonic.player.domain.*;
 import org.libresonic.player.security.JWTSecurityUtil;
 import org.libresonic.player.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,20 +39,16 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.libresonic.player.controller.ExternalPlayerController.SHARE_PATH;
-
 /**
  * Controller for the page used to play shared music (Twitter, Facebook etc).
  *
  * @author Sindre Mehus
  */
 @Controller
-@RequestMapping(SHARE_PATH + "**")
+@RequestMapping(value = {"/ext/share/**"})
 public class ExternalPlayerController {
 
-    private static final Logger LOG = Logger.getLogger(ExternalPlayerController.class);
-
-    public static final String SHARE_PATH = "/share/";
+    private static final Logger LOG = LoggerFactory.getLogger(ExternalPlayerController.class);
 
     @Autowired
     private SettingsService settingsService;
@@ -68,9 +64,8 @@ public class ExternalPlayerController {
 
         Map<String, Object> map = new HashMap<>();
 
-        String pathRelativeToBase = new UrlPathHelper().getPathWithinApplication(request);
-
-        String shareName = StringUtils.removeStart(pathRelativeToBase, SHARE_PATH);
+        String shareName = ControllerUtils.extractMatched(request);
+        LOG.debug("Share name is {}", shareName);
 
         if(StringUtils.isBlank(shareName)) {
             LOG.warn("Could not find share with shareName " + shareName);
@@ -117,8 +112,10 @@ public class ExternalPlayerController {
                 }
             }
         }
-        return result.subList(0, 4);
-//        return result;
+        if(result.size() > 5) {
+            return result.subList(0, 4);
+        }
+        return result;
     }
 
 
@@ -129,28 +126,19 @@ public class ExternalPlayerController {
     }
 
     public MediaFileWithUrlInfo addUrlInfo(HttpServletRequest request, Player player, MediaFile mediaFile) {
-
-//        <sub:url value="/stream" var="streamUrl">
-//            <sub:param name="id" value="${song.id}"/>
-//            <sub:param name="player" value="${model.player}"/>
-//            <sub:param name="maxBitRate" value="1200"/>
-//        </sub:url>
+        String prefix = "/ext";
         String streamUrl = addJWTToken(
                 UriComponentsBuilder
-                        .fromHttpUrl(NetworkService.getBaseUrl(request) + "/stream")
+                        .fromHttpUrl(NetworkService.getBaseUrl(request) + prefix + "/stream")
                         .queryParam("id", mediaFile.getId())
                         .queryParam("player", player.getId())
                         .queryParam("maxBitRate", "1200"))
                 .build()
                 .toUriString();
 
-//        <sub:url value="/coverArt.view" var="coverUrl">
-//            <sub:param name="id" value="${song.id}"/>
-//            <sub:param name="size" value="500"/>
-//        </sub:url>
         String coverArtUrl = addJWTToken(
                 UriComponentsBuilder
-                        .fromHttpUrl(NetworkService.getBaseUrl(request) + "/covertArt.view")
+                        .fromHttpUrl(NetworkService.getBaseUrl(request) + prefix + "/coverArt.view")
                         .queryParam("id", mediaFile.getId())
                         .queryParam("size", "500"))
                 .build()

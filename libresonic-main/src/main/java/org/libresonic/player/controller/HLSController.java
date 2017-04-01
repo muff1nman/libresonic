@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
  * @author Sindre Mehus
  */
 @Controller(value = "hlsController")
-@RequestMapping("/hls/**")
+@RequestMapping(value = {"/hls/**", "/ext/hls/**"})
 public class HLSController {
 
     private static final int SEGMENT_DURATION = 10;
