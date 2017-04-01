@@ -38,16 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     LibresonicUserDetailsContextMapper libresonicUserDetailsContextMapper;
 
     @Override
-    @Bean(name = "authenticationManager")
+    @Bean(name = "webAuthenticationManager")
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Bean(name = "jwtAuthenticationFilter")
-    public JWTRequestParameterProcessingFilter jwtAuthFilter() throws Exception {
-        JWTRequestParameterProcessingFilter filter = new JWTRequestParameterProcessingFilter();
-        filter.setAuthenticationManager(authenticationManager());
-        return filter;
     }
 
     @Autowired
@@ -82,7 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         restAuthenticationFilter.setSecurityService(securityService);
         restAuthenticationFilter.setLoginFailureLogger(loginFailureLogger);
         http = http.addFilterBefore(restAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http = http.addFilterBefore(jwtAuthFilter(), RESTRequestParameterProcessingFilter.class);
 
         http
             .csrf()
