@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,31 +52,11 @@ public class ImportPlaylistController {
     private PlaylistService playlistService;
 
     @RequestMapping(method = RequestMethod.POST )
-    protected String handlePost(Model model, @RequestParam("file") MultipartFile item, MultipartHttpServletRequest request) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
+    protected String handlePost(@RequestParam("file") MultipartFile item, MultipartHttpServletRequest
+            request, RedirectAttributes redirectAttributes) throws Exception {
+        Map<String, Object> map = new HashMap<>();
 
         try {
-//            if (ServletFileUpload.isMultipartContent(request)) {
-//
-//                FileItemFactory factory = new DiskFileItemFactory();
-//                ServletFileUpload upload = new ServletFileUpload(factory);
-//                List<?> items = upload.parseRequest(request);
-//                for (Object o : items) {
-//                    FileItem item = (FileItem) o;
-//
-//                    if ("file".equals(item.getFieldName()) && !StringUtils.isBlank(item.getName())) {
-//                        if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
-//                            throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
-//                        }
-//                        String playlistName = FilenameUtils.getBaseName(item.getName());
-//                        String fileName = FilenameUtils.getName(item.getName());
-//                        String format = StringUtils.lowerCase(FilenameUtils.getExtension(item.getName()));
-//                        String username = securityService.getCurrentUsername(request);
-//                        Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName, format, item.getInputStream(), null);
-//                        map.put("playlist", playlist);
-//                    }
-//                }
-//            }
             if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
                 throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
             }
@@ -86,11 +67,10 @@ public class ImportPlaylistController {
             Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName, format, item.getInputStream(), null);
             map.put("playlist", playlist);
         } catch (Exception e) {
-            // TODO: flash attribute this bitch
             map.put("error", e.getMessage());
         }
 
-        model.addAttribute("model", map);
+        redirectAttributes.addFlashAttribute("model", map);
         return "redirect:importPlaylist";
     }
 
