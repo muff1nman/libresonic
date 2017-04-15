@@ -26,7 +26,6 @@ import org.libresonic.player.service.PlaylistService;
 import org.libresonic.player.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,9 +59,9 @@ public class ImportPlaylistController {
             if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
                 throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
             }
-            String playlistName = FilenameUtils.getBaseName(item.getName());
-            String fileName = FilenameUtils.getName(item.getName());
-            String format = StringUtils.lowerCase(FilenameUtils.getExtension(item.getName()));
+            String playlistName = FilenameUtils.getBaseName(item.getOriginalFilename());
+            String fileName = FilenameUtils.getName(item.getOriginalFilename());
+            String format = StringUtils.lowerCase(FilenameUtils.getExtension(item.getOriginalFilename()));
             String username = securityService.getCurrentUsername(request);
             Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName, format, item.getInputStream(), null);
             map.put("playlist", playlist);
