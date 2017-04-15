@@ -19,12 +19,8 @@
  */
 package org.libresonic.player.controller;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 import org.libresonic.player.Logger;
 import org.libresonic.player.domain.Avatar;
 import org.libresonic.player.service.SecurityService;
@@ -34,11 +30,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -46,7 +43,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,8 +62,16 @@ public class AvatarUploadController  {
     @Autowired
     private SecurityService securityService;
 
-    @RequestMapping(method = { RequestMethod.GET, RequestMethod.POST })
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(method = { RequestMethod.GET })
+    public String handleResult() {
+        return "avatarUploadResult";
+    }
+
+    @RequestMapping(method = { RequestMethod.POST })
+    protected String handleRequestInternal(
+            RedirectAttributes redirectAttributes,
+            MultipartHttpServletRequest request,
+            @RequestParam("file") MultipartFile file) throws Exception {
 
         String username = securityService.getCurrentUsername(request);
 
@@ -76,32 +80,14 @@ public class AvatarUploadController  {
             throw new Exception("Illegal request.");
         }
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        FileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        List<?> items = upload.parseRequest(request);
+        Map<String, Object> map = new HashMap<>();
 
-        // Look for file items.
-        for (Object o : items) {
-            FileItem item = (FileItem) o;
-
-            if (!item.isFormField()) {
-                String fileName = item.getName();
-                byte[] data = item.get();
-
-                if (StringUtils.isNotBlank(fileName) && data.length > 0) {
-                    createAvatar(fileName, data, username, map);
-                } else {
-                    map.put("error", new Exception("Missing file."));
-                    LOG.warn("Failed to upload personal image. No file specified.");
-                }
-                break;
-            }
-        }
+        createAvatar(file.getOriginalFilename(), file.getBytes(), username, map);
 
         map.put("username", username);
         map.put("avatar", settingsService.getCustomAvatar(username));
-        return new ModelAndView("avatarUploadResult","model",map);
+        redirectAttributes.addFlashAttribute("model", map);
+        return "redirect:avatarUpload";
     }
 
     private void createAvatar(String fileName, byte[] data, String username, Map<String, Object> map) throws IOException {

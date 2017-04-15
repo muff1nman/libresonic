@@ -242,7 +242,7 @@
     </p>
 </form:form>
 
-<form method="post" enctype="multipart/form-data" action="avatarUpload.view">
+<form method="post" enctype="multipart/form-data" action="avatarUpload.view?${_csrf.parameterName}=${_csrf.token}">
     <sec:csrfInput />
     <table>
         <tr>
