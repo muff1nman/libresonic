@@ -48,5 +48,8 @@
     </bean>
 
     <bean class="org.libresonic.player.spring.LoggingExceptionResolver" />
+    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
 
 </beans>

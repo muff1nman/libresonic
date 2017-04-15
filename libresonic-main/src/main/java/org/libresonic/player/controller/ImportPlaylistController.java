@@ -19,10 +19,6 @@
  */
 package org.libresonic.player.controller;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.libresonic.player.domain.Playlist;
@@ -30,15 +26,14 @@ import org.libresonic.player.service.PlaylistService;
 import org.libresonic.player.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,37 +50,53 @@ public class ImportPlaylistController {
     @Autowired
     private PlaylistService playlistService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(method = RequestMethod.POST )
+    protected String handlePost(Model model, @RequestParam("file") MultipartFile item, MultipartHttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
 
         try {
-            if (ServletFileUpload.isMultipartContent(request)) {
-
-                FileItemFactory factory = new DiskFileItemFactory();
-                ServletFileUpload upload = new ServletFileUpload(factory);
-                List<?> items = upload.parseRequest(request);
-                for (Object o : items) {
-                    FileItem item = (FileItem) o;
-
-                    if ("file".equals(item.getFieldName()) && !StringUtils.isBlank(item.getName())) {
-                        if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
-                            throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
-                        }
-                        String playlistName = FilenameUtils.getBaseName(item.getName());
-                        String fileName = FilenameUtils.getName(item.getName());
-                        String format = StringUtils.lowerCase(FilenameUtils.getExtension(item.getName()));
-                        String username = securityService.getCurrentUsername(request);
-                        Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName, format, item.getInputStream(), null);
-                        map.put("playlist", playlist);
-                    }
-                }
+//            if (ServletFileUpload.isMultipartContent(request)) {
+//
+//                FileItemFactory factory = new DiskFileItemFactory();
+//                ServletFileUpload upload = new ServletFileUpload(factory);
+//                List<?> items = upload.parseRequest(request);
+//                for (Object o : items) {
+//                    FileItem item = (FileItem) o;
+//
+//                    if ("file".equals(item.getFieldName()) && !StringUtils.isBlank(item.getName())) {
+//                        if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
+//                            throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
+//                        }
+//                        String playlistName = FilenameUtils.getBaseName(item.getName());
+//                        String fileName = FilenameUtils.getName(item.getName());
+//                        String format = StringUtils.lowerCase(FilenameUtils.getExtension(item.getName()));
+//                        String username = securityService.getCurrentUsername(request);
+//                        Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName, format, item.getInputStream(), null);
+//                        map.put("playlist", playlist);
+//                    }
+//                }
+//            }
+            if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
+                throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
             }
+            String playlistName = FilenameUtils.getBaseName(item.getName());
+            String fileName = FilenameUtils.getName(item.getName());
+            String format = StringUtils.lowerCase(FilenameUtils.getExtension(item.getName()));
+            String username = securityService.getCurrentUsername(request);
+            Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName, format, item.getInputStream(), null);
+            map.put("playlist", playlist);
         } catch (Exception e) {
+            // TODO: flash attribute this bitch
             map.put("error", e.getMessage());
         }
 
-        return new ModelAndView("importPlaylist","model",map);
+        model.addAttribute("model", map);
+        return "redirect:importPlaylist";
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String handleGet() {
+        return "importPlaylist";
     }
 
 
