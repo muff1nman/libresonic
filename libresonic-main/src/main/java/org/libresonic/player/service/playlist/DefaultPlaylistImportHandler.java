@@ -1,12 +1,6 @@
 package org.libresonic.player.service.playlist;
 
-import chameleon.playlist.Media;
-import chameleon.playlist.Parallel;
-import chameleon.playlist.Playlist;
-import chameleon.playlist.PlaylistVisitor;
-import chameleon.playlist.Sequence;
-import chameleon.playlist.SpecificPlaylist;
-import com.google.common.collect.Lists;
+import chameleon.playlist.*;
 import org.libresonic.player.domain.MediaFile;
 import org.libresonic.player.service.MediaFileService;
 import org.libresonic.player.util.Pair;
@@ -15,14 +9,9 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.net.ProtocolException;
-import java.net.ProtocolFamily;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.fourthline.cling.binding.xml.Descriptor.Device.ELEMENT.url;
 
 @Component
 public class DefaultPlaylistImportHandler implements PlaylistImportHandler {

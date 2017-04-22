@@ -11,7 +11,6 @@ import org.libresonic.player.dao.MediaFileDao;
 import org.libresonic.player.dao.PlaylistDao;
 import org.libresonic.player.domain.MediaFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

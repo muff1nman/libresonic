@@ -19,13 +19,15 @@
  */
 package org.libresonic.player.util;
 
+import com.google.common.hash.HashCode;
 import org.libresonic.player.Logger;
 
-import com.google.common.hash.HashCode;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Miscellaneous general utility methods.

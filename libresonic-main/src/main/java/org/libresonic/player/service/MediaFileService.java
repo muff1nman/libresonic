@@ -19,6 +19,8 @@
  */
 package org.libresonic.player.service;
 
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import org.apache.commons.io.FilenameUtils;

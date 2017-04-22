@@ -19,18 +19,9 @@
  */
 package org.libresonic.player.service;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
 import chameleon.playlist.SpecificPlaylist;
 import chameleon.playlist.SpecificPlaylistFactory;
 import chameleon.playlist.SpecificPlaylistProvider;
-import javax.swing.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.libresonic.player.Logger;
@@ -43,24 +34,13 @@ import org.libresonic.player.service.playlist.PlaylistExportHandler;
 import org.libresonic.player.service.playlist.PlaylistImportHandler;
 import org.libresonic.player.util.Pair;
 import org.libresonic.player.util.StringUtil;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.util.Assert;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
-import java.io.*;
-import java.nio.charset.Charset;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Provides services for loading and saving playlists to and from persistent storage.
