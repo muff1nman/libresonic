@@ -3,9 +3,9 @@
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -51,7 +51,7 @@ public class User {
     protected boolean videoConversionRole;
     @XmlAttribute(name = "avatarLastChanged")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar avatarLastChanged;
+    protected Date avatarLastChanged;
 
     public List<Integer> getFolder() {
         if (folder == null) {
@@ -188,11 +188,11 @@ public class User {
         this.videoConversionRole = value;
     }
 
-    public XMLGregorianCalendar getAvatarLastChanged() {
+    public Date getAvatarLastChanged() {
         return avatarLastChanged;
     }
 
-    public void setAvatarLastChanged(XMLGregorianCalendar value) {
+    public void setAvatarLastChanged(Date value) {
         this.avatarLastChanged = value;
     }
 

@@ -3,9 +3,9 @@
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -23,7 +23,7 @@ public class Directory {
     protected String name;
     @XmlAttribute(name = "starred")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar starred;
+    protected Date starred;
     @XmlAttribute(name = "userRating")
     protected Integer userRating;
     @XmlAttribute(name = "averageRating")
@@ -62,11 +62,11 @@ public class Directory {
         this.name = value;
     }
 
-    public XMLGregorianCalendar getStarred() {
+    public Date getStarred() {
         return starred;
     }
 
-    public void setStarred(XMLGregorianCalendar value) {
+    public void setStarred(Date value) {
         this.starred = value;
     }
 

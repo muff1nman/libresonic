@@ -4,9 +4,9 @@ package org.libresonic.restapi.domain;
 
 
 import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,10 +36,10 @@ public class Playlist {
     protected int duration;
     @XmlAttribute(name = "created", required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar created;
+    protected Date created;
     @XmlAttribute(name = "changed", required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar changed;
+    protected Date changed;
     @XmlAttribute(name = "coverArt")
     protected String coverArt;
 
@@ -106,19 +106,19 @@ public class Playlist {
         this.duration = value;
     }
 
-    public XMLGregorianCalendar getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(XMLGregorianCalendar value) {
+    public void setCreated(Date value) {
         this.created = value;
     }
 
-    public XMLGregorianCalendar getChanged() {
+    public Date getChanged() {
         return changed;
     }
 
-    public void setChanged(XMLGregorianCalendar value) {
+    public void setChanged(Date value) {
         this.changed = value;
     }
 

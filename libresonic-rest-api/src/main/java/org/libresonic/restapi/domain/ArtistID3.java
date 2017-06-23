@@ -3,7 +3,8 @@
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
+
+import java.util.Date;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ArtistID3")
@@ -22,7 +23,7 @@ public class ArtistID3 {
     protected int albumCount;
     @XmlAttribute(name = "starred")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar starred;
+    protected Date starred;
 
     public String getId() {
         return id;
@@ -56,11 +57,11 @@ public class ArtistID3 {
         this.albumCount = value;
     }
 
-    public XMLGregorianCalendar getStarred() {
+    public Date getStarred() {
         return starred;
     }
 
-    public void setStarred(XMLGregorianCalendar value) {
+    public void setStarred(Date value) {
         this.starred = value;
     }
 

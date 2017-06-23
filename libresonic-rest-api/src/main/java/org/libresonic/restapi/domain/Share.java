@@ -1,14 +1,10 @@
-
-
 package org.libresonic.restapi.domain;
 
-
 import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Share", propOrder = {
@@ -27,13 +23,13 @@ public class Share {
     protected String username;
     @XmlAttribute(name = "created", required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar created;
+    protected Date created;
     @XmlAttribute(name = "expires")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar expires;
+    protected Date expires;
     @XmlAttribute(name = "lastVisited")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastVisited;
+    protected Date lastVisited;
     @XmlAttribute(name = "visitCount", required = true)
     protected int visitCount;
 
@@ -76,27 +72,27 @@ public class Share {
         this.username = value;
     }
 
-    public XMLGregorianCalendar getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(XMLGregorianCalendar value) {
+    public void setCreated(Date value) {
         this.created = value;
     }
 
-    public XMLGregorianCalendar getExpires() {
+    public Date getExpires() {
         return expires;
     }
 
-    public void setExpires(XMLGregorianCalendar value) {
+    public void setExpires(Date value) {
         this.expires = value;
     }
 
-    public XMLGregorianCalendar getLastVisited() {
+    public Date getLastVisited() {
         return lastVisited;
     }
 
-    public void setLastVisited(XMLGregorianCalendar value) {
+    public void setLastVisited(Date value) {
         this.lastVisited = value;
     }
 

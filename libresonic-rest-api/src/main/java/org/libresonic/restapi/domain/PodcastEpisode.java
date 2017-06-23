@@ -4,7 +4,8 @@ package org.libresonic.restapi.domain;
 
 
 import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
+
+import java.util.Date;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -22,7 +23,7 @@ public class PodcastEpisode
     protected PodcastStatus status;
     @XmlAttribute(name = "publishDate")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar publishDate;
+    protected Date publishDate;
 
     public String getStreamId() {
         return streamId;
@@ -56,11 +57,11 @@ public class PodcastEpisode
         this.status = value;
     }
 
-    public XMLGregorianCalendar getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(XMLGregorianCalendar value) {
+    public void setPublishDate(Date value) {
         this.publishDate = value;
     }
 
