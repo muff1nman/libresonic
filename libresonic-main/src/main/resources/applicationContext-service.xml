@@ -317,4 +317,8 @@
         <constructor-arg ref="settingsService" />
     </bean>
 
+    <bean class="org.libresonic.player.service.BookmarkService">
+        <constructor-arg ref="bookmarkDao" />
+    </bean>
+
 </beans>

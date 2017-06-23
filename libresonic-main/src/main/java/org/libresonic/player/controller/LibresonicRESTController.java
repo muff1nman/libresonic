@@ -126,11 +126,11 @@ public class LibresonicRESTController {
     @Autowired
     private AlbumDao albumDao;
     @Autowired
-    private BookmarkDao bookmarkDao;
-    @Autowired
     private PlayQueueDao playQueueDao;
     @Autowired
     private MediaScannerService mediaScannerService;
+    @Autowired
+    private BookmarkService bookmarkService;
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public ResponseEntity<String> ping(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1161,7 +1161,7 @@ public class LibresonicRESTController {
             child.setIsVideo(mediaFile.isVideo());
             child.setPath(getRelativePath(mediaFile));
 
-            Bookmark bookmark = bookmarkCache.get(new BookmarkKey(username, mediaFile.getId()));
+            Bookmark bookmark = bookmarkService.getBookmarkForUserAndMediaFile(username, mediaFile);
             if (bookmark != null) {
                 child.setBookmarkPosition(bookmark.getPositionMillis());
             }
@@ -1600,7 +1600,7 @@ public class LibresonicRESTController {
         String username = securityService.getCurrentUsername(request);
 
         Bookmarks result = new Bookmarks();
-        for (Bookmark bookmark : bookmarkDao.getBookmarks(username)) {
+        for (Bookmark bookmark : bookmarkService.getBookmarks(username)) {
             org.libresonic.restapi.domain.Bookmark b = new org.libresonic.restapi.domain.Bookmark();
             result.getBookmark().add(b);
             b.setPosition(bookmark.getPositionMillis());
@@ -1626,8 +1626,7 @@ public class LibresonicRESTController {
         Date now = new Date();
 
         Bookmark bookmark = new Bookmark(0, mediaFileId, position, username, comment, now, now);
-        bookmarkDao.createOrUpdateBookmark(bookmark);
-        refreshBookmarkCache();
+        bookmarkService.createOrUpdateBookmark(bookmark);
         return ResponseEntity.noContent().build();
     }
 
@@ -1637,8 +1636,7 @@ public class LibresonicRESTController {
 
         String username = securityService.getCurrentUsername(request);
         int mediaFileId = getRequiredIntParameter(request, "id");
-        bookmarkDao.deleteBookmark(username, mediaFileId);
-        refreshBookmarkCache();
+        bookmarkService.deleteBookmark(username, mediaFileId);
 
         return ResponseEntity.noContent().build();
     }

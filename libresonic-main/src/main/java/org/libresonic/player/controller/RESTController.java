@@ -25,7 +25,10 @@ import org.libresonic.player.ajax.LyricsInfo;
 import org.libresonic.player.ajax.LyricsService;
 import org.libresonic.player.ajax.PlayQueueService;
 import org.libresonic.player.command.UserSettingsCommand;
-import org.libresonic.player.dao.*;
+import org.libresonic.player.dao.AlbumDao;
+import org.libresonic.player.dao.ArtistDao;
+import org.libresonic.player.dao.MediaFileDao;
+import org.libresonic.player.dao.PlayQueueDao;
 import org.libresonic.player.domain.*;
 import org.libresonic.player.domain.Artist;
 import org.libresonic.player.domain.Bookmark;
@@ -54,7 +57,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.subsonic.restapi.*;
 import org.subsonic.restapi.PodcastStatus;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -135,7 +137,7 @@ public class RESTController {
     @Autowired
     private AlbumDao albumDao;
     @Autowired
-    private BookmarkDao bookmarkDao;
+    private BookmarkService bookmarkService;
     @Autowired
     private PlayQueueDao playQueueDao;
     @Autowired
@@ -146,18 +148,6 @@ public class RESTController {
 
     private static final String NOT_YET_IMPLEMENTED = "Not yet implemented";
     private static final String NO_LONGER_SUPPORTED = "No longer supported";
-
-    @PostConstruct
-    public void init() {
-        refreshBookmarkCache();
-    }
-
-    private void refreshBookmarkCache() {
-        bookmarkCache.clear();
-        for (Bookmark bookmark : bookmarkDao.getBookmarks()) {
-            bookmarkCache.put(BookmarkKey.forBookmark(bookmark), bookmark);
-        }
-    }
 
     @RequestMapping(value = "/ping")
     public void ping(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1713,7 +1703,7 @@ public class RESTController {
         String username = securityService.getCurrentUsername(request);
 
         Bookmarks result = new Bookmarks();
-        for (Bookmark bookmark : bookmarkDao.getBookmarks(username)) {
+        for (Bookmark bookmark : bookmarkService.getBookmarks(username)) {
             org.subsonic.restapi.Bookmark b = new org.subsonic.restapi.Bookmark();
             result.getBookmark().add(b);
             b.setPosition(bookmark.getPositionMillis());
@@ -1741,8 +1731,7 @@ public class RESTController {
         Date now = new Date();
 
         Bookmark bookmark = new Bookmark(0, mediaFileId, position, username, comment, now, now);
-        bookmarkDao.createOrUpdateBookmark(bookmark);
-        refreshBookmarkCache();
+        bookmarkService.createOrUpdateBookmark(bookmark);
         writeEmptyResponse(request, response);
     }
 
@@ -1752,8 +1741,7 @@ public class RESTController {
 
         String username = securityService.getCurrentUsername(request);
         int mediaFileId = getRequiredIntParameter(request, "id");
-        bookmarkDao.deleteBookmark(username, mediaFileId);
-        refreshBookmarkCache();
+        bookmarkService.deleteBookmark(username, mediaFileId);
 
         writeEmptyResponse(request, response);
     }
@@ -1965,15 +1953,15 @@ public class RESTController {
     }
 
     @RequestMapping(value = "/getCoverArt")
-    public ModelAndView getCoverArt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void getCoverArt(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
-        return coverArtController.handleRequest(request, response);
+        coverArtController.handleRequest(request, response);
     }
 
     @RequestMapping(value = "/getAvatar")
-    public ModelAndView getAvatar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void getAvatar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
-        return avatarController.handleRequest(request, response);
+        avatarController.handleRequest(request, response);
     }
 
     @RequestMapping(value = "/changePassword")
