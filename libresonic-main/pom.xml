@@ -27,6 +27,12 @@
 
         <dependency>
             <groupId>org.libresonic.player</groupId>
+            <artifactId>libresonic-rest-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.libresonic.player</groupId>
             <artifactId>libresonic-sonos-api</artifactId>
             <version>${project.version}</version>
         </dependency>
