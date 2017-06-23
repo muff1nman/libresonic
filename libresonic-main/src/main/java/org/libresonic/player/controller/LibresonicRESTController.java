@@ -199,7 +199,7 @@ public class LibresonicRESTController {
                         index.getArtist().add(a);
                         a.setId(String.valueOf(mediaFile.getId()));
                         a.setName(artist.getName());
-                        a.setStarred(jaxbWriter.convertDate(starredDate));
+                        a.setStarred(starredDate);
 
                         if (mediaFile.isAlbum()) {
                             a.setAverageRating(ratingService.getAverageRating(mediaFile));
@@ -424,7 +424,7 @@ public class LibresonicRESTController {
     private <T extends ArtistID3> T createJaxbArtist(T jaxbArtist, Artist artist, String username) {
         jaxbArtist.setId(String.valueOf(artist.getId()));
         jaxbArtist.setName(artist.getName());
-        jaxbArtist.setStarred(jaxbWriter.convertDate(mediaFileDao.getMediaFileStarredDate(artist.getId(), username)));
+        jaxbArtist.setStarred(mediaFileDao.getMediaFileStarredDate(artist.getId(), username));
         jaxbArtist.setAlbumCount(artist.getAlbumCount());
         if (artist.getCoverArtPath() != null) {
             jaxbArtist.setCoverArt(CoverArtController.ARTIST_COVERART_PREFIX + artist.getId());
@@ -437,7 +437,7 @@ public class LibresonicRESTController {
         result.setId(String.valueOf(artist.getId()));
         result.setName(artist.getArtist());
         Date starred = mediaFileDao.getMediaFileStarredDate(artist.getId(), username);
-        result.setStarred(jaxbWriter.convertDate(starred));
+        result.setStarred(starred);
         return result;
     }
 
@@ -476,8 +476,8 @@ public class LibresonicRESTController {
         }
         jaxbAlbum.setSongCount(album.getSongCount());
         jaxbAlbum.setDuration(album.getDurationSeconds());
-        jaxbAlbum.setCreated(jaxbWriter.convertDate(album.getCreated()));
-        jaxbAlbum.setStarred(jaxbWriter.convertDate(albumDao.getAlbumStarredDate(album.getId(), username)));
+        jaxbAlbum.setCreated(album.getCreated());
+        jaxbAlbum.setStarred(albumDao.getAlbumStarredDate(album.getId(), username));
         jaxbAlbum.setYear(album.getYear());
         jaxbAlbum.setGenre(album.getGenre());
         return jaxbAlbum;
@@ -491,8 +491,8 @@ public class LibresonicRESTController {
         jaxbPlaylist.setPublic(playlist.isShared());
         jaxbPlaylist.setSongCount(playlist.getFileCount());
         jaxbPlaylist.setDuration(playlist.getDurationSeconds());
-        jaxbPlaylist.setCreated(jaxbWriter.convertDate(playlist.getCreated()));
-        jaxbPlaylist.setChanged(jaxbWriter.convertDate(playlist.getChanged()));
+        jaxbPlaylist.setCreated(playlist.getCreated());
+        jaxbPlaylist.setChanged(playlist.getChanged());
         jaxbPlaylist.setCoverArt(CoverArtController.PLAYLIST_COVERART_PREFIX + playlist.getId());
 
         for (String username : playlistService.getPlaylistUsers(playlist.getId())) {
@@ -565,7 +565,7 @@ public class LibresonicRESTController {
             // Ignored.
         }
         directory.setName(dir.getName());
-        directory.setStarred(jaxbWriter.convertDate(mediaFileDao.getMediaFileStarredDate(id, username)));
+        directory.setStarred(mediaFileDao.getMediaFileStarredDate(id, username));
         directory.setPlayCount((long) dir.getPlayCount());
 
         if (dir.isAlbum()) {
@@ -1143,8 +1143,8 @@ public class LibresonicRESTController {
         child.setCoverArt(findCoverArt(mediaFile, parent));
         child.setYear(mediaFile.getYear());
         child.setGenre(mediaFile.getGenre());
-        child.setCreated(jaxbWriter.convertDate(mediaFile.getCreated()));
-        child.setStarred(jaxbWriter.convertDate(mediaFileDao.getMediaFileStarredDate(mediaFile.getId(), username)));
+        child.setCreated(mediaFile.getCreated());
+        child.setStarred(mediaFileDao.getMediaFileStarredDate(mediaFile.getId(), username));
         child.setUserRating(ratingService.getRatingForUser(username, mediaFile));
         child.setAverageRating(ratingService.getAverageRating(mediaFile));
         child.setPlayCount((long) mediaFile.getPlayCount());
@@ -1499,7 +1499,7 @@ public class LibresonicRESTController {
         e.setStatus(PodcastStatus.valueOf(episode.getStatus().name()));
         e.setTitle(episode.getTitle());
         e.setDescription(episode.getDescription());
-        e.setPublishDate(jaxbWriter.convertDate(episode.getPublishDate()));
+        e.setPublishDate(episode.getPublishDate());
         return e;
     }
 
@@ -1606,8 +1606,8 @@ public class LibresonicRESTController {
             b.setPosition(bookmark.getPositionMillis());
             b.setUsername(bookmark.getUsername());
             b.setComment(bookmark.getComment());
-            b.setCreated(jaxbWriter.convertDate(bookmark.getCreated()));
-            b.setChanged(jaxbWriter.convertDate(bookmark.getChanged()));
+            b.setCreated(bookmark.getCreated());
+            b.setChanged(bookmark.getChanged());
 
             MediaFile mediaFile = mediaFileService.getMediaFile(bookmark.getMediaFileId());
             b.setEntry(createJaxbChild(player, mediaFile, username));
@@ -1658,7 +1658,7 @@ public class LibresonicRESTController {
         restPlayQueue.setUsername(playQueue.getUsername());
         restPlayQueue.setCurrent(playQueue.getCurrentMediaFileId());
         restPlayQueue.setPosition(playQueue.getPositionMillis());
-        restPlayQueue.setChanged(jaxbWriter.convertDate(playQueue.getChanged()));
+        restPlayQueue.setChanged(playQueue.getChanged());
         restPlayQueue.setChangedBy(playQueue.getChangedBy());
 
         for (Integer mediaFileId : playQueue.getMediaFileIds()) {
@@ -1806,11 +1806,11 @@ public class LibresonicRESTController {
         result.setId(String.valueOf(share.getId()));
         result.setUrl(shareService.getShareUrl(request, share));
         result.setUsername(share.getUsername());
-        result.setCreated(jaxbWriter.convertDate(share.getCreated()));
+        result.setCreated(share.getCreated());
         result.setVisitCount(share.getVisitCount());
         result.setDescription(share.getDescription());
-        result.setExpires(jaxbWriter.convertDate(share.getExpires()));
-        result.setLastVisited(jaxbWriter.convertDate(share.getLastVisited()));
+        result.setExpires(share.getExpires());
+        result.setLastVisited(share.getLastVisited());
         return result;
     }
 
