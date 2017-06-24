@@ -24,7 +24,10 @@ import org.libresonic.player.ajax.LyricsInfo;
 import org.libresonic.player.ajax.LyricsService;
 import org.libresonic.player.ajax.PlayQueueService;
 import org.libresonic.player.command.UserSettingsCommand;
-import org.libresonic.player.dao.*;
+import org.libresonic.player.dao.AlbumDao;
+import org.libresonic.player.dao.ArtistDao;
+import org.libresonic.player.dao.MediaFileDao;
+import org.libresonic.player.dao.PlayQueueDao;
 import org.libresonic.player.domain.*;
 import org.libresonic.player.domain.Artist;
 import org.libresonic.player.domain.Bookmark;
@@ -52,7 +55,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -1050,13 +1052,13 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isDownloadRole()) {
             LOG.warn(user.getUsername() + " is not authorized to download files.");
             response.sendError(UNAUTHORIZED.value());
-            return null;
+            return;
         }
 
         long ifModifiedSince = request.getDateHeader("If-Modified-Since");
@@ -1064,53 +1066,51 @@ public class LibresonicRESTController {
 
         if (ifModifiedSince != -1 && lastModified != -1 && lastModified <= ifModifiedSince) {
             response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
-            return null;
+            return;
         }
 
         if (lastModified != -1) {
             response.setDateHeader("Last-Modified", lastModified);
         }
 
-        return downloadController.handleRequest(request, response);
+        downloadController.handleRequest(request, response);
     }
 
     @RequestMapping(value = "/stream", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView stream(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void stream(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             LOG.warn(user.getUsername() + " is not authorized to play files.");
             response.sendError(UNAUTHORIZED.value());
-            return null;
+            return;
         }
 
         streamController.handleRequest(request, response);
-        return null;
     }
 
     @RequestMapping(value = "/hls", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView hls(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void hls(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             LOG.warn(user.getUsername() + " is not authorized to play files.");
             response.sendError(UNAUTHORIZED.value());
-            return null;
+            return;
         }
         int id = getRequiredIntParameter(request, "id");
         MediaFile video = mediaFileDao.getMediaFile(id);
         if (video == null || video.isDirectory()) {
             LOG.warn("Video not found.");
             response.sendError(HttpStatus.NOT_FOUND.value());
-            return null;
+            return;
         }
         if (!securityService.isFolderAccessAllowed(video, user.getUsername())) {
             LOG.warn("Access denied");
             response.sendError(UNAUTHORIZED.value());
-            return null;
+            return;
         }
         hlsController.handleRequest(request, response);
-        return null;
     }
 
     @RequestMapping(value = "/scrobble", method = RequestMethod.POST)

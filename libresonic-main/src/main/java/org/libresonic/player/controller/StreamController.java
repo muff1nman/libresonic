@@ -84,7 +84,7 @@ public class StreamController  {
     private SearchService searchService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TransferStatus status = null;
         PlayQueueInputStream in = null;
@@ -96,7 +96,7 @@ public class StreamController  {
 
             if (!(authentication instanceof JWTAuthenticationToken) && !user.isStreamRole()) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Streaming is forbidden for user " + user.getUsername());
-                return null;
+                return;
             }
 
             // If "playlist" request parameter is set, this is a Podcast request. In that case, create a separate
@@ -136,7 +136,7 @@ public class StreamController  {
                 if (!(authentication instanceof JWTAuthenticationToken) && !securityService.isFolderAccessAllowed(file, user.getUsername())) {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN,
                                        "Access to file " + file.getId() + " is forbidden for user " + user.getUsername());
-                    return null;
+                    return;
                 }
 
                 // Update the index of the currently playing media file. At
@@ -189,7 +189,7 @@ public class StreamController  {
             }
 
             if (request.getMethod().equals("HEAD")) {
-                return null;
+                return;
             }
 
             // Terminate any other streams to this player.
@@ -226,7 +226,7 @@ public class StreamController  {
 
                 // Check if stream has been terminated.
                 if (status.terminated()) {
-                    return null;
+                    return;
                 }
 
                 if (player.getPlayQueue().getStatus() == PlayQueue.Status.STOPPED) {
@@ -257,7 +257,7 @@ public class StreamController  {
             }
             IOUtils.closeQuietly(in);
         }
-        return null;
+        return;
     }
 
     private void setContentDuration(HttpServletResponse response, MediaFile file) {

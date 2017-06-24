@@ -89,7 +89,7 @@ public class DownloadController implements LastModified {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         User user = securityService.getCurrentUser(request);
         TransferStatus status = null;
@@ -118,7 +118,7 @@ public class DownloadController implements LastModified {
                 if (!securityService.isFolderAccessAllowed(mediaFile, user.getUsername())) {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN,
                             "Access to file " + mediaFile.getId() + " is forbidden for user " + user.getUsername());
-                    return null;
+                    return;
                 }
 
                 if (mediaFile.isFile()) {
@@ -148,8 +148,6 @@ public class DownloadController implements LastModified {
                 securityService.updateUserByteCounts(user, 0L, status.getBytesTransfered(), 0L);
             }
         }
-
-        return null;
     }
 
     private MediaFile getMediaFile(HttpServletRequest request) throws ServletRequestBindingException {

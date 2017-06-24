@@ -68,7 +68,7 @@ public class HLSController {
     private JWTSecurityService jwtSecurityService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -79,19 +79,19 @@ public class HLSController {
 
         if (mediaFile == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Media file not found: " + id);
-            return null;
+            return;
         }
 
         if (username != null && !securityService.isFolderAccessAllowed(mediaFile, username)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN,
                     "Access to file " + mediaFile.getId() + " is forbidden for user " + username);
-            return null;
+            return;
         }
 
         Integer duration = mediaFile.getDurationSeconds();
         if (duration == null || duration == 0) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unknown duration for media file: " + id);
-            return null;
+            return;
         }
 
         response.setContentType("application/vnd.apple.mpegurl");
@@ -104,7 +104,7 @@ public class HLSController {
             generateNormalPlaylist(request, id, player, bitRates.size() == 1 ? bitRates.get(0) : null, duration, writer);
         }
 
-        return null;
+        return;
     }
 
     private List<Pair<Integer, Dimension>> parseBitRates(HttpServletRequest request) throws IllegalArgumentException {
