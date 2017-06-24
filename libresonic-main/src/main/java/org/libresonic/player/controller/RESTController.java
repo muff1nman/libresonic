@@ -1338,12 +1338,12 @@ public class RESTController {
     }
 
     @RequestMapping(value = "/download")
-    public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isDownloadRole()) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, user.getUsername() + " is not authorized to download files.");
-            return null;
+            return;
         }
 
         long ifModifiedSince = request.getDateHeader("If-Modified-Since");
@@ -1351,49 +1351,47 @@ public class RESTController {
 
         if (ifModifiedSince != -1 && lastModified != -1 && lastModified <= ifModifiedSince) {
             response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
-            return null;
+            return;
         }
 
         if (lastModified != -1) {
             response.setDateHeader("Last-Modified", lastModified);
         }
 
-        return downloadController.handleRequest(request, response);
+        downloadController.handleRequest(request, response);
     }
 
     @RequestMapping(value = "/stream")
-    public ModelAndView stream(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void stream(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, user.getUsername() + " is not authorized to play files.");
-            return null;
+            return;
         }
 
         streamController.handleRequest(request, response);
-        return null;
     }
 
     @RequestMapping(value = "/hls")
-    public ModelAndView hls(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void hls(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, user.getUsername() + " is not authorized to play files.");
-            return null;
+            return;
         }
         int id = getRequiredIntParameter(request, "id");
         MediaFile video = mediaFileDao.getMediaFile(id);
         if (video == null || video.isDirectory()) {
             error(request, response, ErrorCode.NOT_FOUND, "Video not found.");
-            return null;
+            return;
         }
         if (!securityService.isFolderAccessAllowed(video, user.getUsername())) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, "Access denied");
-            return null;
+            return;
         }
         hlsController.handleRequest(request, response);
-        return null;
     }
 
     @RequestMapping(value = "/scrobble")
