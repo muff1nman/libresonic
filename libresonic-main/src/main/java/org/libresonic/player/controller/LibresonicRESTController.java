@@ -328,7 +328,7 @@ public class LibresonicRESTController {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(value = "/getArtistInfo")
+    @RequestMapping(value = "/getArtistInfo", method = RequestMethod.GET)
     public ResponseEntity<ArtistInfo> getArtistInfo(HttpServletRequest request, HttpServletResponse response) throws
             Exception {
         request = wrapRequest(request);
@@ -383,7 +383,7 @@ public class LibresonicRESTController {
         return result;
     }
 
-    @RequestMapping(value = "/getArtist")
+    @RequestMapping(value = "/getArtist", method = RequestMethod.GET)
     public ResponseEntity<ArtistWithAlbumsID3> getArtist(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
 
