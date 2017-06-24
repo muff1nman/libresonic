@@ -34,7 +34,6 @@ import org.libresonic.player.domain.PlayQueue;
 import org.libresonic.player.domain.Playlist;
 import org.libresonic.player.domain.PodcastChannel;
 import org.libresonic.player.domain.PodcastEpisode;
-import org.libresonic.player.domain.SearchResult;
 import org.libresonic.player.domain.Share;
 import org.libresonic.player.domain.User;
 import org.libresonic.player.service.*;
@@ -43,6 +42,7 @@ import org.libresonic.player.util.Util;
 import org.libresonic.restapi.domain.*;
 import org.libresonic.restapi.domain.Genres;
 import org.libresonic.restapi.domain.PodcastStatus;
+import org.libresonic.restapi.domain.SearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,7 +181,7 @@ public class LibresonicRESTController {
         }
 
         for (MediaFile shortcut : musicIndexService.getShortcuts(musicFolders)) {
-            indexes.getShortcut().add(createJaxbArtist(shortcut, username));
+            indexes.getShortcut().add(createArtist(shortcut, username));
         }
 
         MusicFolderContent musicFolderContent = musicIndexService.getMusicFolderContent(musicFolders, false);
@@ -214,7 +214,7 @@ public class LibresonicRESTController {
         Player player = playerService.getPlayer(request, response);
 
         for (MediaFile singleSong : musicFolderContent.getSingleSongs()) {
-            indexes.getChild().add(createJaxbChild(player, singleSong, username));
+            indexes.getChild().add(createChild(player, singleSong, username));
         }
 
         return ResponseEntity.ok(indexes);
@@ -251,7 +251,7 @@ public class LibresonicRESTController {
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
 
         for (MediaFile mediaFile : mediaFileDao.getSongsByGenre(genre, offset, count, musicFolders)) {
-            songs.getSong().add(createJaxbChild(player, mediaFile, username));
+            songs.getSong().add(createChild(player, mediaFile, username));
         }
         return ResponseEntity.ok(songs);
     }
@@ -273,15 +273,16 @@ public class LibresonicRESTController {
             result.getIndex().add(index);
             index.setName(entry.getKey().getIndex());
             for (MusicIndex.SortableArtistWithArtist sortableArtist : entry.getValue()) {
-                index.getArtist().add(createJaxbArtist(new ArtistID3(), sortableArtist.getArtist(), username));
+                index.getArtist().add(createArtist(new ArtistID3(), sortableArtist.getArtist(), username));
             }
         }
 
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(value = "/getSimilarSongs", method = RequestMethod.GET)
-    public ResponseEntity<SimilarSongs> getSimilarSongs(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/getSimilarSongsByArtist", method = RequestMethod.GET)
+    public ResponseEntity<SimilarSongs> getSimilarSongsByArtist(HttpServletRequest request, HttpServletResponse
+            response) throws Exception {
         request = wrapRequest(request);
         String username = securityService.getCurrentUsername(request);
 
@@ -289,30 +290,6 @@ public class LibresonicRESTController {
         int count = getIntParameter(request, "count", 50);
 
         SimilarSongs result = new SimilarSongs();
-
-        MediaFile mediaFile = mediaFileService.getMediaFile(id);
-        if (mediaFile == null) {
-            return ResponseEntity.notFound().build();
-        }
-        List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
-        List<MediaFile> similarSongs = lastFmService.getSimilarSongs(mediaFile, count, musicFolders);
-        Player player = playerService.getPlayer(request, response);
-        for (MediaFile similarSong : similarSongs) {
-            result.getSong().add(createJaxbChild(player, similarSong, username));
-        }
-
-        return ResponseEntity.ok(result);
-    }
-
-    @RequestMapping(value = "/getSimilarSongs2", method = RequestMethod.GET)
-    public ResponseEntity<SimilarSongs2> getSimilarSongs2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        String username = securityService.getCurrentUsername(request);
-
-        int id = getRequiredIntParameter(request, "id");
-        int count = getIntParameter(request, "count", 50);
-
-        SimilarSongs2 result = new SimilarSongs2();
 
         Artist artist = artistDao.getArtist(id);
         if (artist == null) {
@@ -323,7 +300,7 @@ public class LibresonicRESTController {
         List<MediaFile> similarSongs = lastFmService.getSimilarSongs(artist, count, musicFolders);
         Player player = playerService.getPlayer(request, response);
         for (MediaFile similarSong : similarSongs) {
-            result.getSong().add(createJaxbChild(player, similarSong, username));
+            result.getSong().add(createChild(player, similarSong, username));
         }
 
         return ResponseEntity.ok(result);
@@ -343,7 +320,7 @@ public class LibresonicRESTController {
         List<MediaFile> topSongs = lastFmService.getTopSongs(artist, count, musicFolders);
         Player player = playerService.getPlayer(request, response);
         for (MediaFile topSong : topSongs) {
-            result.getSong().add(createJaxbChild(player, topSong, username));
+            result.getSong().add(createChild(player, topSong, username));
         }
 
         return ResponseEntity.ok(result);
@@ -361,43 +338,6 @@ public class LibresonicRESTController {
 
         ArtistInfo result = new ArtistInfo();
 
-        MediaFile mediaFile = mediaFileService.getMediaFile(id);
-        if (mediaFile == null) {
-            return ResponseEntity.notFound().build();
-        }
-        List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
-        List<MediaFile> similarArtists = lastFmService.getSimilarArtists(mediaFile,
-                count,
-                includeNotPresent,
-                musicFolders);
-        for (MediaFile similarArtist : similarArtists) {
-            result.getSimilarArtist().add(createJaxbArtist(similarArtist, username));
-        }
-        ArtistBio artistBio = lastFmService.getArtistBio(mediaFile);
-        if (artistBio != null) {
-            result.setBiography(artistBio.getBiography());
-            result.setMusicBrainzId(artistBio.getMusicBrainzId());
-            result.setLastFmUrl(artistBio.getLastFmUrl());
-            result.setSmallImageUrl(artistBio.getSmallImageUrl());
-            result.setMediumImageUrl(artistBio.getMediumImageUrl());
-            result.setLargeImageUrl(artistBio.getLargeImageUrl());
-        }
-
-        return ResponseEntity.ok(result);
-    }
-
-    @RequestMapping(value = "/getArtistInfo2")
-    public ResponseEntity<ArtistInfo2> getArtistInfo2(HttpServletRequest request, HttpServletResponse response) throws
-            Exception {
-        request = wrapRequest(request);
-        String username = securityService.getCurrentUsername(request);
-
-        int id = getRequiredIntParameter(request, "id");
-        int count = getIntParameter(request, "count", 20);
-        boolean includeNotPresent = ServletRequestUtils.getBooleanParameter(request, "includeNotPresent", false);
-
-        ArtistInfo2 result = new ArtistInfo2();
-
         Artist artist = artistDao.getArtist(id);
         if (artist == null) {
             return ResponseEntity.notFound().build();
@@ -406,7 +346,7 @@ public class LibresonicRESTController {
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
         List<Artist> similarArtists = lastFmService.getSimilarArtists(artist, count, includeNotPresent, musicFolders);
         for (Artist similarArtist : similarArtists) {
-            result.getSimilarArtist().add(createJaxbArtist(new ArtistID3(), similarArtist, username));
+            result.getSimilarArtist().add(createArtist(new ArtistID3(), similarArtist, username));
         }
         ArtistBio artistBio = lastFmService.getArtistBio(artist);
         if (artistBio != null) {
@@ -421,7 +361,7 @@ public class LibresonicRESTController {
         return ResponseEntity.ok(result);
     }
 
-    private <T extends ArtistID3> T createJaxbArtist(T jaxbArtist, Artist artist, String username) {
+    private <T extends ArtistID3> T createArtist(T jaxbArtist, Artist artist, String username) {
         jaxbArtist.setId(String.valueOf(artist.getId()));
         jaxbArtist.setName(artist.getName());
         jaxbArtist.setStarred(mediaFileDao.getMediaFileStarredDate(artist.getId(), username));
@@ -432,7 +372,7 @@ public class LibresonicRESTController {
         return jaxbArtist;
     }
 
-    private org.libresonic.restapi.domain.Artist createJaxbArtist(MediaFile artist, String username) {
+    private org.libresonic.restapi.domain.Artist createArtist(MediaFile artist, String username) {
         org.libresonic.restapi.domain.Artist result = new org.libresonic.restapi.domain.Artist();
         result.setId(String.valueOf(artist.getId()));
         result.setName(artist.getArtist());
@@ -453,15 +393,15 @@ public class LibresonicRESTController {
         }
 
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
-        ArtistWithAlbumsID3 result = createJaxbArtist(new ArtistWithAlbumsID3(), artist, username);
+        ArtistWithAlbumsID3 result = createArtist(new ArtistWithAlbumsID3(), artist, username);
         for (Album album : albumDao.getAlbumsForArtist(artist.getName(), musicFolders)) {
-            result.getAlbum().add(createJaxbAlbum(new AlbumID3(), album, username));
+            result.getAlbum().add(createAlbum(new AlbumID3(), album, username));
         }
 
         return ResponseEntity.ok(result);
     }
 
-    private <T extends AlbumID3> T createJaxbAlbum(T jaxbAlbum, Album album, String username) {
+    private <T extends AlbumID3> T createAlbum(T jaxbAlbum, Album album, String username) {
         jaxbAlbum.setId(String.valueOf(album.getId()));
         jaxbAlbum.setName(album.getName());
         if (album.getArtist() != null) {
@@ -483,7 +423,7 @@ public class LibresonicRESTController {
         return jaxbAlbum;
     }
 
-    private <T extends org.libresonic.restapi.domain.Playlist> T createJaxbPlaylist(T jaxbPlaylist, Playlist playlist) {
+    private <T extends org.libresonic.restapi.domain.Playlist> T createPlaylist(T jaxbPlaylist, Playlist playlist) {
         jaxbPlaylist.setId(String.valueOf(playlist.getId()));
         jaxbPlaylist.setName(playlist.getName());
         jaxbPlaylist.setComment(playlist.getComment());
@@ -513,9 +453,9 @@ public class LibresonicRESTController {
             return ResponseEntity.notFound().build();
         }
 
-        AlbumWithSongsID3 result = createJaxbAlbum(new AlbumWithSongsID3(), album, username);
+        AlbumWithSongsID3 result = createAlbum(new AlbumWithSongsID3(), album, username);
         for (MediaFile mediaFile : mediaFileDao.getSongsForAlbum(album.getArtist(), album.getName())) {
-            result.getSong().add(createJaxbChild(player, mediaFile, username));
+            result.getSong().add(createChild(player, mediaFile, username));
         }
 
         return ResponseEntity.ok(result);
@@ -536,7 +476,7 @@ public class LibresonicRESTController {
             return ResponseEntity.status(UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok(createJaxbChild(player, song, username));
+        return ResponseEntity.ok(createChild(player, song, username));
     }
 
     @RequestMapping(value = "/getMusicDirectory", method = RequestMethod.GET)
@@ -574,123 +514,44 @@ public class LibresonicRESTController {
         }
 
         for (MediaFile child : mediaFileService.getChildrenOf(dir, true, true, true)) {
-            directory.getChild().add(createJaxbChild(player, child, username));
+            directory.getChild().add(createChild(player, child, username));
         }
 
         return ResponseEntity.ok(directory);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<org.libresonic.restapi.domain.SearchResult> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
-        String username = securityService.getCurrentUsername(request);
-
-        String any = request.getParameter("any");
-        String artist = request.getParameter("artist");
-        String album = request.getParameter("album");
-        String title = request.getParameter("title");
-
-        StringBuilder query = new StringBuilder();
-        if (any != null) {
-            query.append(any).append(" ");
-        }
-        if (artist != null) {
-            query.append(artist).append(" ");
-        }
-        if (album != null) {
-            query.append(album).append(" ");
-        }
-        if (title != null) {
-            query.append(title);
-        }
-
-        SearchCriteria criteria = new SearchCriteria();
-        criteria.setQuery(query.toString().trim());
-        criteria.setCount(getIntParameter(request, "count", 20));
-        criteria.setOffset(getIntParameter(request, "offset", 0));
-        List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
-
-        SearchResult result = searchService.search(criteria, musicFolders, SearchService.IndexType.SONG);
-        org.libresonic.restapi.domain.SearchResult searchResult = new org.libresonic.restapi.domain.SearchResult();
-        searchResult.setOffset(result.getOffset());
-        searchResult.setTotalHits(result.getTotalHits());
-
-        for (MediaFile mediaFile : result.getMediaFiles()) {
-            searchResult.getMatch().add(createJaxbChild(player, mediaFile, username));
-        }
-        return ResponseEntity.ok(searchResult);
-    }
-
-    @RequestMapping(value = "/search2", method = RequestMethod.GET)
-    public ResponseEntity<SearchResult2> search2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<SearchResult> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
 
-        SearchResult2 searchResult = new SearchResult2();
+        SearchResult searchResult = new SearchResult();
 
         String query = request.getParameter("query");
         SearchCriteria criteria = new SearchCriteria();
         criteria.setQuery(StringUtils.trimToEmpty(query));
         criteria.setCount(getIntParameter(request, "artistCount", 20));
         criteria.setOffset(getIntParameter(request, "artistOffset", 0));
-        SearchResult artists = searchService.search(criteria, musicFolders, SearchService.IndexType.ARTIST);
-        for (MediaFile mediaFile : artists.getMediaFiles()) {
-            searchResult.getArtist().add(createJaxbArtist(mediaFile, username));
-        }
-
-        criteria.setCount(getIntParameter(request, "albumCount", 20));
-        criteria.setOffset(getIntParameter(request, "albumOffset", 0));
-        SearchResult albums = searchService.search(criteria, musicFolders, SearchService.IndexType.ALBUM);
-        for (MediaFile mediaFile : albums.getMediaFiles()) {
-            searchResult.getAlbum().add(createJaxbChild(player, mediaFile, username));
-        }
-
-        criteria.setCount(getIntParameter(request, "songCount", 20));
-        criteria.setOffset(getIntParameter(request, "songOffset", 0));
-        SearchResult songs = searchService.search(criteria, musicFolders, SearchService.IndexType.SONG);
-        for (MediaFile mediaFile : songs.getMediaFiles()) {
-            searchResult.getSong().add(createJaxbChild(player, mediaFile, username));
-        }
-
-        return ResponseEntity.ok(searchResult);
-    }
-
-    @RequestMapping(value = "/search3", method = RequestMethod.GET)
-    public ResponseEntity<SearchResult3> search3(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
-        String username = securityService.getCurrentUsername(request);
-        Integer musicFolderId = getIntParameter(request, "musicFolderId");
-        List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
-
-        SearchResult3 searchResult = new SearchResult3();
-
-        String query = request.getParameter("query");
-        SearchCriteria criteria = new SearchCriteria();
-        criteria.setQuery(StringUtils.trimToEmpty(query));
-        criteria.setCount(getIntParameter(request, "artistCount", 20));
-        criteria.setOffset(getIntParameter(request, "artistOffset", 0));
-        SearchResult result = searchService.search(criteria, musicFolders, SearchService.IndexType.ARTIST_ID3);
+        org.libresonic.player.domain.SearchResult result = searchService.search(criteria, musicFolders, SearchService.IndexType.ARTIST_ID3);
         for (Artist artist : result.getArtists()) {
-            searchResult.getArtist().add(createJaxbArtist(new ArtistID3(), artist, username));
+            searchResult.getArtist().add(createArtist(new ArtistID3(), artist, username));
         }
 
         criteria.setCount(getIntParameter(request, "albumCount", 20));
         criteria.setOffset(getIntParameter(request, "albumOffset", 0));
         result = searchService.search(criteria, musicFolders, SearchService.IndexType.ALBUM_ID3);
         for (Album album : result.getAlbums()) {
-            searchResult.getAlbum().add(createJaxbAlbum(new AlbumID3(), album, username));
+            searchResult.getAlbum().add(createAlbum(new AlbumID3(), album, username));
         }
 
         criteria.setCount(getIntParameter(request, "songCount", 20));
         criteria.setOffset(getIntParameter(request, "songOffset", 0));
         result = searchService.search(criteria, musicFolders, SearchService.IndexType.SONG);
         for (MediaFile song : result.getMediaFiles()) {
-            searchResult.getSong().add(createJaxbChild(player, song, username));
+            searchResult.getSong().add(createChild(player, song, username));
         }
 
         return ResponseEntity.ok(searchResult);
@@ -713,7 +574,7 @@ public class LibresonicRESTController {
         Playlists result = new Playlists();
 
         for (Playlist playlist : playlistService.getReadablePlaylistsForUser(requestedUsername)) {
-            result.getPlaylist().add(createJaxbPlaylist(new org.libresonic.restapi.domain.Playlist(), playlist));
+            result.getPlaylist().add(createPlaylist(new org.libresonic.restapi.domain.Playlist(), playlist));
         }
 
         return ResponseEntity.ok(result);
@@ -734,10 +595,10 @@ public class LibresonicRESTController {
         if (!playlistService.isReadAllowed(playlist, username)) {
             return ResponseEntity.status(UNAUTHORIZED).build();
         }
-        PlaylistWithSongs result = createJaxbPlaylist(new PlaylistWithSongs(), playlist);
+        PlaylistWithSongs result = createPlaylist(new PlaylistWithSongs(), playlist);
         for (MediaFile mediaFile : playlistService.getFilesInPlaylist(id)) {
             if (securityService.isFolderAccessAllowed(mediaFile, username)) {
-                result.getEntry().add(createJaxbChild(player, mediaFile, username));
+                result.getEntry().add(createChild(player, mediaFile, username));
             }
         }
 
@@ -807,7 +668,7 @@ public class LibresonicRESTController {
             result.setGain(gain);
             result.setPosition(position);
             for (MediaFile mediaFile : playQueue.getFiles()) {
-                ((JukeboxPlaylist) result).getEntry().add(createJaxbChild(player, mediaFile, username));
+                ((JukeboxPlaylist) result).getEntry().add(createChild(player, mediaFile, username));
             }
         } else {
             result = new JukeboxStatus();
@@ -951,59 +812,6 @@ public class LibresonicRESTController {
     @RequestMapping(value = "/getAlbumList", method = RequestMethod.GET)
     public ResponseEntity<AlbumList> getAlbumList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
-        String username = securityService.getCurrentUsername(request);
-
-        int size = getIntParameter(request, "size", 10);
-        int offset = getIntParameter(request, "offset", 0);
-        Integer musicFolderId = getIntParameter(request, "musicFolderId");
-
-        List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
-
-        size = Math.max(0, Math.min(size, 500));
-        String type = getRequiredStringParameter(request, "type");
-
-        List<MediaFile> albums;
-        if ("highest".equals(type)) {
-            albums = ratingService.getHighestRatedAlbums(offset, size, musicFolders);
-        } else if ("frequent".equals(type)) {
-            albums = mediaFileService.getMostFrequentlyPlayedAlbums(offset, size, musicFolders);
-        } else if ("recent".equals(type)) {
-            albums = mediaFileService.getMostRecentlyPlayedAlbums(offset, size, musicFolders);
-        } else if ("newest".equals(type)) {
-            albums = mediaFileService.getNewestAlbums(offset, size, musicFolders);
-        } else if ("starred".equals(type)) {
-            albums = mediaFileService.getStarredAlbums(offset, size, username, musicFolders);
-        } else if ("alphabeticalByArtist".equals(type)) {
-            albums = mediaFileService.getAlphabeticalAlbums(offset, size, true, musicFolders);
-        } else if ("alphabeticalByName".equals(type)) {
-            albums = mediaFileService.getAlphabeticalAlbums(offset, size, false, musicFolders);
-        } else if ("byGenre".equals(type)) {
-            albums = mediaFileService.getAlbumsByGenre(offset,
-                    size,
-                    getRequiredStringParameter(request, "genre"),
-                    musicFolders);
-        } else if ("byYear".equals(type)) {
-            albums = mediaFileService.getAlbumsByYear(offset, size, getRequiredIntParameter(request, "fromYear"),
-                    getRequiredIntParameter(request, "toYear"), musicFolders);
-        } else if ("random".equals(type)) {
-            albums = searchService.getRandomAlbums(size, musicFolders);
-        } else {
-            LOG.warn("Invalid list type: " + type);
-            return ResponseEntity.badRequest().build();
-        }
-
-        AlbumList result = new AlbumList();
-        for (MediaFile album : albums) {
-            result.getAlbum().add(createJaxbChild(player, album, username));
-        }
-
-        return ResponseEntity.ok(result);
-    }
-
-    @RequestMapping(value = "/getAlbumList2", method = RequestMethod.GET)
-    public ResponseEntity<AlbumList2> getAlbumList2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
 
         int size = getIntParameter(request, "size", 10);
         int offset = getIntParameter(request, "offset", 0);
@@ -1043,9 +851,9 @@ public class LibresonicRESTController {
             LOG.warn("Invalid list type: " + type);
             return ResponseEntity.badRequest().build();
         }
-        AlbumList2 result = new AlbumList2();
+        AlbumList result = new AlbumList();
         for (Album album : albums) {
-            result.getAlbum().add(createJaxbAlbum(new AlbumID3(), album, username));
+            result.getAlbum().add(createAlbum(new AlbumID3(), album, username));
         }
         return ResponseEntity.ok(result);
     }
@@ -1067,7 +875,7 @@ public class LibresonicRESTController {
 
         Songs result = new Songs();
         for (MediaFile mediaFile : searchService.getRandomSongs(criteria)) {
-            result.getSong().add(createJaxbChild(player, mediaFile, username));
+            result.getSong().add(createChild(player, mediaFile, username));
         }
         return ResponseEntity.ok(result);
     }
@@ -1084,7 +892,7 @@ public class LibresonicRESTController {
 
         Videos result = new Videos();
         for (MediaFile mediaFile : mediaFileDao.getVideos(size, offset, musicFolders)) {
-            result.getVideo().add(createJaxbChild(player, mediaFile, username));
+            result.getVideo().add(createChild(player, mediaFile, username));
         }
         return ResponseEntity.ok(result);
     }
@@ -1115,18 +923,18 @@ public class LibresonicRESTController {
                 entry.setPlayerId(Integer.parseInt(player.getId()));
                 entry.setPlayerName(player.getName());
                 entry.setMinutesAgo((int) minutesAgo);
-                result.getEntry().add(createJaxbChild(entry, player, mediaFile, username));
+                result.getEntry().add(createChild(entry, player, mediaFile, username));
             }
         }
 
         return ResponseEntity.ok(result);
     }
 
-    private Child createJaxbChild(Player player, MediaFile mediaFile, String username) {
-        return createJaxbChild(new Child(), player, mediaFile, username);
+    private Child createChild(Player player, MediaFile mediaFile, String username) {
+        return createChild(new Child(), player, mediaFile, username);
     }
 
-    private <T extends Child> T createJaxbChild(T child, Player player, MediaFile mediaFile, String username) {
+    private <T extends Child> T createChild(T child, Player player, MediaFile mediaFile, String username) {
         MediaFile parent = mediaFileService.getParentOf(mediaFile);
         child.setId(String.valueOf(mediaFile.getId()));
         try {
@@ -1399,35 +1207,14 @@ public class LibresonicRESTController {
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
 
         Starred result = new Starred();
-        for (MediaFile artist : mediaFileDao.getStarredDirectories(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getArtist().add(createJaxbArtist(artist, username));
-        }
-        for (MediaFile album : mediaFileDao.getStarredAlbums(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getAlbum().add(createJaxbChild(player, album, username));
-        }
-        for (MediaFile song : mediaFileDao.getStarredFiles(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getSong().add(createJaxbChild(player, song, username));
-        }
-        return ResponseEntity.ok(result);
-    }
-
-    @RequestMapping(value = "/getStarred2", method = RequestMethod.GET)
-    public ResponseEntity<Starred2> getStarred2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
-        String username = securityService.getCurrentUsername(request);
-        Integer musicFolderId = getIntParameter(request, "musicFolderId");
-        List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
-
-        Starred2 result = new Starred2();
         for (Artist artist : artistDao.getStarredArtists(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getArtist().add(createJaxbArtist(new ArtistID3(), artist, username));
+            result.getArtist().add(createArtist(new ArtistID3(), artist, username));
         }
         for (Album album : albumDao.getStarredAlbums(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getAlbum().add(createJaxbAlbum(new AlbumID3(), album, username));
+            result.getAlbum().add(createAlbum(new AlbumID3(), album, username));
         }
         for (MediaFile song : mediaFileDao.getStarredFiles(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getSong().add(createJaxbChild(player, song, username));
+            result.getSong().add(createChild(player, song, username));
         }
         return ResponseEntity.ok(result);
     }
@@ -1460,7 +1247,7 @@ public class LibresonicRESTController {
                 if (includeEpisodes) {
                     List<PodcastEpisode> episodes = podcastService.getEpisodes(channel.getId());
                     for (PodcastEpisode episode : episodes) {
-                        c.getEpisode().add(createJaxbPodcastEpisode(player, username, episode));
+                        c.getEpisode().add(createPodcastEpisode(player, username, episode));
                     }
                 }
             }
@@ -1478,19 +1265,19 @@ public class LibresonicRESTController {
         NewestPodcasts result = new NewestPodcasts();
 
         for (PodcastEpisode episode : podcastService.getNewestEpisodes(count)) {
-            result.getEpisode().add(createJaxbPodcastEpisode(player, username, episode));
+            result.getEpisode().add(createPodcastEpisode(player, username, episode));
         }
 
         return ResponseEntity.ok(result);
     }
 
-    private org.libresonic.restapi.domain.PodcastEpisode createJaxbPodcastEpisode(Player player, String username, PodcastEpisode episode) {
+    private org.libresonic.restapi.domain.PodcastEpisode createPodcastEpisode(Player player, String username, PodcastEpisode episode) {
         org.libresonic.restapi.domain.PodcastEpisode e = new org.libresonic.restapi.domain.PodcastEpisode();
 
         String path = episode.getPath();
         if (path != null) {
             MediaFile mediaFile = mediaFileService.getMediaFile(path);
-            e = createJaxbChild(new org.libresonic.restapi.domain.PodcastEpisode(), player, mediaFile, username);
+            e = createChild(new org.libresonic.restapi.domain.PodcastEpisode(), player, mediaFile, username);
             e.setStreamId(String.valueOf(mediaFile.getId()));
         }
 
@@ -1610,7 +1397,7 @@ public class LibresonicRESTController {
             b.setChanged(bookmark.getChanged());
 
             MediaFile mediaFile = mediaFileService.getMediaFile(bookmark.getMediaFileId());
-            b.setEntry(createJaxbChild(player, mediaFile, username));
+            b.setEntry(createChild(player, mediaFile, username));
         }
 
         return ResponseEntity.ok(result);
@@ -1662,7 +1449,7 @@ public class LibresonicRESTController {
         for (Integer mediaFileId : playQueue.getMediaFileIds()) {
             MediaFile mediaFile = mediaFileService.getMediaFile(mediaFileId);
             if (mediaFile != null) {
-                restPlayQueue.getEntry().add(createJaxbChild(player, mediaFile, username));
+                restPlayQueue.getEntry().add(createChild(player, mediaFile, username));
             }
         }
 
@@ -1705,11 +1492,11 @@ public class LibresonicRESTController {
 
         Shares result = new Shares();
         for (Share share : shareService.getSharesForUser(user)) {
-            org.libresonic.restapi.domain.Share s = createJaxbShare(request, share);
+            org.libresonic.restapi.domain.Share s = createShare(request, share);
             result.getShare().add(s);
 
             for (MediaFile mediaFile : shareService.getSharedFiles(share.getId(), musicFolders)) {
-                s.getEntry().add(createJaxbChild(player, mediaFile, username));
+                s.getEntry().add(createChild(player, mediaFile, username));
             }
         }
         return ResponseEntity.ok(result);
@@ -1741,13 +1528,13 @@ public class LibresonicRESTController {
         shareService.updateShare(share);
 
         Shares result = new Shares();
-        org.libresonic.restapi.domain.Share s = createJaxbShare(request, share);
+        org.libresonic.restapi.domain.Share s = createShare(request, share);
         result.getShare().add(s);
 
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
 
         for (MediaFile mediaFile : shareService.getSharedFiles(share.getId(), musicFolders)) {
-            s.getEntry().add(createJaxbChild(player, mediaFile, username));
+            s.getEntry().add(createChild(player, mediaFile, username));
         }
 
         return ResponseEntity.ok(result);
@@ -1799,7 +1586,7 @@ public class LibresonicRESTController {
         return ResponseEntity.noContent().build();
     }
 
-    private org.libresonic.restapi.domain.Share createJaxbShare(HttpServletRequest request, Share share) {
+    private org.libresonic.restapi.domain.Share createShare(HttpServletRequest request, Share share) {
         org.libresonic.restapi.domain.Share result = new org.libresonic.restapi.domain.Share();
         result.setId(String.valueOf(share.getId()));
         result.setUrl(shareService.getShareUrl(request, share));
@@ -1881,13 +1668,13 @@ public class LibresonicRESTController {
 
         Users result = new Users();
         for (User user : securityService.getAllUsers()) {
-            result.getUser().add(createJaxbUser(user));
+            result.getUser().add(createUser(user));
         }
 
         return ResponseEntity.ok(result);
     }
 
-    private org.libresonic.restapi.domain.User createJaxbUser(User user) {
+    private org.libresonic.restapi.domain.User createUser(User user) {
         UserSettings userSettings = settingsService.getUserSettings(user.getUsername());
 
         org.libresonic.restapi.domain.User result = new org.libresonic.restapi.domain.User();
