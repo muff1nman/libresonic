@@ -1,9 +1,6 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.*;
-
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Lyrics", propOrder = {

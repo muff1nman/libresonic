@@ -1,5 +1,3 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.*;
@@ -7,7 +5,6 @@ import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "User", propOrder = {
@@ -55,7 +52,7 @@ public class User {
 
     public List<Integer> getFolder() {
         if (folder == null) {
-            folder = new ArrayList<Integer>();
+            folder = new ArrayList<>();
         }
         return this.folder;
     }

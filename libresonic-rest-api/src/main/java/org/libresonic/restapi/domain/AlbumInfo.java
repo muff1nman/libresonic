@@ -1,5 +1,3 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;

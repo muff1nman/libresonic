@@ -1,50 +1,43 @@
-
-
 package org.libresonic.restapi.domain;
-
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchResult", propOrder = {
-        "match"
+        "artist",
+        "album",
+        "song"
 })
 public class SearchResult {
 
-    protected List<Child> match;
-    @XmlAttribute(name = "offset", required = true)
-    protected int offset;
-    @XmlAttribute(name = "totalHits", required = true)
-    protected int totalHits;
+    protected List<ArtistID3> artist;
+    protected List<AlbumID3> album;
+    protected List<Child> song;
 
-    public List<Child> getMatch() {
-        if (match == null) {
-            match = new ArrayList<Child>();
+    public List<ArtistID3> getArtist() {
+        if (artist == null) {
+            artist = new ArrayList<>();
         }
-        return this.match;
+        return this.artist;
     }
 
-    public int getOffset() {
-        return offset;
+    public List<AlbumID3> getAlbum() {
+        if (album == null) {
+            album = new ArrayList<>();
+        }
+        return this.album;
     }
 
-    public void setOffset(int value) {
-        this.offset = value;
-    }
-
-    public int getTotalHits() {
-        return totalHits;
-    }
-
-    public void setTotalHits(int value) {
-        this.totalHits = value;
+    public List<Child> getSong() {
+        if (song == null) {
+            song = new ArrayList<>();
+        }
+        return this.song;
     }
 
 }

@@ -1,5 +1,3 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.*;
@@ -33,7 +31,7 @@ public class Directory {
 
     public List<Child> getChild() {
         if (child == null) {
-            child = new ArrayList<Child>();
+            child = new ArrayList<>();
         }
         return this.child;
     }

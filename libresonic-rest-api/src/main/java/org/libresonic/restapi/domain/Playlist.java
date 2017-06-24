@@ -1,14 +1,10 @@
-
-
 package org.libresonic.restapi.domain;
-
 
 import javax.xml.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Playlist", propOrder = {
@@ -45,7 +41,7 @@ public class Playlist {
 
     public List<String> getAllowedUser() {
         if (allowedUser == null) {
-            allowedUser = new ArrayList<String>();
+            allowedUser = new ArrayList<>();
         }
         return this.allowedUser;
     }

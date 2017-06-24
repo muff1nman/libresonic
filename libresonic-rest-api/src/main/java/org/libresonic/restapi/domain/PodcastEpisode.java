@@ -1,12 +1,8 @@
-
-
 package org.libresonic.restapi.domain;
-
 
 import javax.xml.bind.annotation.*;
 
 import java.util.Date;
-
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PodcastEpisode")

@@ -1,5 +1,3 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -23,7 +21,7 @@ public class ArtistsID3 {
 
     public List<IndexID3> getIndex() {
         if (index == null) {
-            index = new ArrayList<IndexID3>();
+            index = new ArrayList<>();
         }
         return this.index;
     }

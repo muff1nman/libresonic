@@ -1,5 +1,3 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,7 +19,7 @@ public class ArtistWithAlbumsID3
 
     public List<AlbumID3> getAlbum() {
         if (album == null) {
-            album = new ArrayList<AlbumID3>();
+            album = new ArrayList<>();
         }
         return this.album;
     }

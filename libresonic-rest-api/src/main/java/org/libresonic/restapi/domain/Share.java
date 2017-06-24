@@ -35,7 +35,7 @@ public class Share {
 
     public List<Child> getEntry() {
         if (entry == null) {
-            entry = new ArrayList<Child>();
+            entry = new ArrayList<>();
         }
         return this.entry;
     }

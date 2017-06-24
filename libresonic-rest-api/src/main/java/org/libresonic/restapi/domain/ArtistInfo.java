@@ -1,5 +1,3 @@
-
-
 package org.libresonic.restapi.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,18 +9,76 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ArtistInfo", propOrder = {
+        "biography",
+        "musicBrainzId",
+        "lastFmUrl",
+        "smallImageUrl",
+        "mediumImageUrl",
+        "largeImageUrl",
         "similarArtist"
 })
-public class ArtistInfo
-        extends ArtistInfoBase {
+public class ArtistInfo {
 
-    protected List<Artist> similarArtist;
+    protected String biography;
+    protected String musicBrainzId;
+    protected String lastFmUrl;
+    protected String smallImageUrl;
+    protected String mediumImageUrl;
+    protected String largeImageUrl;
+    protected List<ArtistID3> similarArtist;
 
-    public List<Artist> getSimilarArtist() {
+    public List<ArtistID3> getSimilarArtist() {
         if (similarArtist == null) {
-            similarArtist = new ArrayList<Artist>();
+            similarArtist = new ArrayList<>();
         }
         return this.similarArtist;
     }
 
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String value) {
+        this.biography = value;
+    }
+
+    public String getMusicBrainzId() {
+        return musicBrainzId;
+    }
+
+    public void setMusicBrainzId(String value) {
+        this.musicBrainzId = value;
+    }
+
+    public String getLastFmUrl() {
+        return lastFmUrl;
+    }
+
+    public void setLastFmUrl(String value) {
+        this.lastFmUrl = value;
+    }
+
+    public String getSmallImageUrl() {
+        return smallImageUrl;
+    }
+
+    public void setSmallImageUrl(String value) {
+        this.smallImageUrl = value;
+    }
+
+    public String getMediumImageUrl() {
+        return mediumImageUrl;
+    }
+
+    public void setMediumImageUrl(String value) {
+        this.mediumImageUrl = value;
+    }
+
+    public String getLargeImageUrl() {
+        return largeImageUrl;
+    }
+
+    public void setLargeImageUrl(String value) {
+        this.largeImageUrl = value;
+    }
 }

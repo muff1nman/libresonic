@@ -1,7 +1,4 @@
-
-
 package org.libresonic.restapi.domain;
-
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,7 +6,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Shares", propOrder = {
@@ -21,7 +17,7 @@ public class Shares {
 
     public List<Share> getShare() {
         if (share == null) {
-            share = new ArrayList<Share>();
+            share = new ArrayList<>();
         }
         return this.share;
     }
