@@ -15,6 +15,7 @@
     <properties>
         <metrics.version>3.1.0</metrics.version>
         <chameleon.version>1.2.0-RELEASE</chameleon.version>
+        <springfox.version>2.7.0</springfox.version>
     </properties>
 
     <dependencies>
@@ -471,7 +472,22 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.7.0</version>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-core</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spi</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-web</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
     </dependencies>
 
