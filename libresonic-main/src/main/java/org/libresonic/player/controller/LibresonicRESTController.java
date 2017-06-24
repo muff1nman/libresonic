@@ -68,7 +68,7 @@ import static org.springframework.web.bind.ServletRequestUtils.*;
 
 @SuppressWarnings("Duplicates")
 @Controller
-@RequestMapping(value = "/api/libresonic")
+@RequestMapping(value = "/api/libresonic", consumes = {"application/json"}, produces = {"application/json"})
 public class LibresonicRESTController {
 
     private static final Logger LOG = LoggerFactory.getLogger(LibresonicRESTController.class);
@@ -135,8 +135,8 @@ public class LibresonicRESTController {
     private BookmarkService bookmarkService;
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
-    public ResponseEntity<String> ping(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return ResponseEntity.ok("Success");
+    public ResponseEntity<Void> ping() {
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/getMusicFolders", method = RequestMethod.GET)
@@ -724,7 +724,7 @@ public class LibresonicRESTController {
         }
         playlistService.setFilesInPlaylist(playlist.getId(), songs);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
@@ -790,7 +790,7 @@ public class LibresonicRESTController {
             playlistService.setFilesInPlaylist(id, songs);
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/deletePlaylist", method = RequestMethod.DELETE)
