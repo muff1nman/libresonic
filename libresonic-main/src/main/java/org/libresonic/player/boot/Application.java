@@ -231,7 +231,6 @@ public class Application extends SpringBootServletInitializer implements Embedde
                 .build()
                 .pathMapping("/")
                 .apiInfo(new ApiInfo(
-
                         "Libresonic API",
                         "Libresonic RESTful API",
                         "1.0",
