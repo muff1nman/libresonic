@@ -55,6 +55,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -150,10 +151,12 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getIndexes", method = RequestMethod.GET)
-    public ResponseEntity<Indexes> getIndexes(HttpServletRequest request) throws Exception {
+    public ResponseEntity<Indexes> getIndexes(
+            @RequestParam(name = "ifModifiedSince", required = false, defaultValue = "0") Long ifModifiedSince,
+            @RequestParam(name = "musicFolderId", required = false) Integer musicFolderId,
+            HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUser(request).getUsername();
 
-        long ifModifiedSince = getLongParameter(request, "ifModifiedSince", 0L);
         long lastModified = leftController.getLastModified(request);
 
         if (lastModified <= ifModifiedSince) {
@@ -165,7 +168,6 @@ public class LibresonicRESTController {
         indexes.setIgnoredArticles(settingsService.getIgnoredArticles());
 
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
-        Integer musicFolderId = getIntParameter(request, "musicFolderId");
         if (musicFolderId != null) {
             for (MusicFolder musicFolder : musicFolders) {
                 if (musicFolderId.equals(musicFolder.getId())) {
@@ -227,16 +229,18 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getSongsByGenre", method = RequestMethod.GET)
-    public ResponseEntity<Songs> getSongsByGenre(HttpServletRequest request) throws Exception {
+    public ResponseEntity<Songs> getSongsByGenre(
+            @RequestParam("genre") String genre,
+            @RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
+            @RequestParam(name = "count", required = false, defaultValue = "10") Integer count,
+            @RequestParam(name = "musicFolderId", required = false) Integer musicFolderId,
+            HttpServletRequest request) throws Exception {
+
         String username = securityService.getCurrentUsername(request);
 
         Songs songs = new Songs();
 
-        String genre = getRequiredStringParameter(request, "genre");
-        int offset = getIntParameter(request, "offset", 0);
-        int count = getIntParameter(request, "count", 10);
         count = Math.max(0, Math.min(count, 500));
-        Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
 
         for (MediaFile mediaFile : mediaFileDao.getSongsByGenre(genre, offset, count, musicFolders)) {
