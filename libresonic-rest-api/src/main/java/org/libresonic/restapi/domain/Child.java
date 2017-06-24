@@ -40,8 +40,6 @@ public class Child {
     protected String suffix;
     @XmlAttribute(name = "transcodedContentType")
     protected String transcodedContentType;
-    @XmlAttribute(name = "transcodedSuffix")
-    protected String transcodedSuffix;
     @XmlAttribute(name = "duration")
     protected Integer duration;
     @XmlAttribute(name = "bitRate")
@@ -187,14 +185,6 @@ public class Child {
 
     public void setTranscodedContentType(String value) {
         this.transcodedContentType = value;
-    }
-
-    public String getTranscodedSuffix() {
-        return transcodedSuffix;
-    }
-
-    public void setTranscodedSuffix(String value) {
-        this.transcodedSuffix = value;
     }
 
     public Integer getDuration() {

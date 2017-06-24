@@ -57,7 +57,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
@@ -85,8 +84,6 @@ public class LibresonicRESTController {
     private LastFmService lastFmService;
     @Autowired
     private MusicIndexService musicIndexService;
-    @Autowired
-    private TranscodingService transcodingService;
     @Autowired
     private DownloadController downloadController;
     @Autowired
@@ -140,9 +137,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getMusicFolders", method = RequestMethod.GET)
-    public ResponseEntity<MusicFolders> getMusicFolders(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-
+    public ResponseEntity<MusicFolders> getMusicFolders(HttpServletRequest request) throws Exception {
         MusicFolders musicFolders = new MusicFolders();
         String username = securityService.getCurrentUsername(request);
         for (MusicFolder musicFolder : settingsService.getMusicFoldersForUser(username)) {
@@ -155,9 +150,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getIndexes", method = RequestMethod.GET)
-    public ResponseEntity<Indexes> getIndexes(HttpServletRequest request, HttpServletResponse response) throws
-            Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Indexes> getIndexes(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUser(request).getUsername();
 
         long ifModifiedSince = getLongParameter(request, "ifModifiedSince", 0L);
@@ -212,19 +205,15 @@ public class LibresonicRESTController {
             }
         }
 
-        // Add children
-        Player player = playerService.getPlayer(request, response);
-
         for (MediaFile singleSong : musicFolderContent.getSingleSongs()) {
-            indexes.getChild().add(createChild(player, singleSong, username));
+            indexes.getChild().add(createChild(singleSong, username));
         }
 
         return ResponseEntity.ok(indexes);
     }
 
     @RequestMapping(value = "/getGenres", method = RequestMethod.GET)
-    public ResponseEntity<Genres> getGenres(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Genres> getGenres() throws Exception {
         org.libresonic.restapi.domain.Genres genres = new org.libresonic.restapi.domain.Genres();
 
         for (Genre genre : mediaFileDao.getGenres(false)) {
@@ -238,9 +227,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getSongsByGenre", method = RequestMethod.GET)
-    public ResponseEntity<Songs> getSongsByGenre(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Songs> getSongsByGenre(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         Songs songs = new Songs();
@@ -253,14 +240,13 @@ public class LibresonicRESTController {
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
 
         for (MediaFile mediaFile : mediaFileDao.getSongsByGenre(genre, offset, count, musicFolders)) {
-            songs.getSong().add(createChild(player, mediaFile, username));
+            songs.getSong().add(createChild(mediaFile, username));
         }
         return ResponseEntity.ok(songs);
     }
 
     @RequestMapping(value = "/getArtists", method = RequestMethod.GET)
-    public ResponseEntity<ArtistsID3> getArtists(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<ArtistsID3> getArtists(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         ArtistsID3 result = new ArtistsID3();
@@ -283,9 +269,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getSimilarSongsByArtist", method = RequestMethod.GET)
-    public ResponseEntity<SimilarSongs> getSimilarSongsByArtist(HttpServletRequest request, HttpServletResponse
-            response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<SimilarSongs> getSimilarSongsByArtist(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -300,17 +284,15 @@ public class LibresonicRESTController {
 
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
         List<MediaFile> similarSongs = lastFmService.getSimilarSongs(artist, count, musicFolders);
-        Player player = playerService.getPlayer(request, response);
         for (MediaFile similarSong : similarSongs) {
-            result.getSong().add(createChild(player, similarSong, username));
+            result.getSong().add(createChild(similarSong, username));
         }
 
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/getTopSongs", method = RequestMethod.GET)
-    public ResponseEntity<TopSongs> getTopSongs(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<TopSongs> getTopSongs(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         String artist = getRequiredStringParameter(request, "artist");
@@ -320,18 +302,15 @@ public class LibresonicRESTController {
 
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
         List<MediaFile> topSongs = lastFmService.getTopSongs(artist, count, musicFolders);
-        Player player = playerService.getPlayer(request, response);
         for (MediaFile topSong : topSongs) {
-            result.getSong().add(createChild(player, topSong, username));
+            result.getSong().add(createChild(topSong, username));
         }
 
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/getArtistInfo", method = RequestMethod.GET)
-    public ResponseEntity<ArtistInfo> getArtistInfo(HttpServletRequest request, HttpServletResponse response) throws
-            Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<ArtistInfo> getArtistInfo(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -384,9 +363,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getArtist", method = RequestMethod.GET)
-    public ResponseEntity<ArtistWithAlbumsID3> getArtist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-
+    public ResponseEntity<ArtistWithAlbumsID3> getArtist(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         int id = getRequiredIntParameter(request, "id");
         Artist artist = artistDao.getArtist(id);
@@ -444,9 +421,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getAlbum", method = RequestMethod.GET)
-    public ResponseEntity<AlbumWithSongsID3> getAlbum(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<AlbumWithSongsID3> getAlbum(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -457,16 +432,14 @@ public class LibresonicRESTController {
 
         AlbumWithSongsID3 result = createAlbum(new AlbumWithSongsID3(), album, username);
         for (MediaFile mediaFile : mediaFileDao.getSongsForAlbum(album.getArtist(), album.getName())) {
-            result.getSong().add(createChild(player, mediaFile, username));
+            result.getSong().add(createChild(mediaFile, username));
         }
 
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/getSong", method = RequestMethod.GET)
-    public ResponseEntity<Child> getSong(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Child> getSong(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -478,13 +451,11 @@ public class LibresonicRESTController {
             return ResponseEntity.status(UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok(createChild(player, song, username));
+        return ResponseEntity.ok(createChild(song, username));
     }
 
     @RequestMapping(value = "/getMusicDirectory", method = RequestMethod.GET)
-    public ResponseEntity<Directory> getMusicDirectory(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Directory> getMusicDirectory(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -516,16 +487,14 @@ public class LibresonicRESTController {
         }
 
         for (MediaFile child : mediaFileService.getChildrenOf(dir, true, true, true)) {
-            directory.getChild().add(createChild(player, child, username));
+            directory.getChild().add(createChild(child, username));
         }
 
         return ResponseEntity.ok(directory);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<SearchResult> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<SearchResult> search(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
@@ -553,16 +522,14 @@ public class LibresonicRESTController {
         criteria.setOffset(getIntParameter(request, "songOffset", 0));
         result = searchService.search(criteria, musicFolders, SearchService.IndexType.SONG);
         for (MediaFile song : result.getMediaFiles()) {
-            searchResult.getSong().add(createChild(player, song, username));
+            searchResult.getSong().add(createChild(song, username));
         }
 
         return ResponseEntity.ok(searchResult);
     }
 
     @RequestMapping(value = "/getPlaylists", method = RequestMethod.GET)
-    public ResponseEntity<Playlists> getPlaylists(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-
+    public ResponseEntity<Playlists> getPlaylists(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         String authenticatedUsername = user.getUsername();
         String requestedUsername = request.getParameter("username");
@@ -583,9 +550,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<PlaylistWithSongs> getPlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<PlaylistWithSongs> getPlaylist(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -600,7 +565,7 @@ public class LibresonicRESTController {
         PlaylistWithSongs result = createPlaylist(new PlaylistWithSongs(), playlist);
         for (MediaFile mediaFile : playlistService.getFilesInPlaylist(id)) {
             if (securityService.isFolderAccessAllowed(mediaFile, username)) {
-                result.getEntry().add(createChild(player, mediaFile, username));
+                result.getEntry().add(createChild(mediaFile, username));
             }
         }
 
@@ -609,7 +574,6 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/jukeboxControl", method = RequestMethod.POST)
     public ResponseEntity<JukeboxStatus> jukeboxControl(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request, true);
 
         User user = securityService.getCurrentUser(request);
         if (!user.isJukeboxRole()) {
@@ -651,7 +615,7 @@ public class LibresonicRESTController {
             return ResponseEntity.status(BAD_REQUEST).build();
         }
 
-        Player player = playerService.getPlayer(request, response);
+        Player player = getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
         Player jukeboxPlayer = jukeboxService.getPlayer();
         boolean controlsJukebox = jukeboxPlayer != null && jukeboxPlayer.getId().equals(player.getId());
@@ -670,7 +634,7 @@ public class LibresonicRESTController {
             result.setGain(gain);
             result.setPosition(position);
             for (MediaFile mediaFile : playQueue.getFiles()) {
-                ((JukeboxPlaylist) result).getEntry().add(createChild(player, mediaFile, username));
+                ((JukeboxPlaylist) result).getEntry().add(createChild(mediaFile, username));
             }
         } else {
             result = new JukeboxStatus();
@@ -684,9 +648,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/createPlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Void> createPlaylist(HttpServletRequest request, HttpServletResponse response) throws
-            Exception {
-        request = wrapRequest(request, true);
+    public ResponseEntity<Void> createPlaylist(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         Integer playlistId = getIntParameter(request, "playlistId");
@@ -728,8 +690,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Void> updatePlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request, true);
+    public ResponseEntity<Void> updatePlaylist(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "playlistId");
@@ -794,8 +755,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/deletePlaylist", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deletePlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request, true);
+    public ResponseEntity<Void> deletePlaylist(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int id = getRequiredIntParameter(request, "id");
@@ -812,9 +772,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getAlbumList", method = RequestMethod.GET)
-    public ResponseEntity<AlbumList> getAlbumList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-
+    public ResponseEntity<AlbumList> getAlbumList(HttpServletRequest request) throws Exception {
         int size = getIntParameter(request, "size", 10);
         int offset = getIntParameter(request, "offset", 0);
         size = Math.max(0, Math.min(size, 500));
@@ -861,9 +819,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getRandomSongs", method = RequestMethod.GET)
-    public ResponseEntity<Songs> getRandomSongs(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Songs> getRandomSongs(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int size = getIntParameter(request, "size", 10);
@@ -877,15 +833,13 @@ public class LibresonicRESTController {
 
         Songs result = new Songs();
         for (MediaFile mediaFile : searchService.getRandomSongs(criteria)) {
-            result.getSong().add(createChild(player, mediaFile, username));
+            result.getSong().add(createChild(mediaFile, username));
         }
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/getVideos", method = RequestMethod.GET)
-    public ResponseEntity<Videos> getVideos(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Videos> getVideos(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int size = getIntParameter(request, "size", Integer.MAX_VALUE);
@@ -894,14 +848,13 @@ public class LibresonicRESTController {
 
         Videos result = new Videos();
         for (MediaFile mediaFile : mediaFileDao.getVideos(size, offset, musicFolders)) {
-            result.getVideo().add(createChild(player, mediaFile, username));
+            result.getVideo().add(createChild(mediaFile, username));
         }
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/getNowPlaying", method = RequestMethod.GET)
-    public ResponseEntity<NowPlaying> getNowPlaying(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<NowPlaying> getNowPlaying() {
         NowPlaying result = new NowPlaying();
 
         for (PlayStatus status : statusService.getPlayStatuses()) {
@@ -925,18 +878,18 @@ public class LibresonicRESTController {
                 entry.setPlayerId(Integer.parseInt(player.getId()));
                 entry.setPlayerName(player.getName());
                 entry.setMinutesAgo((int) minutesAgo);
-                result.getEntry().add(createChild(entry, player, mediaFile, username));
+                result.getEntry().add(createChild(entry, mediaFile, username));
             }
         }
 
         return ResponseEntity.ok(result);
     }
 
-    private Child createChild(Player player, MediaFile mediaFile, String username) {
-        return createChild(new Child(), player, mediaFile, username);
+    private Child createChild(MediaFile mediaFile, String username) {
+        return createChild(new Child(), mediaFile, username);
     }
 
-    private <T extends Child> T createChild(T child, Player player, MediaFile mediaFile, String username) {
+    private <T extends Child> T createChild(T child, MediaFile mediaFile, String username) {
         MediaFile parent = mediaFileService.getParentOf(mediaFile);
         child.setId(String.valueOf(mediaFile.getId()));
         try {
@@ -1006,12 +959,6 @@ public class LibresonicRESTController {
                 default:
                     break;
             }
-
-            if (transcodingService.isTranscodingRequired(mediaFile, player)) {
-                String transcodedSuffix = transcodingService.getSuffix(player, mediaFile, null);
-                child.setTranscodedSuffix(transcodedSuffix);
-                child.setTranscodedContentType(StringUtil.getMimeType(transcodedSuffix));
-            }
         }
         return child;
     }
@@ -1053,7 +1000,6 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isDownloadRole()) {
             LOG.warn(user.getUsername() + " is not authorized to download files.");
@@ -1078,7 +1024,6 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/stream", method = {RequestMethod.GET, RequestMethod.POST})
     public void stream(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             LOG.warn(user.getUsername() + " is not authorized to play files.");
@@ -1091,7 +1036,6 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/hls", method = {RequestMethod.GET, RequestMethod.POST})
     public void hls(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             LOG.warn(user.getUsername() + " is not authorized to play files.");
@@ -1115,9 +1059,7 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/scrobble", method = RequestMethod.POST)
     public ResponseEntity<Void> scrobble(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-
-        Player player = playerService.getPlayer(request, response);
+        Player player = getPlayer(request, response);
 
         boolean submission = getBooleanParameter(request, "submission", true);
         int[] ids = getRequiredIntParameters(request, "id");
@@ -1146,17 +1088,16 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/star", method = RequestMethod.POST)
-    public ResponseEntity<Void> star(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return starOrUnstar(request, response, true);
+    public ResponseEntity<Void> star(HttpServletRequest request) throws Exception {
+        return starOrUnstar(request, true);
     }
 
     @RequestMapping(value = "/unstar", method = RequestMethod.POST)
-    public ResponseEntity<Void> unstar(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return starOrUnstar(request, response, false);
+    public ResponseEntity<Void> unstar(HttpServletRequest request) throws Exception {
+        return starOrUnstar(request, false);
     }
 
-    private ResponseEntity<Void> starOrUnstar(HttpServletRequest request, HttpServletResponse response, boolean star) throws Exception {
-        request = wrapRequest(request);
+    private ResponseEntity<Void> starOrUnstar(HttpServletRequest request, boolean star) throws Exception {
 
         String username = securityService.getCurrentUser(request).getUsername();
         for (int id : getIntParameters(request, "id")) {
@@ -1199,9 +1140,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getStarred", method = RequestMethod.GET)
-    public ResponseEntity<Starred> getStarred(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Starred> getStarred(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
@@ -1214,15 +1153,13 @@ public class LibresonicRESTController {
             result.getAlbum().add(createAlbum(new AlbumID3(), album, username));
         }
         for (MediaFile song : mediaFileDao.getStarredFiles(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getSong().add(createChild(player, song, username));
+            result.getSong().add(createChild(song, username));
         }
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/getPodcasts", method = RequestMethod.GET)
-    public ResponseEntity<Podcasts> getPodcasts(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Podcasts> getPodcasts(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         boolean includeEpisodes = getBooleanParameter(request, "includeEpisodes", true);
         Integer channelId = getIntParameter(request, "id");
@@ -1247,7 +1184,7 @@ public class LibresonicRESTController {
                 if (includeEpisodes) {
                     List<PodcastEpisode> episodes = podcastService.getEpisodes(channel.getId());
                     for (PodcastEpisode episode : episodes) {
-                        c.getEpisode().add(createPodcastEpisode(player, username, episode));
+                        c.getEpisode().add(createPodcastEpisode(username, episode));
                     }
                 }
             }
@@ -1256,28 +1193,26 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getNewestPodcasts", method = RequestMethod.GET)
-    public ResponseEntity<NewestPodcasts> getNewestPodcasts(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<NewestPodcasts> getNewestPodcasts(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         int count = getIntParameter(request, "count", 20);
         NewestPodcasts result = new NewestPodcasts();
 
         for (PodcastEpisode episode : podcastService.getNewestEpisodes(count)) {
-            result.getEpisode().add(createPodcastEpisode(player, username, episode));
+            result.getEpisode().add(createPodcastEpisode(username, episode));
         }
 
         return ResponseEntity.ok(result);
     }
 
-    private org.libresonic.restapi.domain.PodcastEpisode createPodcastEpisode(Player player, String username, PodcastEpisode episode) {
+    private org.libresonic.restapi.domain.PodcastEpisode createPodcastEpisode(String username, PodcastEpisode episode) {
         org.libresonic.restapi.domain.PodcastEpisode e = new org.libresonic.restapi.domain.PodcastEpisode();
 
         String path = episode.getPath();
         if (path != null) {
             MediaFile mediaFile = mediaFileService.getMediaFile(path);
-            e = createChild(new org.libresonic.restapi.domain.PodcastEpisode(), player, mediaFile, username);
+            e = createChild(new org.libresonic.restapi.domain.PodcastEpisode(), mediaFile, username);
             e.setStreamId(String.valueOf(mediaFile.getId()));
         }
 
@@ -1291,8 +1226,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/refreshPodcasts", method = RequestMethod.POST)
-    public ResponseEntity<Void> refreshPodcasts(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> refreshPodcasts(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         if (!user.isPodcastRole()) {
             LOG.warn(user.getUsername() + " is not authorized to administrate podcasts.");
@@ -1303,8 +1237,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/createPodcastChannel", method = RequestMethod.POST)
-    public ResponseEntity<Void> createPodcastChannel(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> createPodcastChannel(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         if (!user.isPodcastRole()) {
             LOG.warn(user.getUsername() + " is not authorized to administrate podcasts.");
@@ -1317,8 +1250,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/deletePodcastChannel", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deletePodcastChannel(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> deletePodcastChannel(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         if (!user.isPodcastRole()) {
             LOG.warn(user.getUsername() + " is not authorized to administrate podcasts.");
@@ -1332,7 +1264,6 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/deletePodcastEpisode", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deletePodcastEpisode(HttpServletRequest request) throws Exception {
-        request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isPodcastRole()) {
             LOG.warn(user.getUsername() + " is not authorized to administrate podcasts.");
@@ -1346,7 +1277,6 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/downloadPodcastEpisode", method = RequestMethod.POST)
     public ResponseEntity<Void> downloadPodcastEpisode(HttpServletRequest request) throws Exception {
-        request = wrapRequest(request);
         User user = securityService.getCurrentUser(request);
         if (!user.isPodcastRole()) {
             LOG.warn(user.getUsername() + " is not authorized to administrate podcasts.");
@@ -1365,8 +1295,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getInternetRadioStations", method = RequestMethod.GET)
-    public ResponseEntity<InternetRadioStations> getInternetRadioStations(HttpServletRequest request) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<InternetRadioStations> getInternetRadioStations() throws Exception {
 
         InternetRadioStations result = new InternetRadioStations();
         for (InternetRadio radio : settingsService.getAllInternetRadios()) {
@@ -1381,9 +1310,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getBookmarks", method = RequestMethod.GET)
-    public ResponseEntity<Bookmarks> getBookmarks(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Bookmarks> getBookmarks(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         Bookmarks result = new Bookmarks();
@@ -1397,15 +1324,14 @@ public class LibresonicRESTController {
             b.setChanged(bookmark.getChanged());
 
             MediaFile mediaFile = mediaFileService.getMediaFile(bookmark.getMediaFileId());
-            b.setEntry(createChild(player, mediaFile, username));
+            b.setEntry(createChild(mediaFile, username));
         }
 
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/createBookmark", method = RequestMethod.POST)
-    public ResponseEntity<Void> createBookmark(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> createBookmark(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         int mediaFileId = getRequiredIntParameter(request, "id");
         long position = getRequiredLongParameter(request, "position");
@@ -1418,8 +1344,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/deleteBookmark", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteBookmark(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> deleteBookmark(HttpServletRequest request) throws Exception {
 
         String username = securityService.getCurrentUsername(request);
         int mediaFileId = getRequiredIntParameter(request, "id");
@@ -1429,10 +1354,8 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getPlayQueue", method = RequestMethod.GET)
-    public ResponseEntity<org.libresonic.restapi.domain.PlayQueue> getPlayQueue(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<org.libresonic.restapi.domain.PlayQueue> getPlayQueue(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
-        Player player = playerService.getPlayer(request, response);
 
         SavedPlayQueue playQueue = playQueueDao.getPlayQueue(username);
         if (playQueue == null) {
@@ -1449,7 +1372,7 @@ public class LibresonicRESTController {
         for (Integer mediaFileId : playQueue.getMediaFileIds()) {
             MediaFile mediaFile = mediaFileService.getMediaFile(mediaFileId);
             if (mediaFile != null) {
-                restPlayQueue.getEntry().add(createChild(player, mediaFile, username));
+                restPlayQueue.getEntry().add(createChild(mediaFile, username));
             }
         }
 
@@ -1457,8 +1380,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/savePlayQueue", method = RequestMethod.POST)
-    public ResponseEntity<Void> savePlayQueue(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> savePlayQueue(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         List<Integer> mediaFileIds = Util.toIntegerList(getIntParameters(request, "id"));
         Integer current = getIntParameter(request, "current");
@@ -1483,9 +1405,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getShares", method = RequestMethod.GET)
-    public ResponseEntity<Shares> getShares(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Shares> getShares(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
         User user = securityService.getCurrentUser(request);
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
@@ -1496,16 +1416,14 @@ public class LibresonicRESTController {
             result.getShare().add(s);
 
             for (MediaFile mediaFile : shareService.getSharedFiles(share.getId(), musicFolders)) {
-                s.getEntry().add(createChild(player, mediaFile, username));
+                s.getEntry().add(createChild(mediaFile, username));
             }
         }
         return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/createShare", method = RequestMethod.POST)
-    public ResponseEntity<Shares> createShare(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
-        Player player = playerService.getPlayer(request, response);
+    public ResponseEntity<Shares> createShare(HttpServletRequest request) throws Exception {
         String username = securityService.getCurrentUsername(request);
 
         User user = securityService.getCurrentUser(request);
@@ -1534,15 +1452,18 @@ public class LibresonicRESTController {
         List<MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
 
         for (MediaFile mediaFile : shareService.getSharedFiles(share.getId(), musicFolders)) {
-            s.getEntry().add(createChild(player, mediaFile, username));
+            s.getEntry().add(createChild(mediaFile, username));
         }
 
         return ResponseEntity.ok(result);
     }
 
+    private Player getPlayer(HttpServletRequest request, HttpServletResponse response) {
+        return playerService.getPlayer(request, response);
+    }
+
     @RequestMapping(value = "/deleteShare", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteShare(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> deleteShare(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         int id = getRequiredIntParameter(request, "id");
 
@@ -1561,8 +1482,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/updateShare", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateShare(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> updateShare(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         int id = getRequiredIntParameter(request, "id");
 
@@ -1601,19 +1521,16 @@ public class LibresonicRESTController {
 
     @RequestMapping(value = "/getCoverArt", method = RequestMethod.GET)
     public void getCoverArt(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
         coverArtController.handleRequest(request, response);
     }
 
     @RequestMapping(value = "/getAvatar", method = RequestMethod.GET)
     public void getAvatar(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
         avatarController.handleRequest(request, response);
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    public ResponseEntity<Void> changePassword(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> changePassword(HttpServletRequest request) throws Exception {
 
         String username = getRequiredStringParameter(request, "username");
         String password = decrypt(getRequiredStringParameter(request, "password"));
@@ -1636,8 +1553,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<User> getUser(HttpServletRequest request) throws Exception {
 
         String username = getRequiredStringParameter(request, "username");
 
@@ -1657,8 +1573,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getUsers", method = RequestMethod.GET)
-    public ResponseEntity<Users> getUsers(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Users> getUsers(HttpServletRequest request) throws Exception {
 
         User currentUser = securityService.getCurrentUser(request);
         if (!currentUser.isAdminRole()) {
@@ -1710,8 +1625,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> createUser(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         if (!user.isAdminRole()) {
             LOG.warn(user.getUsername() + " is not authorized to create new users.");
@@ -1746,8 +1660,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> updateUser(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         if (!user.isAdminRole()) {
             LOG.warn(user.getUsername() + " is not authorized to update users.");
@@ -1804,8 +1717,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> deleteUser(HttpServletRequest request) throws Exception {
         User user = securityService.getCurrentUser(request);
         if (!user.isAdminRole()) {
             LOG.warn(user.getUsername() + " is not authorized to delete users.");
@@ -1824,8 +1736,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/getLyrics", method = RequestMethod.GET)
-    public ResponseEntity<Lyrics> getLyrics(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Lyrics> getLyrics(HttpServletRequest request) throws Exception {
         String artist = request.getParameter("artist");
         String title = request.getParameter("title");
         LyricsInfo lyrics = lyricsService.getLyrics(artist, title);
@@ -1839,8 +1750,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/setRating", method = RequestMethod.POST)
-    public ResponseEntity<Void> setRating(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> setRating(HttpServletRequest request) throws Exception {
         Integer rating = getRequiredIntParameter(request, "rating");
         if (rating == 0) {
             rating = null;
@@ -1860,8 +1770,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(path = "/getAlbumInfo", method = RequestMethod.GET)
-    public ResponseEntity<AlbumInfo> getAlbumInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<AlbumInfo> getAlbumInfo(HttpServletRequest request) throws Exception {
 
         int id = ServletRequestUtils.getRequiredIntParameter(request, "id");
 
@@ -1877,8 +1786,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(path = "/getAlbumInfo2", method = RequestMethod.GET)
-    public ResponseEntity<AlbumInfo> getAlbumInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request = wrapRequest(request);
+    public ResponseEntity<AlbumInfo> getAlbumInfo2(HttpServletRequest request) throws Exception {
 
         int id = ServletRequestUtils.getRequiredIntParameter(request, "id");
 
@@ -1907,84 +1815,18 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/startScan", method = RequestMethod.POST)
-    public ResponseEntity<Void> startScan(HttpServletRequest request, HttpServletResponse response) {
-        request = wrapRequest(request);
+    public ResponseEntity<Void> startScan() {
         mediaScannerService.scanLibrary();
-        getScanStatus(request, response);
+        getScanStatus();
         return ResponseEntity.status(ACCEPTED).build();
     }
 
     @RequestMapping(value = "/getScanStatus", method = RequestMethod.GET)
-    public ResponseEntity<ScanStatus> getScanStatus(HttpServletRequest request, HttpServletResponse response) {
-        request = wrapRequest(request);
+    public ResponseEntity<ScanStatus> getScanStatus() {
         ScanStatus scanStatus = new ScanStatus();
         scanStatus.setScanning(this.mediaScannerService.isScanning());
         scanStatus.setCount((long) this.mediaScannerService.getScanCount());
 
         return ResponseEntity.ok(scanStatus);
-    }
-
-    private HttpServletRequest wrapRequest(HttpServletRequest request) {
-        return wrapRequest(request, false);
-    }
-
-    private HttpServletRequest wrapRequest(final HttpServletRequest request, boolean jukebox) {
-        final String playerId = createPlayerIfNecessary(request, jukebox);
-        return new HttpServletRequestWrapper(request) {
-            @Override
-            public String getParameter(String name) {
-                // Returns the correct player to be used in PlayerService.getPlayer()
-                if ("player".equals(name)) {
-                    return playerId;
-                }
-
-                // Support old style ID parameters.
-                if ("id".equals(name)) {
-                    return mapId(request.getParameter("id"));
-                }
-
-                return super.getParameter(name);
-            }
-        };
-    }
-
-    private String mapId(String id) {
-        if (id == null || id.startsWith(CoverArtController.ALBUM_COVERART_PREFIX) ||
-                id.startsWith(CoverArtController.ARTIST_COVERART_PREFIX) || StringUtils.isNumeric(id)) {
-            return id;
-        }
-
-        try {
-            String path = StringUtil.utf8HexDecode(id);
-            MediaFile mediaFile = mediaFileService.getMediaFile(path);
-            return String.valueOf(mediaFile.getId());
-        } catch (Exception x) {
-            return id;
-        }
-    }
-
-    private String createPlayerIfNecessary(HttpServletRequest request, boolean jukebox) {
-        String username = request.getRemoteUser();
-        String clientId = request.getParameter("c");
-        if (jukebox) {
-            clientId += "-jukebox";
-        }
-
-        List<Player> players = playerService.getPlayersForUserAndClientId(username, clientId);
-
-        // If not found, create it.
-        if (players.isEmpty()) {
-            Player player = new Player();
-            player.setIpAddress(request.getRemoteAddr());
-            player.setUsername(username);
-            player.setClientId(clientId);
-            player.setName(clientId);
-            player.setTechnology(jukebox ? PlayerTechnology.JUKEBOX : PlayerTechnology.EXTERNAL_WITH_PLAYLIST);
-            playerService.createPlayer(player);
-            players = playerService.getPlayersForUserAndClientId(username, clientId);
-        }
-
-        // Return the player ID.
-        return !players.isEmpty() ? players.get(0).getId() : null;
     }
 }
