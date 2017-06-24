@@ -684,7 +684,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/createPlaylist", method = RequestMethod.POST)
-    public ResponseEntity createPlaylist(HttpServletRequest request, HttpServletResponse response) throws
+    public ResponseEntity<Void> createPlaylist(HttpServletRequest request, HttpServletResponse response) throws
             Exception {
         request = wrapRequest(request, true);
         String username = securityService.getCurrentUsername(request);
@@ -728,7 +728,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity updatePlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<Void> updatePlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request, true);
         String username = securityService.getCurrentUsername(request);
 
@@ -794,7 +794,7 @@ public class LibresonicRESTController {
     }
 
     @RequestMapping(value = "/deletePlaylist", method = RequestMethod.DELETE)
-    public ResponseEntity deletePlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<Void> deletePlaylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request, true);
         String username = securityService.getCurrentUsername(request);
 
