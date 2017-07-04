@@ -130,6 +130,7 @@
     </bean>
 
     <context:component-scan base-package="org.libresonic.player.service.playlist" />
+    <context:component-scan base-package="org.libresonic.player.spring.scanned" />
 
     <!--suppress SpringBeanConstructorArgInspection, AutowiredDependenciesInspection -->
     <bean id="playlistService" class="org.libresonic.player.service.PlaylistService" autowire="constructor"/>

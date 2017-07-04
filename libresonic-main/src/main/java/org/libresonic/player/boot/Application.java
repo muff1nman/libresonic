@@ -241,6 +241,7 @@ public class Application extends SpringBootServletInitializer implements Embedde
                         Collections.emptyList())
                 )
                 .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
                 ;
     }
 
